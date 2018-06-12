@@ -1,0 +1,12 @@
+{
+  "title": "Team Designation Entry",
+  "type": "object",
+  "properties": {
+    "agentHash": {"type": "string"},
+    "team": {
+      "type": "string",
+      "enum": ["left", "right"]
+    }
+  },
+  "required": ["agentHash", "team"]
+}
