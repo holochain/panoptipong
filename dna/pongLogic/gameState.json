@@ -20,12 +20,13 @@
 			"type": "object",
 			"properties": {
 				"position": {"type": "integer" }
-		},
+		}
+	},
 		"paddleRight": {
 			"type": "object",
 			"properties": {
 				"position": {"type": "integer" }
 		}
-	},
-    "required": ["ballHorizontalPosition", "ballVerticalPosition","paddleAPosition", "paddleBPosition"]
+	}}},
+    "required": ["ball", "paddleLeft","paddleRight"]
 }
