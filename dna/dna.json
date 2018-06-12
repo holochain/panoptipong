@@ -6,7 +6,7 @@
     "UUID": "689f53c0-6290-4244-a983-21506cf0596a",
     "Name": "Pong",
     "Properties": {
-      "description": "To allow for orangic game playing and community collaboartion when playing the game of pong.",
+      "description": "To allow for orangic game playing and community collabortion when playing the game of pong.",
       "language": "en"
     },
     "PropertiesSchemaFile": "properties_schema.json",
@@ -75,16 +75,16 @@
           {
             "Name": "Cast Vote", 
             "CallingType": "json",
-            "Exposure": "", 
+            "Exposure": ""
           }
         ],
         "Code": "'use strict'"
         },
       {
-        "Name": "Game Logic",
+        "Name": "Pong Logic",
         "Description": "To determine rule play.",
         "RibosomeType": "js",
-        "CodeFile": "game logic.js",
+        "CodeFile": "pongLogic.js",
 
         "Entries": [
           {
@@ -142,30 +142,11 @@
           {
             "Name": "Update State",
             "CallingType": "json",
-            "Exposure": "", 
+            "Exposure": ""
           }
         ],
         "Code": "'use strict'"
         }
     ]
-  },
-  "TestSets": [
-    {
-      "Name": "sample",
-      "TestSet": {
-        "Tests": [
-          {
-            "Convey": "This is an empty test that will break. Holochain is test driven, please see: https://github.com/metacurrency/holochain/wiki/App-Testing",
-            "FnName": "sampleEntryCreate",
-            "Input": {
-              "body": "this is the entry body",
-              "stamp": 12345
-            },
-            "Output": "%h1%",
-            "Exposure": "public"
-          }
-        ]
-      }
-    }
-  ]
+  }
 }
