@@ -33,13 +33,6 @@
             "DataFormat": "json", 
             "Sharing": "public", 
             "_": "cru"
-          }, 
-          {
-            "Name": "AgentHash",
-            "Required": true,
-            "DataFormat": "json",
-            "Sharing": "public",
-            "_": "cr"
           }
         ],
         "Functions": [
@@ -78,18 +71,6 @@
             "CallingType": "json", 
             "Exposure": "public", 
             "_": "u:PublicVote"
-          },
-          {
-            "Name": "agentHashCreate",
-            "CallingType": "json",
-            "Exposure": "public",
-            "_": "c:agentHash"
-          },
-          {
-            "Name": "agentHashRead",
-            "CallingType": "json",
-            "Exposure": "public",
-            "_": "r:agentHash"
           },
           {
             "Name": "CastVote", 
