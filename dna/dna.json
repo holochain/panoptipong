@@ -6,7 +6,7 @@
     "UUID": "689f53c0-6290-4244-a983-21506cf0596a",
     "Name": "Pong",
     "Properties": {
-      "description": "To allow for orangic game playing and community collabortion when playing the game of pong.",
+      "description": "To allow for organic game playing and community collaboration when playing the game of pong.",
       "language": "en"
     },
     "PropertiesSchemaFile": "properties_schema.json",
@@ -21,59 +21,78 @@
         "CodeFile": "voting.js",
         "Entries": [
           {
-            "Name": "Private Vote",
+            "Name": "PrivateVote",
             "Required": true,
             "DataFormat": "json", 
             "Sharing": "public", 
             "_": "cru"
           },
           {
-            "Name": "Public Vote", 
+            "Name": "PublicVote", 
             "Required": true, 
             "DataFormat": "json", 
             "Sharing": "public", 
             "_": "cru"
+          }, 
+          {
+            "Name": "AgentHash",
+            "Required": true,
+            "DataFormat": "json",
+            "Sharing": "public",
+            "_": "cr"
           }
         ],
         "Functions": [
           {
-            "Name": "Private VoteCreate",
+            "Name": "PrivateVoteCreate",
             "CallingType": "json",
             "Exposure": "public",
-            "_": "c:Private Vote"
+            "_": "c:PrivateVote"
           },
           {
-            "Name": "Private VoteRead", 
+            "Name": "PrivateVoteRead", 
             "CallingType": "json", 
             "Exposure": "public", 
-            "_": "r:Private Vote"
+            "_": "r:PrivateVote"
           },
           {
-            "Name": "Private VoteUpdate", 
+            "Name": "PrivateVoteUpdate", 
             "CallingType": "json", 
             "Exposure": "public", 
-            "_": "u:Private Vote"
+            "_": "u:PrivateVote"
           },
           {
-            "Name": "Public VoteCreate",
+            "Name": "PublicVoteCreate",
             "CallingType": "json",
             "Exposure": "public", 
-            "_": "c:Public Vote"
+            "_": "c:PublicVote"
           },
           {
-            "Name": "Public VoteRead",
+            "Name": "PublicVoteRead",
             "CallingType": "json", 
             "Exposure": "public", 
-            "_": "r:Public Vote"
+            "_": "r:PublicVote"
           },
           {
-            "Name": "Public VoteUpdate", 
+            "Name": "PublicVoteUpdate", 
             "CallingType": "json", 
             "Exposure": "public", 
-            "_": "u:Public Vote"
+            "_": "u:PublicVote"
           },
           {
-            "Name": "Cast Vote", 
+            "Name": "agentHashCreate",
+            "CallingType": "json",
+            "Exposure": "public",
+            "_": "c:agentHash"
+          },
+          {
+            "Name": "agentHashRead",
+            "CallingType": "json",
+            "Exposure": "public",
+            "_": "r:agentHash"
+          },
+          {
+            "Name": "CastVote", 
             "CallingType": "json",
             "Exposure": ""
           }
@@ -81,21 +100,21 @@
         "Code": "'use strict'"
         },
       {
-        "Name": "Pong Logic",
+        "Name": "PongLogic",
         "Description": "To determine rule play.",
         "RibosomeType": "js",
         "CodeFile": "pongLogic.js",
 
         "Entries": [
           {
-            "Name": "Game State",
+            "Name": "PongLogic",
             "Required": true,
             "DataFormat": "json", 
             "Sharing": "public", 
             "_": "cru"
           },
           {
-            "Name": "Team Designation",
+            "Name": "TeamDesignation",
             "Required": true, 
             "DataFormat": "json", 
             "Sharing": "public",
@@ -104,43 +123,43 @@
         ],
         "Functions": [
           {
-            "Name": "Game StateCreate",
+            "Name": "PongLogicCreate",
             "CallingType": "json", 
             "Exposure": "public", 
-            "_": "c:Game State"
+            "_": "c:PongLogic"
           },
           {
-            "Name": "Game StateRead",
+            "Name": "PongLogicRead",
             "CallingType": "json",
             "Exposure": "public",
-            "_": "r:Game State"
+            "_": "r:PongLogic"
           },
           {
-            "Name": "Game StateUpdate", 
+            "Name": "PongLogicUpdate", 
             "CallingType": "json",
             "Exposure": "public",
-            "_": "u:Game State"
+            "_": "u:PongLogic"
           },
           {
-            "Name": "Team DesignationCreate",
+            "Name": "TeamDesignationCreate",
             "CallingType": "json",
             "Exposure": "public", 
-            "_": "c:Team Designation"
+            "_": "c:TeamDesignation"
           },
           {
-            "Name": "Team DesignationRead",
+            "Name": "TeamDesignationRead",
             "CallingType": "json",
             "Exposure": "public", 
-            "_": "r:Team Designation"
+            "_": "r:TeamDesignation"
           },
           {
-            "Name": "Team DesignationUpdate",
+            "Name": "TeamDesignationUpdate",
             "CallingType": "json",
             "Exposure": "public", 
-            "_": "u:Team Designation"
+            "_": "u:TeamDesignation"
           },
           {
-            "Name": "Update State",
+            "Name": "UpdateState",
             "CallingType": "json",
             "Exposure": ""
           }
