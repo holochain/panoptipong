@@ -1,0 +1,31 @@
+{
+	"title": "Game State",
+	"type": "object",
+	"properties": {
+		"ball": {
+			"type": "object",
+			"properties": {
+				"ballPosition": { "type": "object",
+					"properties": {
+						"x": {"type" : "integer"},
+						"y": {"type" : "integer"}
+				} },
+				"ballVelocity": { "type": "object",
+					"properties": {
+						"x": {"type" : "integer"},
+						"y": {"type" : "integer"}
+				} }
+		},
+		"paddleLeft": {
+			"type": "object",
+			"properties": {
+				"position": {"type": "integer" }
+		},
+		"paddleRight": {
+			"type": "object",
+			"properties": {
+				"position": {"type": "integer" }
+		}
+	},
+    "required": ["ballHorizontalPosition", "ballVerticalPosition","paddleAPosition", "paddleBPosition"]
+}
