@@ -1,0 +1,10 @@
+{
+	"title": "Vote Schema",
+	"type": "object",
+	"properties": {
+		"data": {
+			"type": "string"
+		}
+	},
+    "required": ["data"]
+}

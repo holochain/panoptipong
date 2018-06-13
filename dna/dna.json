@@ -13,73 +13,42 @@
   },
   "Zomes": [
     {
-      "Name": "Voting",
+      "Name": "voting",
       "Description": "To determine green/red paddle choice.",
       "RibosomeType": "js",
       "CodeFile": "voting.js",
       "Entries": [
         {
-          "Name": "PrivateVote",
+          "Name": "vote",
           "Required": true,
-          "DataFormat": "json", 
-          "Sharing": "public", 
-          "_": "cru"
-        },
-        {
-          "Name": "PublicVote", 
-          "Required": true, 
-          "DataFormat": "json", 
-          "Sharing": "public", 
+          "DataFormat": "json",
+          "Sharing": "public",
           "_": "cru"
         }
       ],
       "Functions": [
         {
-          "Name": "PrivateVoteCreate",
+          "Name": "castVote",
           "CallingType": "json",
-          "Exposure": "public",
-          "_": "c:PrivateVote"
-        },
-        {
-          "Name": "PrivateVoteRead", 
-          "CallingType": "json", 
-          "Exposure": "public", 
-          "_": "r:PrivateVote"
-        },
-        {
-          "Name": "PrivateVoteUpdate", 
-          "CallingType": "json", 
-          "Exposure": "public", 
-          "_": "u:PrivateVote"
-        },
-        {
-          "Name": "PublicVoteCreate",
+          "Exposure": "public"
+        },{
+          "Name": "updateVote",
           "CallingType": "json",
-          "Exposure": "public", 
-          "_": "c:PublicVote"
-        },
-        {
-          "Name": "PublicVoteRead",
-          "CallingType": "json", 
-          "Exposure": "public", 
-          "_": "r:PublicVote"
-        },
-        {
-          "Name": "PublicVoteUpdate", 
-          "CallingType": "json", 
-          "Exposure": "public", 
-          "_": "u:PublicVote"
-        },
-        {
-          "Name": "CastVote", 
+          "Exposure": "public"
+        },{
+          "Name": "sendVoteProgenitor",
           "CallingType": "json",
-          "Exposure": ""
+          "Exposure": "public"
+        },{
+          "Name": "getVote",
+          "CallingType": "string",
+          "Exposure": "public"
         }
       ],
       "Code": "'use strict'"
       },
     {
-      "Name": "PongLogic",
+      "Name": "pongLogic",
       "Description": "To determine rule play.",
       "RibosomeType": "js",
       "CodeFile": "pongLogic.js",
@@ -88,14 +57,14 @@
         {
           "Name": "PongLogic",
           "Required": true,
-          "DataFormat": "json", 
-          "Sharing": "public", 
+          "DataFormat": "json",
+          "Sharing": "public",
           "_": "cru"
         },
         {
           "Name": "TeamDesignation",
-          "Required": true, 
-          "DataFormat": "json", 
+          "Required": true,
+          "DataFormat": "json",
           "Sharing": "public",
           "_": "cru"
         }
@@ -103,8 +72,8 @@
       "Functions": [
         {
           "Name": "PongLogicCreate",
-          "CallingType": "json", 
-          "Exposure": "public", 
+          "CallingType": "json",
+          "Exposure": "public",
           "_": "c:PongLogic"
         },
         {
@@ -114,7 +83,7 @@
           "_": "r:PongLogic"
         },
         {
-          "Name": "PongLogicUpdate", 
+          "Name": "PongLogicUpdate",
           "CallingType": "json",
           "Exposure": "public",
           "_": "u:PongLogic"
@@ -122,19 +91,19 @@
         {
           "Name": "TeamDesignationCreate",
           "CallingType": "json",
-          "Exposure": "public", 
+          "Exposure": "public",
           "_": "c:TeamDesignation"
         },
         {
           "Name": "TeamDesignationRead",
           "CallingType": "json",
-          "Exposure": "public", 
+          "Exposure": "public",
           "_": "r:TeamDesignation"
         },
         {
           "Name": "TeamDesignationUpdate",
           "CallingType": "json",
-          "Exposure": "public", 
+          "Exposure": "public",
           "_": "u:TeamDesignation"
         },
         {
