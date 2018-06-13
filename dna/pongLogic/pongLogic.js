@@ -215,16 +215,18 @@ function receive(from, message) {
       },
       Constrain: {
         EntryTypes: ["teamDesignation"],
-        Count:1
+        Count: 1
       },
       Order: {
         Ascending: true
       }
-    })[0]['Entry'].team;
+    })[0]["Entry"].team;
+
+    var nextTeam = (lastTeam === "left") ? "right" : "left"
 
     commit("teamDesignation", {
       agentHash: from,
-      team: lastTeam === 'left' : 'right' ? 'left'
+      team: nextTeam
     });
   }
 }
