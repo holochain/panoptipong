@@ -1,0 +1,18 @@
+{
+    "Tests": [
+        {
+            "Time": 0,
+            "Convey": "Test that a team designation was made",
+            "Zome": "pongLogic",
+            "Input": "debug(App.Key.Hash)",
+            "Output": null,
+            "ErrMsg": "",
+            "Raw": true,
+        }
+    ],
+    "Identity": "",
+    "Fixtures": {
+        "Agents": null
+    },
+    "Benchmark": false
+}

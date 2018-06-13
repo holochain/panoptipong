@@ -209,7 +209,7 @@ function validateDelPkg (entryType) {
 function receive(from, message) {
   if(message.type === "init") {
     // get the most recent team designation
-    var lastDesignation = query({
+    var lastTeam = query({
       Return: {
         Entries: true
       },
@@ -220,11 +220,11 @@ function receive(from, message) {
       Order: {
         Ascending: true
       }
-    })[0]['Entry'];
+    })[0]['Entry'].team;
 
     commit("teamDesignation", {
       agentHash: from,
-      
+      team: lastTeam === 'left' : 'right' ? 'left'
     });
   }
 }
