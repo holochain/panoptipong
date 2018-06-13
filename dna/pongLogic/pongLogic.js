@@ -1,3 +1,15 @@
+
+/*=============================================
+=            Public Zome Functions            =
+=============================================*/
+
+
+
+
+/*=====  End of Public Zome Functions  ======*/
+
+
+
 /*******************************************************************************
  * Utility functions
  ******************************************************************************/
@@ -39,6 +51,14 @@ function getCreator (hash) {
  * @see https://developer.holochain.org/API#genesis
  */
 function genesis () {
+  if (App.Key.Hash === property("progenitorHash")) {
+    // progenitor genesis
+
+  } else {
+    // pleb genesis
+    // notify the all seeing progenitor of my meagre existance
+    send(property("progenitorHash"), { type: "init"})
+  }
   return true;
 }
 
@@ -81,6 +101,12 @@ function validateCommit (entryType, entry, header, pkg, sources) {
  */
 function validatePut (entryType, entry, header, pkg, sources) {
   return validateCommit(entryType, entry, header, pkg, sources);
+}
+
+
+
+function validateLink(entryType, hash, links, package, sources) {
+  return true;
 }
 
 /**
@@ -173,3 +199,34 @@ function validateModPkg (entryType) {
 function validateDelPkg (entryType) {
   return null;
 }
+
+
+
+/*=================================
+=            Messaging            =
+=================================*/
+
+function receive(from, message) {
+  if(message.type === "init") {
+    // get the most recent team designation
+    var lastDesignation = query({
+      Return: {
+        Entries: true
+      },
+      Constrain: {
+        EntryTypes: ["teamDesignation"],
+        Count:1
+      },
+      Order: {
+        Ascending: true
+      }
+    })[0]['Entry'];
+
+    commit("teamDesignation", {
+      agentHash: from,
+      
+    });
+  }
+}
+
+/*=====  End of Messaging  ======*/

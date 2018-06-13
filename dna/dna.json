@@ -7,7 +7,7 @@
     "Name": "Pong",
     "Properties": {
       "description": "To allow for orangic game playing and community collabortion when playing the game of pong.",
-      "language": "en"
+      "progenitorHash":"QmQXSJoGkwdF2R7Xgc5cJXhKoRRdUKPHLLtTu3VqfGdqoV"
     },
     "PropertiesSchemaFile": "properties_schema.json",
     "DHTConfig": {
