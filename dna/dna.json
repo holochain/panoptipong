@@ -5,7 +5,7 @@
   "Name": "Pong",
   "Properties": {
     "description": "To allow for orangic game playing and community collabortion when playing the game of pong.",
-    "progenitorHash":"QmQXSJoGkwdF2R7Xgc5cJXhKoRRdUKPHLLtTu3VqfGdqoV"
+    "progenitorHash":"QmPSZv5DKoVPqrPfZJ631hHUPK3mf6LhfNp9QjNcdcun2U"
   },
   "PropertiesSchemaFile": "properties_schema.json",
   "DHTConfig": {
@@ -109,10 +109,37 @@
         {
           "Name": "UpdateState",
           "CallingType": "json",
-          "Exposure": ""
+          "Exposure": "public"
+        },
+        {
+          "Name": "registerAgent",
+          "CallingType": "json",
+          "Exposure": "public"
         }
       ],
       "Code": "'use strict'"
+      },
+      {
+        "Name": "peerVis",
+        "Desription": "show whos online",
+        "CodeFile": "peerVis.js",
+        "RibosomeType": "js",
+        "Config": {
+          "ErrorHandling": "throwErrors"
+        },
+        "Entries": [
+          {
+            "Name": "peerLink",
+            "DataFormat": "links"
+          }
+        ],
+        "Functions": [
+          {
+            "Name": "getPeers",
+            "CallingType": "json",
+            "Exposure": "public"
+          }
+        ]
       }
   ]
 }

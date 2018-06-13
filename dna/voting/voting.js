@@ -73,4 +73,12 @@ function validateDelPkg(entry_type) {
 }
 function validateLinkPkg(entry_type) {
   return null;
+  }
+
+function validateLink(entryType, hash, links, package, sources) {
+  return true;
+}
+
+function validateDelPkg (entryType) {
+return null;
 }

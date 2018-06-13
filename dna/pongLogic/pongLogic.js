@@ -1,3 +1,0 @@
-function genesis() {
-  return true;
-}
