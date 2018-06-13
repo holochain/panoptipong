@@ -1,81 +1,14 @@
-function updateState (oldGameState){
-  var newGameState = 
-  { ball: oldGameState.ball,
-    paddleLeft: oldGameState.paddleLeft,
-    paddleRight: oldGameState.paddleRight
-  };  
-  newGameState = updatePaddles(newGameState);
-  newGameState = updateBall(newGameState);
-  if (isGameOver(newGameState)) {
-    return "Game Over";
-  };
-  return newGameState;
-}
 
-function updateBall(gameState){
-  var ball = gameState.ball;
-  var paddleLeft = gameState.paddleLeft;
-  var paddleRight = gameState.paddleRight;
-  ball.ballPosition.x += ball.ballVelocity.x;
-  ball.ballPosition.y += ball.ballVelocity.y;
- if (ball.ballPosition.y < 0) {
-   ball.ballPosition.y = 0 - ball.ballPosition.y;
-   ball.ballVelocity.y = -ball.ballVelocity.y;
-  };
- if (ball.ballPosition.y > 100) {
-  ball.ballPosition.y = 100 - (ball.ballPosition.y - 100);
-  ball.ballVelocity.y = -ball.ballVelocity.y;
-  };
-  if (ball.ballPosition.x < 2 || ball.ballPosition.x > 98) {
-    //possible ball-paddle collision, check y axis now
-    //TODO: replace ints with paddleSize const
-    if (paddleLeft.position < ball.ballPosition.y < paddleLeft.position + 5 ) {
-      
-    }
-  }
-return gameState;
-}
+/*=============================================
+=            Public Zome Functions            =
+=============================================*/
 
-function updatePaddles(gameState) {
-  //TODO: add check for paddle-board collision with paddleSize const
-  var paddleMovementVotes = getVotes();
-  gameState.paddleLeft.position += paddleMovementVotes.left;
-  gameState.paddleRight.position += paddleMovementVotes.right;
-}
 
-function isGameOver(gameState){
-  //TODO: replace ints with consts for board size
-  if (gameState.ball.ballPosition.x < 1 || gameState.ball.ballPosition.x > 99) 
-  {
-    return true;
-  };
-    return false;  
-}
 
-/*******************************************************************************
- * Utility functions
- ******************************************************************************/
 
-/**
- * Is this a valid entry type?
- *
- * @param {any} entryType The data to validate as an expected entryType.
- * @return {boolean} true if the passed argument is a valid entryType.
- */
-function isValidEntryType (entryType) {
-  // Add additonal entry types here as they are added to dna.json.
-  return ["sampleEntry"].includes(entryType);
-}
+/*=====  End of Public Zome Functions  ======*/
 
-/**
- * Returns the creator of an entity, given an entity hash.
- *
- * @param  {string} hash The entity hash.
- * @return {string} The agent hash of the entity creator.
- */
-function getCreator (hash) {
-  return get(hash, { GetMask: HC.GetMask.Sources })[0];
-}
+
 
 /*******************************************************************************
  * Required callbacks
@@ -93,14 +26,6 @@ function getCreator (hash) {
  * @see https://developer.holochain.org/API#genesis
  */
 function genesis () {
-  if (App.Key.Hash === property("progenitorHash")) {
-    // progenitor genesis
-
-  } else {
-    // pleb genesis
-    // notify the all seeing progenitor of my meagre existance
-    send(property("progenitorHash"), { type: "init"})
-  }
   return true;
 }
 
@@ -118,7 +43,7 @@ function genesis () {
  * @see https://developer.holochain.org/Validation_Functions
  */
 function validateCommit (entryType, entry, header, pkg, sources) {
-  return isValidEntryType(entryType);
+  return true;
 }
 
 /**
@@ -142,7 +67,7 @@ function validateCommit (entryType, entry, header, pkg, sources) {
  * @see https://developer.holochain.org/Validation_Functions
  */
 function validatePut (entryType, entry, header, pkg, sources) {
-  return validateCommit(entryType, entry, header, pkg, sources);
+  return true;
 }
 
 
@@ -168,9 +93,7 @@ function validateLink(entryType, hash, links, package, sources) {
  * @see https://developer.holochain.org/Validation_Functions
  */
 function validateMod (entryType, entry, header, replaces, pkg, sources) {
-  return validateCommit(entryType, entry, header, pkg, sources)
-    // Only allow the creator of the entity to modify it.
-    && getCreator(header.EntryLink) === getCreator(replaces);
+  return false;
 }
 
 /**
@@ -186,9 +109,7 @@ function validateMod (entryType, entry, header, replaces, pkg, sources) {
  * @see https://developer.holochain.org/Validation_Functions
  */
 function validateDel (entryType, hash, pkg, sources) {
-  return isValidEntryType(entryType)
-    // Only allow the creator of the entity to delete it.
-    && getCreator(hash) === sources[0];
+  return false;
 }
 
 /**
@@ -241,36 +162,3 @@ function validateModPkg (entryType) {
 function validateDelPkg (entryType) {
   return null;
 }
-
-
-
-/*=================================
-=            Messaging            =
-=================================*/
-
-function receive(from, message) {
-  if(message.type === "init") {
-    // get the most recent team designation
-    var lastTeam = query({
-      Return: {
-        Entries: true
-      },
-      Constrain: {
-        EntryTypes: ["teamDesignation"],
-        Count: 1
-      },
-      Order: {
-        Ascending: true
-      }
-    })[0]["Entry"].team;
-
-    var nextTeam = (lastTeam === "left") ? "right" : "left"
-
-    commit("teamDesignation", {
-      agentHash: from,
-      team: nextTeam
-    });
-  }
-}
-
-/*=====  End of Messaging  ======*/
