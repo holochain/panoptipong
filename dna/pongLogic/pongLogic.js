@@ -3,7 +3,11 @@
 =            Public Zome Functions            =
 =============================================*/
 
-
+function registerAgent(payload) {
+  if (App.Key.Hash !== property("progenitorHash")) {
+    send(property("progenitorHash"), { type: "init"})
+  }
+}
 
 
 /*=====  End of Public Zome Functions  ======*/
@@ -51,14 +55,6 @@ function getCreator (hash) {
  * @see https://developer.holochain.org/API#genesis
  */
 function genesis () {
-  if (App.Key.Hash === property("progenitorHash")) {
-    // progenitor genesis
-
-  } else {
-    // pleb genesis
-    // notify the all seeing progenitor of my meagre existance
-    send(property("progenitorHash"), { type: "init"})
-  }
   return true;
 }
 
