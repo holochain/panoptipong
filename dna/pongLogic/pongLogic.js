@@ -5,39 +5,15 @@
 
 function registerAgent(payload) {
   if (App.Key.Hash !== property("progenitorHash")) {
-    send(property("progenitorHash"), { type: "init"})
+    return JSON.parse(send(property("progenitorHash"), { type: "init"}));
+  } else {
+    return null;
   }
 }
 
 
 /*=====  End of Public Zome Functions  ======*/
 
-
-
-/*******************************************************************************
- * Utility functions
- ******************************************************************************/
-
-/**
- * Is this a valid entry type?
- *
- * @param {any} entryType The data to validate as an expected entryType.
- * @return {boolean} true if the passed argument is a valid entryType.
- */
-function isValidEntryType (entryType) {
-  // Add additonal entry types here as they are added to dna.json.
-  return ["sampleEntry"].includes(entryType);
-}
-
-/**
- * Returns the creator of an entity, given an entity hash.
- *
- * @param  {string} hash The entity hash.
- * @return {string} The agent hash of the entity creator.
- */
-function getCreator (hash) {
-  return get(hash, { GetMask: HC.GetMask.Sources })[0];
-}
 
 /*******************************************************************************
  * Required callbacks
@@ -72,7 +48,7 @@ function genesis () {
  * @see https://developer.holochain.org/Validation_Functions
  */
 function validateCommit (entryType, entry, header, pkg, sources) {
-  return isValidEntryType(entryType);
+  return true;
 }
 
 /**
@@ -96,7 +72,7 @@ function validateCommit (entryType, entry, header, pkg, sources) {
  * @see https://developer.holochain.org/Validation_Functions
  */
 function validatePut (entryType, entry, header, pkg, sources) {
-  return validateCommit(entryType, entry, header, pkg, sources);
+  return true;
 }
 
 
@@ -205,26 +181,36 @@ function validateDelPkg (entryType) {
 function receive(from, message) {
   if(message.type === "init") {
     // get the most recent team designation
-    var lastTeam = query({
+    var response = query({
       Return: {
         Entries: true
       },
       Constrain: {
-        EntryTypes: ["teamDesignation"],
+        EntryTypes: ["TeamDesignation"],
         Count: 1
       },
       Order: {
         Ascending: true
       }
-    })[0]["Entry"].team;
+    });
 
-    var nextTeam = (lastTeam === "left") ? "right" : "left"
+    debug(response);
 
-    commit("teamDesignation", {
+    var nextTeam;
+    if(response[0]) {
+      nextTeam = (response[0]["team"] === "left") ? "right" : "left"
+    } else {
+      nextTeam = "left";
+    }
+
+    commit("TeamDesignation", {
       agentHash: from,
       team: nextTeam
     });
+
+    return {team: nextTeam};
   }
+  return null;
 }
 
 /*=====  End of Messaging  ======*/

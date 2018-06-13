@@ -1,6 +1,21 @@
 {
 	"Tests": [
-		
+  	{
+      "Time": 1000,
+      "Convey": "Can register to a particular team",
+      "Zome": "PongLogic",
+      "FnName": "registerAgent",
+      "Input": {},
+      "Output": {"team": "left"}
+    },
+    {
+      "Time": 1500,
+      "Convey": "The next agent is assigned to the opposing team",
+      "Zome": "PongLogic",
+      "FnName": "registerAgent",
+      "Input": {},
+      "Output": {"team": "right"}
+    }
 	],
 	"Identity": "",
 	"Fixtures": {

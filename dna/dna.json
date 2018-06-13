@@ -141,7 +141,7 @@
           "Name": "UpdateState",
           "CallingType": "json",
           "Exposure": "public"
-        }
+        },
         {
           "Name": "registerAgent",
           "CallingType": "json",
