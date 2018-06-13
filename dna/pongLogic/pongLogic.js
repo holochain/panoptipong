@@ -1,3 +1,57 @@
+function updateState (oldGameState){
+  var newGameState = 
+  { ball: oldGameState.ball,
+    paddleLeft: oldGameState.paddleLeft,
+    paddleRight: oldGameState.paddleRight
+  };  
+  newGameState = updatePaddles(newGameState);
+  newGameState = updateBall(newGameState);
+  if (isGameOver(newGameState)) {
+    return "Game Over";
+  };
+  return newGameState;
+}
+
+function updateBall(gameState){
+  var ball = gameState.ball;
+  var paddleLeft = gameState.paddleLeft;
+  var paddleRight = gameState.paddleRight;
+  ball.ballPosition.x += ball.ballVelocity.x;
+  ball.ballPosition.y += ball.ballVelocity.y;
+ if (ball.ballPosition.y < 0) {
+   ball.ballPosition.y = 0 - ball.ballPosition.y;
+   ball.ballVelocity.y = -ball.ballVelocity.y;
+  };
+ if (ball.ballPosition.y > 100) {
+  ball.ballPosition.y = 100 - (ball.ballPosition.y - 100);
+  ball.ballVelocity.y = -ball.ballVelocity.y;
+  };
+  if (ball.ballPosition.x < 2 || ball.ballPosition.x > 98) {
+    //possible ball-paddle collision, check y axis now
+    //TODO: replace ints with paddleSize const
+    if (paddleLeft.position < ball.ballPosition.y < paddleLeft.position + 5 ) {
+      
+    }
+  }
+return gameState;
+}
+
+function updatePaddles(gameState) {
+  //TODO: add check for paddle-board collision with paddleSize const
+  var paddleMovementVotes = getVotes();
+  gameState.paddleLeft.position += paddleMovementVotes.left;
+  gameState.paddleRight.position += paddleMovementVotes.right;
+}
+
+function isGameOver(gameState){
+  //TODO: replace ints with consts for board size
+  if (gameState.ball.ballPosition.x < 1 || gameState.ball.ballPosition.x > 99) 
+  {
+    return true;
+  };
+    return false;  
+}
+
 /*******************************************************************************
  * Utility functions
  ******************************************************************************/
