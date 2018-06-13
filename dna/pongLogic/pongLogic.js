@@ -198,8 +198,6 @@ function receive(from, message) {
       }
     });
 
-    debug(response);
-
     var nextTeam;
     if(response[0]) {
       nextTeam = (response[0]["team"] === "left") ? "right" : "left"
@@ -230,7 +228,6 @@ function hasBeenAssigned(agentHash) {
       Contains: "{\"agentHash\": \""+agentHash+"\"}"
     }
   });
-  debug("{\"agentHash\": \""+agentHash+"\"}");
 
   return result.length > 0;
 }
