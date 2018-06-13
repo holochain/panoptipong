@@ -1,2 +1,16 @@
 agent.txt
 priv.key
+
+ui/
+ui-src/node-modules
+ui-src/package-lock.json
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
