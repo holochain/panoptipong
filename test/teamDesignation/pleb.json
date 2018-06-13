@@ -10,11 +10,11 @@
     },
     {
       "Time": 1500,
-      "Convey": "The next agent is assigned to the opposing team",
+      "Convey": "Cannot be reassigned once assigned",
       "Zome": "PongLogic",
       "FnName": "registerAgent",
       "Input": {},
-      "Output": {"team": "right"}
+      "Output": "AlreadyAssigned"
     }
 	],
 	"Identity": "",

@@ -180,6 +180,10 @@ function validateDelPkg (entryType) {
 
 function receive(from, message) {
   if(message.type === "init") {
+    if(hasBeenAssigned(from)){
+      return "AlreadyAssigned";
+    }
+
     // get the most recent team designation
     var response = query({
       Return: {
@@ -214,3 +218,21 @@ function receive(from, message) {
 }
 
 /*=====  End of Messaging  ======*/
+
+/*=======================================
+=            Local Functions            =
+=======================================*/
+
+function hasBeenAssigned(agentHash) {
+  var result = query({
+    Constrain: {
+      EntryTypes: ["TeamDesignation"],
+      Contains: "{\"agentHash\": \""+agentHash+"\"}"
+    }
+  });
+  debug("{\"agentHash\": \""+agentHash+"\"}");
+
+  return result.length > 0;
+}
+
+/*=====  End of Local Functions  ======*/
