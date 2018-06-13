@@ -140,7 +140,12 @@
         {
           "Name": "UpdateState",
           "CallingType": "json",
-          "Exposure": ""
+          "Exposure": "public"
+        },
+        {
+          "Name": "registerAgent",
+          "CallingType": "json",
+          "Exposure": "public"
         }
       ],
       "Code": "'use strict'"

@@ -1,3 +1,9 @@
+/*=============================================
+=            Public Zome Functions            =
+=============================================*/
+
+
+
 function updateState (oldGameState){
   var newGameState = 
   { ball: oldGameState.ball,
@@ -11,6 +17,19 @@ function updateState (oldGameState){
   };
   return newGameState;
 }
+
+
+function registerAgent(payload) {
+  if (App.Key.Hash !== property("progenitorHash")) {
+    return JSON.parse(send(property("progenitorHash"), { type: "init"}));
+  } else {
+    return null;
+  }
+}
+
+
+/*=====  End of Public Zome Functions  ======*/
+
 
 function updateBall(gameState){
   var ball = gameState.ball;
@@ -36,6 +55,8 @@ function updateBall(gameState){
 return gameState;
 }
 
+
+
 function updatePaddles(gameState) {
   //TODO: add check for paddle-board collision with paddleSize const
   var paddleMovementVotes = getVotes();
@@ -52,30 +73,6 @@ function isGameOver(gameState){
     return false;  
 }
 
-/*******************************************************************************
- * Utility functions
- ******************************************************************************/
-
-/**
- * Is this a valid entry type?
- *
- * @param {any} entryType The data to validate as an expected entryType.
- * @return {boolean} true if the passed argument is a valid entryType.
- */
-function isValidEntryType (entryType) {
-  // Add additonal entry types here as they are added to dna.json.
-  return ["sampleEntry"].includes(entryType);
-}
-
-/**
- * Returns the creator of an entity, given an entity hash.
- *
- * @param  {string} hash The entity hash.
- * @return {string} The agent hash of the entity creator.
- */
-function getCreator (hash) {
-  return get(hash, { GetMask: HC.GetMask.Sources })[0];
-}
 
 /*******************************************************************************
  * Required callbacks
@@ -93,14 +90,6 @@ function getCreator (hash) {
  * @see https://developer.holochain.org/API#genesis
  */
 function genesis () {
-  if (App.Key.Hash === property("progenitorHash")) {
-    // progenitor genesis
-
-  } else {
-    // pleb genesis
-    // notify the all seeing progenitor of my meagre existance
-    send(property("progenitorHash"), { type: "init"})
-  }
   return true;
 }
 
@@ -118,7 +107,7 @@ function genesis () {
  * @see https://developer.holochain.org/Validation_Functions
  */
 function validateCommit (entryType, entry, header, pkg, sources) {
-  return isValidEntryType(entryType);
+  return true;
 }
 
 /**
@@ -142,7 +131,7 @@ function validateCommit (entryType, entry, header, pkg, sources) {
  * @see https://developer.holochain.org/Validation_Functions
  */
 function validatePut (entryType, entry, header, pkg, sources) {
-  return validateCommit(entryType, entry, header, pkg, sources);
+  return true;
 }
 
 
@@ -250,27 +239,56 @@ function validateDelPkg (entryType) {
 
 function receive(from, message) {
   if(message.type === "init") {
+    if(hasBeenAssigned(from)){
+      return "AlreadyAssigned";
+    }
+
     // get the most recent team designation
-    var lastTeam = query({
+    var response = query({
       Return: {
         Entries: true
       },
       Constrain: {
-        EntryTypes: ["teamDesignation"],
+        EntryTypes: ["TeamDesignation"],
         Count: 1
       },
       Order: {
         Ascending: true
       }
-    })[0]["Entry"].team;
+    });
 
-    var nextTeam = (lastTeam === "left") ? "right" : "left"
+    var nextTeam;
+    if(response[0]) {
+      nextTeam = (response[0]["team"] === "left") ? "right" : "left"
+    } else {
+      nextTeam = "left";
+    }
 
-    commit("teamDesignation", {
+    commit("TeamDesignation", {
       agentHash: from,
       team: nextTeam
     });
+
+    return {team: nextTeam};
   }
+  return null;
 }
 
 /*=====  End of Messaging  ======*/
+
+/*=======================================
+=            Local Functions            =
+=======================================*/
+
+function hasBeenAssigned(agentHash) {
+  var result = query({
+    Constrain: {
+      EntryTypes: ["TeamDesignation"],
+      Contains: "{\"agentHash\": \""+agentHash+"\"}"
+    }
+  });
+
+  return result.length > 0;
+}
+
+/*=====  End of Local Functions  ======*/
