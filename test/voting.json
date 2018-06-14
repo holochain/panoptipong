@@ -1,0 +1,13 @@
+{
+  "Tests":[
+    {
+        "Convey":"An agent is registered and initiall assigned to team L",
+        "Zome": "voting",
+        "FnName": "register",
+        "Input": {},
+        "Output": "L",
+        "Exposure":"public",
+        "Err": ""
+    }
+  ]
+}

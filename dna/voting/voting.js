@@ -22,11 +22,14 @@ function register() {
   var nMembersL = getLinks(anchor('members', 'L'), '').length;
   var nMembersR = getLinks(anchor('members', 'R'), '').length;
 
-  if(nMembersL < nMembersR) {
-    joinTeam('L');
+  var team;
+  if(nMembersL <= nMembersR) {
+    team = 'L'
   } else {
-    joinTeam('R');
+    team = 'R'
   }
+  joinTeam(team);
+  return team;
 }
 
 
@@ -85,7 +88,7 @@ function reduceState(initialState, votesL, votesR) {
 function joinTeam(team) {
   commit("teamDesignation", team);
   var teamAnchorHash = anchor('members', team);
-  commit("teamLinks", {
+  commit("teamLink", {
     Links: [{ Base: teamAnchorHash, Link: App.Key.Hash, Tag: "" }]
   });
 }

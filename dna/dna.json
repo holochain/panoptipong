@@ -4,7 +4,7 @@
   "UUID": "689f53c0-6290-4244-a983-21506cf0596a",
   "Name": "Pong",
   "Properties": {
-    "description": "To allow for orangic game playing and community collabortion when playing the game of pong.",
+    "description": "To allow for orangic game playing and community collabortion when playing the game of pong."
   },
   "PropertiesSchemaFile": "properties_schema.json",
   "DHTConfig": {
@@ -21,7 +21,7 @@
           "Name": "vote",
           "DataFormat": "json",
           "SchemaFile": "vote.json",
-          "Sharing": "public",
+          "Sharing": "public"
         },
         {
           "Name": "teamDesignation",
@@ -30,7 +30,7 @@
         },
         {
           "Name": "teamLink",
-          "DateFormat": "links",
+          "DataFormat": "links",
           "Sharing": "public"
         }
       ],
