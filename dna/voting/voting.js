@@ -6,21 +6,69 @@
 
 
 
-function getState(oldGameState) {
+function getState() {
 
 }
 
 
 function register() {
-  
+
 }
 
 
 function vote(payload) {
-
+  
 }
 
 /*=====  End of Public Functions  ======*/
+
+/*============================================
+=            Local Zome Functions            =
+============================================*/
+
+var vBall = 2.3; // how far the ball will move in a  'turn'
+var vPaddle = 1.3; // how far the paddle can possible move in a 'turn'
+var initialBallVelocity =  {x: vBall*Math.sqrt(2), y: vBall*Math.sqrt(2)}
+
+var width=300, height=100;
+var paddleHeight = 30;
+
+var initialState = {
+  ball: {
+      x: 60,
+      y: 50
+  },
+  paddleL: 50,
+  paddleR: 50
+}
+
+function reduceState(initialState, votesL, votesR) {
+
+    var paddleL =  votesL.reduce(function(acc, elem) {
+        acc += vPaddle * (elem.move / elem.teamL.playerCount);
+    }, initialState.paddleL);
+    
+    var paddleR = votesR.reduce(function(acc, elem){
+        acc += vPaddle * (elem.move / elem.teamR.playerCount);
+    }, initialState.paddleR);
+    
+    var ballReducer = function(acc, elem, i) {
+        acc.x += initialBallVelocity.x / (elem.teamL.playerCount + elem.teamR.playerCount);
+        acc.y += initialBallVelocity.y / (elem.teamL.playerCount + elem.teamR.playerCount);
+    }
+    
+    ballPos = votesR.reduce(ballReducer, 
+        votesL.reduce(ballReducer, initialState.ball));
+    
+    return {
+        ball: ballPos,
+        paddleL: paddleL,
+        paddleR: paddleR
+    }
+}
+
+/*=====  End of Local Zome Functions  ======*/
+
 
 
 

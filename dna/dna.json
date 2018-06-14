@@ -5,7 +5,6 @@
   "Name": "Pong",
   "Properties": {
     "description": "To allow for orangic game playing and community collabortion when playing the game of pong.",
-    "progenitorHash":"QmPSZv5DKoVPqrPfZJ631hHUPK3mf6LhfNp9QjNcdcun2U"
   },
   "PropertiesSchemaFile": "properties_schema.json",
   "DHTConfig": {
@@ -22,124 +21,28 @@
           "Name": "vote",
           "Required": true,
           "DataFormat": "json",
+          "SchemaFile": "vote.json",
           "Sharing": "public",
-          "_": "cru"
         }
       ],
       "Functions": [
         {
-          "Name": "castVote",
-          "CallingType": "json",
-          "Exposure": "public"
-        },{
-          "Name": "updateVote",
-          "CallingType": "json",
-          "Exposure": "public"
-        },{
-          "Name": "sendVoteProgenitor",
-          "CallingType": "json",
-          "Exposure": "public"
-        },{
-          "Name": "getVote",
-          "CallingType": "string",
-          "Exposure": "public"
-        }
-      ],
-      "Code": "'use strict'"
-      },
-    {
-      "Name": "pongLogic",
-      "Description": "To determine rule play.",
-      "RibosomeType": "js",
-      "CodeFile": "pongLogic.js",
-
-      "Entries": [
-        {
-          "Name": "PongLogic",
-          "Required": true,
-          "DataFormat": "json",
-          "Sharing": "public",
-          "_": "cru"
-        },
-        {
-          "Name": "TeamDesignation",
-          "Required": true,
-          "DataFormat": "json",
-          "Sharing": "public",
-          "_": "cru"
-        }
-      ],
-      "Functions": [
-        {
-          "Name": "PongLogicCreate",
-          "CallingType": "json",
-          "Exposure": "public",
-          "_": "c:PongLogic"
-        },
-        {
-          "Name": "PongLogicRead",
-          "CallingType": "json",
-          "Exposure": "public",
-          "_": "r:PongLogic"
-        },
-        {
-          "Name": "PongLogicUpdate",
-          "CallingType": "json",
-          "Exposure": "public",
-          "_": "u:PongLogic"
-        },
-        {
-          "Name": "TeamDesignationCreate",
-          "CallingType": "json",
-          "Exposure": "public",
-          "_": "c:TeamDesignation"
-        },
-        {
-          "Name": "TeamDesignationRead",
-          "CallingType": "json",
-          "Exposure": "public",
-          "_": "r:TeamDesignation"
-        },
-        {
-          "Name": "TeamDesignationUpdate",
-          "CallingType": "json",
-          "Exposure": "public",
-          "_": "u:TeamDesignation"
-        },
-        {
-          "Name": "UpdateState",
+          "Name": "register",
           "CallingType": "json",
           "Exposure": "public"
         },
         {
-          "Name": "registerAgent",
+          "Name": "vote",
+          "CallingType": "json",
+          "Exposure": "public"
+        },
+        {
+          "Name": "getState",
           "CallingType": "json",
           "Exposure": "public"
         }
       ],
       "Code": "'use strict'"
-      },
-      {
-        "Name": "peerVis",
-        "Desription": "show whos online",
-        "CodeFile": "peerVis.js",
-        "RibosomeType": "js",
-        "Config": {
-          "ErrorHandling": "throwErrors"
-        },
-        "Entries": [
-          {
-            "Name": "peerLink",
-            "DataFormat": "links"
-          }
-        ],
-        "Functions": [
-          {
-            "Name": "getPeers",
-            "CallingType": "json",
-            "Exposure": "public"
-          }
-        ]
       }
   ]
 }
