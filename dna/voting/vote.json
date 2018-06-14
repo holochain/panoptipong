@@ -1,10 +1,22 @@
 {
-	"title": "Vote Schema",
-	"type": "object",
-	"properties": {
-		"data": {
-			"type": "string"
-		}
-	},
-    "required": ["data"]
+    "title": "Vote Schema",
+    "type": "object",
+    "properties" : {
+        "move" : {
+            "type": "integer",
+            "minimum": -1,
+            "maximum": +1
+        },
+        "teamL": {
+            "playerCount" : {"type": "integer"},
+            "voteCount" : {"type": "integer"}
+        },
+        "teamR": {
+            "playerCount" : {"type": "integer"},
+            "voteCount" : {"type": "integer"}
+        },
+        "agentHash" : {"type": "string"},
+        "randomSalt" : {"type": "string"}
+    },
+    "required": ["move", "teamL", "teamR", "agentHash", "randomSalt"]
 }
