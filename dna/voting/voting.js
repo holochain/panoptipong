@@ -7,7 +7,13 @@
 
 
 function getState() {
-
+  var votesL = getLinks(anchor('team', 'L'), '', { Load: true}).map(function(elem) {
+    return elem.Entry;
+  });
+  var votesR = getLinks(anchor('team', 'R'), '', { Load: true}).map(function(elem) {
+    return elem.Entry;
+  });
+  return reduceState(initialState, votesL, votesR);
 }
 
 
