@@ -7,10 +7,10 @@
 
 
 function getState() {
-  var votesL = getLinks(anchor('team', 'L'), '', { Load: true}).map(function(elem) {
+  var votesL = getLinks(anchor('votes', 'L'), '', { Load: true}).map(function(elem) {
     return elem.Entry;
   });
-  var votesR = getLinks(anchor('team', 'R'), '', { Load: true}).map(function(elem) {
+  var votesR = getLinks(anchor('votes', 'R'), '', { Load: true}).map(function(elem) {
     return elem.Entry;
   });
   return reduceState(initialState, votesL, votesR);
@@ -18,7 +18,15 @@ function getState() {
 
 
 function register() {
+  // get the number of agents in each team so far
+  var nMembersL = getLinks(anchor('members', 'L'), '').length;
+  var nMembersR = getLinks(anchor('members', 'R'), '').length;
 
+  if(nMembersL < nMembersR) {
+    joinTeam('L');
+  } else {
+    joinTeam('R');
+  }
 }
 
 
@@ -71,6 +79,15 @@ function reduceState(initialState, votesL, votesR) {
         paddleL: paddleL,
         paddleR: paddleR
     }
+}
+
+
+function joinTeam(team) {
+  commit("teamDesignation", team);
+  var teamAnchorHash = anchor('members', team);
+  commit("teamLinks", {
+    Links: [{ Base: teamAnchorHash, Link: App.Key.Hash, Tag: "" }]
+  });
 }
 
 /*----------  Anchor API  ----------*/

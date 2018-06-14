@@ -19,10 +19,19 @@
       "Entries": [
         {
           "Name": "vote",
-          "Required": true,
           "DataFormat": "json",
           "SchemaFile": "vote.json",
           "Sharing": "public",
+        },
+        {
+          "Name": "teamDesignation",
+          "DataFormat": "string",
+          "Sharing": "private"
+        },
+        {
+          "Name": "teamLink",
+          "DateFormat": "links",
+          "Sharing": "public"
         }
       ],
       "Functions": [
