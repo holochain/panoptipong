@@ -38,7 +38,8 @@ for(var i = 0; i < 1000; i++) {
   ctx.arc(state.ball.x, state.ball.y, 1, 0, Math.PI*2, true); 
   ctx.closePath();
   ctx.fill();
-  writeCanvasToFile(canvas, './frames/result'+i+'.png');
+  var fileName = (""+i).padStart(5, "0");
+  writeCanvasToFile(canvas, './frames/'+fileName+'.png');
   console.log(state);
 }
  
