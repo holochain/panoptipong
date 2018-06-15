@@ -1,0 +1,5 @@
+{
+    "GossipInterval":500,
+    "Duration":3,
+    "Clone":[{"Role":"agent1","Number":20}]
+}

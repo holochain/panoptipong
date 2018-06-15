@@ -1,0 +1,13 @@
+{
+  "Tests":[
+    {
+      "Convey":"Calling reduceState a single vote on team left causes the left paddle to move but only partially",
+      "Zome": "voting",
+      "FnName": "reduceState",
+      "Raw": true,
+      "Input": "reduceState(initialState, [{move: 1, teamL: {playerCount: 2}, teamR: {playerCount: 1}}], []).paddleL",
+      "Output": "50.65",
+      "Exposure":"public"
+    }
+  ]
+}

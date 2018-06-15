@@ -32,6 +32,11 @@
           "Name": "teamLink",
           "DataFormat": "links",
           "Sharing": "public"
+        },
+        {
+          "Name": "voteLink",
+          "DataFormat": "links",
+          "Sharing": "public"
         }
       ],
       "Functions": [
@@ -47,6 +52,11 @@
         },
         {
           "Name": "getState",
+          "CallingType": "json",
+          "Exposure": "public"
+        },
+        {
+          "Name": "getTeam",
           "CallingType": "json",
           "Exposure": "public"
         }

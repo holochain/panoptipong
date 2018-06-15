@@ -45,8 +45,46 @@ function register() {
 }
 
 
+function getTeam() {
+  var response = query({
+    Return: {
+      Entries: true
+    },
+    Constrain: {
+      EntryTypes: ["teamDesignation"],
+      Count: 1
+    }
+  });
+
+  return response[0] || "NotRegistered";
+}
+
+
 function vote(payload) {
+  var move = payload.move;
+
+  var nPlayersL = getLinks(anchor('members', 'L'), '').length;
+  var nPlayersR = getLinks(anchor('members', 'R'), '').length;
   
+  var nVotesL = getLinks(anchor('votes', 'L'), '').length;
+  var nVotesR = getLinks(anchor('votes', 'R'), '').length;  
+
+  var voteHash = commit("vote", {
+    move: move,
+    teamL: {playerCount: nPlayersL, voteCount: nVotesL},
+    teamR: {playerCount: nPlayersR, voteCount: nVotesR},
+    agentHash: App.Key.Hash,
+    randomSalt: Math.random()
+  });
+
+  var team = getTeam();
+  if(['L', 'R'].indexOf(team) > 0) {
+    commit("voteLink", {
+      Links: [{Base: anchor('votes', team), Link: voteHash, tag: ''}]
+    });
+  } else {
+    return "NotRegistered"
+  }
 }
 
 /*=====  End of Public Functions  ======*/
