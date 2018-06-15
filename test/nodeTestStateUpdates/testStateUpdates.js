@@ -29,7 +29,7 @@ var Canvas = require('canvas')
 
 ctx.strokeStyle = 'rgba(0,0,0,0.5)';
 
-for(var i = 0; i < 1000; i++) {
+for(var i = 0; i < 300; i++) {
   votesL.push(standardMove);
   var state = reduceState(initialState, votesL, votesR);
 
@@ -43,7 +43,9 @@ for(var i = 0; i < 1000; i++) {
   console.log(state);
 }
  
+function renderGameState(state) {
 
+}
 
 function reduceState(initialState, votesL, votesR) {
 
