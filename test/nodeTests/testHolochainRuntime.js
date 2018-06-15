@@ -2,8 +2,8 @@ const axios = require('axios');
 const sleep = require('sleep');
 const RenderPong = require('./renderPong')
 
-const nIter = 300;
-const waitTime = 500; //ms
+const nIter = 1;
+const waitTime = 5000; //ms
 
 const HC_ENDPOINT = 'http://localhost:4141/fn/voting/';
 const REGISTER = HC_ENDPOINT+'register';
@@ -24,7 +24,7 @@ const boardParams = {
 // register on start
 axios.post(REGISTER)
   .then(response => {
-    console.log("Agent assigned to team: " + request.data);
+    console.log("Agent assigned to team: " + response.data);
     gameLoop();
   })
   .catch(error => {
@@ -34,15 +34,18 @@ axios.post(REGISTER)
 
 function gameLoop() {
   for (var i = 0; i < nIter; i++) {
-    sleep.msleep(waitTime);
+    // sleep.msleep(waitTime);
+    console.log('interation: '+i);
 
-    var stateRequest = axios.post(GET_STATE);
-    var voteRequest = axios.post(VOTE, JSON.stringify({move: +1}));
-
-    axios.all([stateRequest, voteRequest])
-      .then(responses => {
-        var state = JSON.parse(results[0]);
-        RenderPong.renderGameState(state, i, boardParams, './outputs/testHolochainRuntime/');
+    axios.post(VOTE, JSON.stringify({move: -1}))
+      .then(response => {
+        console.log("Vote was successfully cast");
+        axios.post(GET_STATE)
+          .then(response => {
+            console.log(response.data);
+            var state = response.data;
+            RenderPong.renderGameState(state, i, boardParams, './outputs/testHolochainRuntime/');
+          });
       })
       .catch(error => {
         console.log(error);
