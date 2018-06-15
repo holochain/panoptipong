@@ -1,0 +1,53 @@
+{
+  "Tests":[
+    {
+        "Time": 1000,
+        "Convey":"An agent is registered and initially assigned to team L",
+        "Zome": "voting",
+        "FnName": "register",
+        "Input": {},
+        "RegExp":".*"
+    },
+    {
+        "Time": 3000,
+        "Convey":"An agent Voting",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move":1},
+        "RegExp":".*"
+    },
+    {
+        "Time": 3010,
+        "Convey":"An agent Voting",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move":1},
+        "RegExp":".*"
+    },
+    {
+        "Time": 3020,
+        "Convey":"An agent Voting",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move":1},
+        "RegExp":".*"
+    },
+    {
+        "Time": 3030,
+        "Convey":"An agent Voting",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move":1},
+        "RegExp":".*"
+    },
+    {
+      "Time": 5000,
+      "Convey": "The state of the ball for agent1",
+      "Zome": "voting",
+      "FnName": "getState",
+      "Input": {},
+      "Output": {"ball":{"x":73.01076477383243,"y":63.01076477383248},"paddleL":55.19999999999999,"paddleR":52.599999999999994}
+
+    }
+  ]
+}

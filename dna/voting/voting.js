@@ -26,7 +26,7 @@ function register() {
   });
   var inR = membersR.some(function(elem) {
     return elem.Hash ===  App.Key.Hash;
-  });  
+  });
 
   if( inL || inR ) {
     return "AlreadyRegistered";
@@ -34,9 +34,9 @@ function register() {
 
   var team;
   if(membersL.length <= membersR.length) {
-    team = 'L'
+    team = 'L';
   } else {
-    team = 'R'
+    team = 'R';
   }
   joinTeam(team);
   debug(team);
@@ -66,7 +66,7 @@ function vote(payload) {
   var nPlayersR = getLinks(anchor('members', 'R'), '').length;
 
   var nVotesL = getLinks(anchor('votes', 'L'), '').length;
-  var nVotesR = getLinks(anchor('votes', 'R'), '').length;  
+  var nVotesR = getLinks(anchor('votes', 'R'), '').length;
 
   var vote = {
     move: move,
@@ -75,7 +75,7 @@ function vote(payload) {
     agentHash: App.Key.Hash,
     randomSalt: ""+Math.random(),
     teamID: getTeam()
-  }
+  };
 
   return castVote(vote);
 }
@@ -88,7 +88,7 @@ function vote(payload) {
 
 var vBall = 2.3; // how far the ball will move in a  'turn'
 var vPaddle = 1.3; // how far the paddle can possible move in a 'turn'
-var initialBallVelocity =  {x: vBall*Math.sqrt(2), y: vBall*Math.sqrt(2)}
+var initialBallVelocity =  {x: vBall*Math.sqrt(2), y: vBall*Math.sqrt(2)};
 
 var width=300, height=100;
 var paddleHeight = 30;
@@ -100,7 +100,7 @@ var initialState = {
   },
   paddleL: 50,
   paddleR: 50
-}
+};
 
 
 function reduceState(initialState, votesL, votesR) {
@@ -109,26 +109,26 @@ function reduceState(initialState, votesL, votesR) {
         acc += vPaddle * (elem.move / elem.teamL.playerCount);
         return acc;
     }, initialState.paddleL);
-    
+
     var paddleR = votesR.reduce(function(acc, elem){
         acc += vPaddle * (elem.move / elem.teamR.playerCount);
         return acc;
     }, initialState.paddleR);
-    
+
     var ballReducer = function(acc, elem, i) {
         acc.x += initialBallVelocity.x / (elem.teamL.playerCount + elem.teamR.playerCount);
         acc.y += initialBallVelocity.y / (elem.teamL.playerCount + elem.teamR.playerCount);
         return acc;
-    }
-    
-    ballPos = votesR.reduce(ballReducer, 
+    };
+
+    ballPos = votesR.reduce(ballReducer,
         votesL.reduce(ballReducer, initialState.ball));
-    
+
     return {
         ball: ballPos,
         paddleL: paddleL,
         paddleR: paddleR
-    }
+    };
 }
 
 
@@ -141,12 +141,10 @@ function castVote(vote){
   }
 
   voteHash = commit("vote",vote);
-
   // On the DHT, puts a link on my anchor to the new post
   commit('voteLink', {
     Links: [{ Base: anchor(vote.teamID,"GameID"), Link: voteHash, Tag: 'vote' }]
   });
-
 
   return voteHash;
 }
@@ -168,6 +166,7 @@ Used for getting the list of votes commited
 function getVoteList(teamID) {
   var voteLinks = getLinks(anchor(teamID,"GameID"), 'vote',{Load:true});
   debug("Votes Casted by "+teamID+" : "+JSON.stringify(voteLinks));
+  debug("Number of votes: "+Object.keys(voteLinks).length);
   return voteLinks;
 }
 
