@@ -21,7 +21,6 @@ const initialState = {
 
 var votesL = [];
 var votesR = [];
-var vote = {move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 0}};
 
 
 var Canvas = require('canvas')

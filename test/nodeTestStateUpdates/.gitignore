@@ -1,3 +1,3 @@
-frames
-node_modules
+frames/
+node_modules/
 package-lock.json

@@ -86,14 +86,16 @@ function vote(payload) {
 =            Local Zome Functions            =
 ============================================*/
 
-var vBall = 2.3; // how far the ball will move in a  'turn'
-var vPaddle = 1.3; // how far the paddle can possible move in a 'turn'
-var initialBallVelocity =  {x: vBall*Math.sqrt(2), y: vBall*Math.sqrt(2)};
+const vBall = 3.0 // how far the ball will move in a  'turn'
+const vPaddle = 1.3; // how far the paddle can possible move in a 'turn'
+const initialBallVelocity =  {x: vBall*Math.sqrt(2)+0.1, y: vBall*Math.sqrt(2)};
 
-var width=300, height=100;
-var paddleHeight = 30;
+const width=300, height=150;
+const paddleHeight = 30;
+const paddleWidth = 5;
+const ballSize = 3;
 
-var initialState = {
+const initialState = {
   ball: {
       x: 60,
       y: 50
@@ -102,30 +104,24 @@ var initialState = {
   paddleR: 50
 };
 
-
 function reduceState(initialState, votesL, votesR) {
 
     var paddleL =  votesL.reduce(function(acc, elem) {
-      if(elem.move!=-2){
-        acc += vPaddle * (elem.move / elem.teamL.playerCount);
-      }
-      return acc;
+        return acc + vPaddle * (elem.move / elem.teamL.playerCount);
     }, initialState.paddleL);
 
     var paddleR = votesR.reduce(function(acc, elem){
-      if(elem.move!=-2){
-        acc += vPaddle * (elem.move / elem.teamR.playerCount);
-      }
-      return acc;
+        return acc + vPaddle * (elem.move / elem.teamR.playerCount);
     }, initialState.paddleR);
 
     var ballReducer = function(acc, elem, i) {
-        acc.x += initialBallVelocity.x / (elem.teamL.playerCount + elem.teamR.playerCount);
-        acc.y += initialBallVelocity.y / (elem.teamL.playerCount + elem.teamR.playerCount);
-        return acc;
+        return {
+          x : acc.x + initialBallVelocity.x / (elem.teamL.playerCount + elem.teamR.playerCount),
+          y : acc.y + initialBallVelocity.y / (elem.teamL.playerCount + elem.teamR.playerCount)
+        };
     };
 
-    ballPos = votesR.reduce(ballReducer,
+    var ballPos = votesR.reduce(ballReducer,
         votesL.reduce(ballReducer, initialState.ball));
 
     return {
