@@ -76,15 +76,15 @@
         "Functions": [
           {
             "Name": "anchor",
-            "CallingType": "json",
+            "CallingType": "json"
           },
           {
             "Name": "exists",
-            "CallingType": "json",
+            "CallingType": "json"
           },
           {
             "Name": "anchors",
-            "CallingType": "string",
+            "CallingType": "string"
           }
         ]
     }
