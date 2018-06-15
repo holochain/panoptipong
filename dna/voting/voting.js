@@ -107,7 +107,6 @@ function reduceState(initialState, votesL, votesR) {
 
     var paddleL =  votesL.reduce(function(acc, elem) {
       if(elem.move!=-2){
-        debug("paddleL move-> "+elem.move);
         acc += vPaddle * (elem.move / elem.teamL.playerCount);
       }
       return acc;
@@ -115,8 +114,6 @@ function reduceState(initialState, votesL, votesR) {
 
     var paddleR = votesR.reduce(function(acc, elem){
       if(elem.move!=-2){
-
-          debug("paddleR move-> "+elem.move);
         acc += vPaddle * (elem.move / elem.teamR.playerCount);
       }
       return acc;
