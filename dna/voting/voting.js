@@ -132,6 +132,12 @@ function reduceState(initialState, votesL, votesR) {
 }
 
 
+function unwrapBallPos(pos, size) {
+  var k = Math.floor(pos / size) % 2;
+  return (pos % size)*(-2*k + 1) + size*k;
+}
+
+
 //VOTE
 //vote = {teamID:"",move:"",teamL:{payerCount:"",voteCount:""},teamR:{payerCount:"",voteCount:""},agentHash:"",randomSalt:"",}
 //NOTE: if you want to have mutiple games, you woud need the GameID too;
