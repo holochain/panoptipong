@@ -1,14 +1,16 @@
 fs = require('fs');
 
 
-var vBall = 3.0 // how far the ball will move in a  'turn'
-var vPaddle = 1.3; // how far the paddle can possible move in a 'turn'
-var initialBallVelocity =  {x: vBall*Math.sqrt(2)+0.1, y: vBall*Math.sqrt(2)};
+const vBall = 3.0 // how far the ball will move in a  'turn'
+const vPaddle = 1.3; // how far the paddle can possible move in a 'turn'
+const initialBallVelocity =  {x: vBall*Math.sqrt(2)+0.1, y: vBall*Math.sqrt(2)};
 
-var width=300, height=100;
-var paddleHeight = 30;
+const width=300, height=150;
+const paddleHeight = 30;
+const paddleWidth = 5;
+const ballSize = 3;
 
-var initialState = {
+const initialState = {
   ball: {
       x: 60,
       y: 50
@@ -19,7 +21,7 @@ var initialState = {
 
 var votesL = [];
 var votesR = [];
-var standardMove = {move: 0, teamL: {playerCount: 1}, teamR: {playerCount: 0}};
+const standardMove = {move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 0}};
 
 
 var Canvas = require('canvas')
@@ -32,19 +34,34 @@ ctx.strokeStyle = 'rgba(0,0,0,0.5)';
 for(var i = 0; i < 300; i++) {
   votesL.push(standardMove);
   var state = reduceState(initialState, votesL, votesR);
+  console.log(state);
+  renderGameState(state, i);
+}
 
-  //draw a circle
-  ctx.beginPath();
-  ctx.arc(state.ball.x, state.ball.y, 1, 0, Math.PI*2, true); 
-  ctx.closePath();
+
+
+ 
+function renderGameState(state, i) {
+  ctx.rect(0, 0, width, height);
+  ctx.fillStyle = 'black';
   ctx.fill();
+
+  //draw the ball
+  ctx.beginPath();
+  ctx.arc(state.ball.x, state.ball.y, ballSize, 0, Math.PI*2, true); 
+  ctx.closePath();
+  ctx.fillStyle = 'green';
+  ctx.fill();
+
+  //draw the paddles
+  ctx.rect(0, -0.5*paddleHeight + state.paddleL, paddleWidth, paddleHeight);
+  ctx.rect(width, -0.5*paddleHeight + state.paddleR, -paddleWidth, paddleHeight);
+  ctx.fillStyle = 'green';
+  ctx.fill();
+
+
   var fileName = (""+i).padStart(5, "0");
   writeCanvasToFile(canvas, './frames/'+fileName+'.png');
-  console.log(state);
-}
- 
-function renderGameState(state) {
-
 }
 
 function reduceState(initialState, votesL, votesR) {
