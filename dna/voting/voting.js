@@ -125,7 +125,7 @@ function reduceState(initialState, votesL, votesR) {
         votesL.reduce(ballReducer, initialState.ball));
 
     return {
-        ball: ballPos,
+        ball: { x: unwrapBallPos(ballPos.x, width), y: unwrapBallPos(ballPos.y, height) },
         paddleL: paddleL,
         paddleR: paddleR
     };
