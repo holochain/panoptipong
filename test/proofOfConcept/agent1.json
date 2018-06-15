@@ -54,7 +54,7 @@
 
     },
     {
-        "Time": 5000,
+        "Time": 4700,
         "Convey":"An agent Voting",
         "Zome": "voting",
         "FnName": "vote",
