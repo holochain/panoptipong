@@ -31,7 +31,7 @@ var Canvas = require('canvas')
 
 ctx.strokeStyle = 'rgba(0,0,0,0.5)';
 
-for(var i = 0; i < 300; i++) {
+for(var i = 0; i < 1000; i++) {
   // randomly vote up or down from each team
   votesL.push({
     move: Math.round(Math.random()*2 - 1), 
