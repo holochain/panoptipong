@@ -1,0 +1,57 @@
+{
+  "Tests":[
+    {
+        "Time": 2000,
+        "Convey":"An agent is registered and initially assigned to team L",
+        "Zome": "voting",
+        "FnName": "register",
+        "Input": {},
+        "RegExp":".*"
+    },
+    {
+        "Time": 4000,
+        "Convey":"An agent Voting",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move":0},
+        "Output":"%h1%",
+        "RegExp":".*"
+    },
+    {
+        "Time": 4010,
+        "Convey":"An agent Voting",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move":0},
+        "Output":"%h1%",
+        "RegExp":".*"
+    },
+    {
+        "Time": 4020,
+        "Convey":"An agent Voting",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move":1},
+        "Output":"%h1%",
+        "RegExp":".*"
+    },
+    {
+        "Time": 4050,
+        "Convey":"An agent Voting",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move":1},
+        "Output":"%h1%",
+        "RegExp":".*"
+    },
+    {
+      "Time": 4500,
+      "Convey": "The state of the ball for agent2 should be the same as state of agent1",
+      "Zome": "voting",
+      "FnName": "getState",
+      "Input": {},
+      "Output": {"ball":{"x":74.63711037056149,"y":64.63711037056153},"paddleL":55.19999999999999,"paddleR":52.599999999999994}
+
+    }
+  ]
+}

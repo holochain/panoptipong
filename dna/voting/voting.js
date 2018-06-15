@@ -106,13 +106,17 @@ var initialState = {
 function reduceState(initialState, votesL, votesR) {
 
     var paddleL =  votesL.reduce(function(acc, elem) {
+      if(elem.move!=-2){
         acc += vPaddle * (elem.move / elem.teamL.playerCount);
-        return acc;
+      }
+      return acc;
     }, initialState.paddleL);
 
     var paddleR = votesR.reduce(function(acc, elem){
+      if(elem.move!=-2){
         acc += vPaddle * (elem.move / elem.teamR.playerCount);
-        return acc;
+      }
+      return acc;
     }, initialState.paddleR);
 
     var ballReducer = function(acc, elem, i) {

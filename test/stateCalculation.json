@@ -28,12 +28,30 @@
         "Exposure":"public"
     },
     {
+        "Convey":"Calling reduceState a single vote of-2(NULL) on team left causes the left paddle to not move",
+        "Zome": "voting",
+        "FnName": "reduceState",
+        "Raw": true,
+        "Input": "reduceState(initialState, [{move: -2, teamL: {playerCount: 2}, teamR: {playerCount: 1}}], []).paddleL",
+        "Output": "50",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Calling reduceState a single vote of-2(NULL) and the next vote is 1 on team left causes the left paddle to move",
+        "Zome": "voting",
+        "FnName": "reduceState",
+        "Raw": true,
+        "Input": "reduceState(initialState, [{move: -2, teamL: {playerCount: 2}, teamR: {playerCount: 1}},{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}}], []).paddleL",
+        "Output": "51.3",
+        "Exposure":"public"
+    },
+    {
         "Convey":"Calling reduceState a single vote on team left causes the left paddle to move but only partially",
         "Zome": "voting",
         "FnName": "reduceState",
         "Raw": true,
-        "Input": "reduceState(initialState, [{move: 1, teamL: {playerCount: 2}, teamR: {playerCount: 1}}], []).paddleL",
-        "Output": "50.65",
+        "Input": "reduceState(initialState, [{move: -1, teamL: {playerCount: 2}, teamR: {playerCount: 1}}], []).paddleL",
+        "Output": "49.35",
         "Exposure":"public"
     }
   ]
