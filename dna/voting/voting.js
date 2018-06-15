@@ -7,7 +7,11 @@
 
 
 function getState() {
-  return reduceState(initialState, getVoteList('L'), getVoteList('L'));
+  return reduceState(initialState, getVoteList('L').map(function(elem){
+    return elem.Entry;
+  }), getVoteList('R').map(function(elem){
+    return elem.Entry;
+  }));
 }
 
 
