@@ -14,6 +14,7 @@
         "Zome": "voting",
         "FnName": "vote",
         "Input": {"move":1},
+        "Output":"%h1%",
         "RegExp":".*"
     },
     {
@@ -22,6 +23,7 @@
         "Zome": "voting",
         "FnName": "vote",
         "Input": {"move":1},
+        "Output":"%h1%",
         "RegExp":".*"
     },
     {
@@ -30,6 +32,7 @@
         "Zome": "voting",
         "FnName": "vote",
         "Input": {"move":1},
+        "Output":"%h1%",
         "RegExp":".*"
     },
     {
@@ -38,16 +41,35 @@
         "Zome": "voting",
         "FnName": "vote",
         "Input": {"move":1},
+        "Output":"%h1%",
         "RegExp":".*"
     },
     {
-      "Time": 5000,
-      "Convey": "The state of the ball for agent1",
+      "Time": 4500,
+      "Convey": "The state of the ball for agent1 should be the same as state of agent2" ,
       "Zome": "voting",
       "FnName": "getState",
       "Input": {},
       "Output": {"ball":{"x":73.01076477383243,"y":63.01076477383248},"paddleL":55.19999999999999,"paddleR":52.599999999999994}
 
+    },
+    {
+        "Time": 5000,
+        "Convey":"An agent Voting",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move":1},
+        "Output":"%h1%",
+        "RegExp":".*"
+    },
+    {
+      "Time": 5500,
+      "Convey": "The updatstate of the ball for agent1",
+      "Zome": "voting",
+      "FnName": "getState",
+      "Input": {},
+      "Output": {"ball":{"x":74.63711037056149,"y":64.63711037056153},"paddleL":56.499999999999986,"paddleR":52.599999999999994}
     }
+
   ]
 }
