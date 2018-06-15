@@ -1,7 +1,7 @@
 fs = require('fs');
 var Canvas = require('canvas')
 
-module.exports.renderGameState = function(state, i, boardParams) {
+module.exports.renderGameState = function(state, i, boardParams, path) {
 
   var Image = Canvas.Image, 
       canvas = new Canvas(boardParams.width, boardParams.height),
@@ -28,7 +28,7 @@ module.exports.renderGameState = function(state, i, boardParams) {
 
 
   var fileName = (""+i).padStart(5, "0");
-  writeCanvasToFile(canvas, './frames/'+fileName+'.png');
+  writeCanvasToFile(canvas, path+fileName+'.png');
 }
 
 function writeCanvasToFile(canvas, filename) {

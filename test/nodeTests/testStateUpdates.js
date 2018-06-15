@@ -42,7 +42,7 @@ for(var i = 0; i < 1000; i++) {
 
   var state = reduceState(initialState, votesL, votesR);
   console.log(state);
-  RenderPong.renderGameState(state, i, boardParams);
+  RenderPong.renderGameState(state, i, boardParams, './outputs/testStateUpdates/');
 }
 
 

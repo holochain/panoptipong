@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "canvas": "^1.6.11",
-    "leftpad": "0.0.1"
+    "leftpad": "0.0.1",
+    "sleep": "^5.1.1"
   }
 }
