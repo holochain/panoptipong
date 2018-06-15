@@ -46,7 +46,6 @@ function register() {
 
 
 function vote(payload) {
-  
 }
 
 /*=====  End of Public Functions  ======*/
@@ -75,15 +74,18 @@ function reduceState(initialState, votesL, votesR) {
 
     var paddleL =  votesL.reduce(function(acc, elem) {
         acc += vPaddle * (elem.move / elem.teamL.playerCount);
+        return acc;
     }, initialState.paddleL);
     
     var paddleR = votesR.reduce(function(acc, elem){
         acc += vPaddle * (elem.move / elem.teamR.playerCount);
+        return acc;
     }, initialState.paddleR);
     
     var ballReducer = function(acc, elem, i) {
         acc.x += initialBallVelocity.x / (elem.teamL.playerCount + elem.teamR.playerCount);
         acc.y += initialBallVelocity.y / (elem.teamL.playerCount + elem.teamR.playerCount);
+        return acc;
     }
     
     ballPos = votesR.reduce(ballReducer, 
