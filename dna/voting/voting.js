@@ -86,16 +86,21 @@ function vote(payload) {
 =            Local Zome Functions            =
 ============================================*/
 
-const vBall = 3.0 // how far the ball will move in a  'turn'
-const vPaddle = 1.3; // how far the paddle can possible move in a 'turn'
-const initialBallVelocity =  {x: vBall*Math.sqrt(2)+0.1, y: vBall*Math.sqrt(2)};
+var vBall = 3.0 // how far the ball will move in a  'turn'
+var vPaddle = 1.3; // how far the paddle can possible move in a 'turn'
+var initialBallVelocity = {x: vBall*Math.sqrt(2)+0.1, y: vBall*Math.sqrt(2)};
 
-const width=300, height=150;
-const paddleHeight = 30;
-const paddleWidth = 5;
-const ballSize = 3;
 
-const initialState = {
+var boardParams = {
+  width: 300,
+  height: 150,
+  paddleWidth: 5,
+  paddleHeight: 30,
+  ballSize:3
+};
+
+
+var initialState = {
   ball: {
       x: 60,
       y: 50
@@ -125,9 +130,9 @@ function reduceState(initialState, votesL, votesR) {
         votesL.reduce(ballReducer, initialState.ball));
 
     return {
-        ball: { x: unwrapBallPos(ballPos.x, width), y: unwrapBallPos(ballPos.y, height) },
-        paddleL: mod(paddleL, height),
-        paddleR: mod(paddleR, height)
+        ball: { x: unwrapBallPos(ballPos.x, boardParams.width), y: unwrapBallPos(ballPos.y, boardParams.height) },
+        paddleL: mod(paddleL, boardParams.height),
+        paddleR: mod(paddleR, boardParams.height)
     };
 }
 
