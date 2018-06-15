@@ -21,7 +21,7 @@ const initialState = {
 
 var votesL = [];
 var votesR = [];
-const standardMove = {move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 0}};
+var vote = {move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 0}};
 
 
 var Canvas = require('canvas')
@@ -32,13 +32,23 @@ var Canvas = require('canvas')
 ctx.strokeStyle = 'rgba(0,0,0,0.5)';
 
 for(var i = 0; i < 300; i++) {
-  votesL.push(standardMove);
+  // randomly vote up or down from each team
+  votesL.push({
+    move: Math.round(Math.random()*2 - 1), 
+    teamL: {playerCount: 1}, 
+    teamR: {playerCount: 1}
+  });
+
+  votesR.push({
+    move: Math.round(Math.random()*2 - 1), 
+    teamL: {playerCount: 1}, 
+    teamR: {playerCount: 1}
+  });
+
   var state = reduceState(initialState, votesL, votesR);
   console.log(state);
   renderGameState(state, i);
 }
-
-
 
  
 function renderGameState(state, i) {
