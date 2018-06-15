@@ -10,12 +10,30 @@
         "Exposure":"public"
     },
     {
-        "Convey":"Calling reduceState a single vote on team left causes the left paddle to move",
+        "Convey":"Calling reduceState with a single vote on team left causes the left paddle to move",
         "Zome": "voting",
         "FnName": "reduceState",
         "Raw": true,
-        "Input": "JSON.stringify(reduceState(initialState, [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}}], [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}}]))",
+        "Input": "reduceState(initialState, [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}}], []).paddleL",
         "Output": "51.3",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Calling reduceState with a single vote on team right causes the left paddle to move",
+        "Zome": "voting",
+        "FnName": "reduceState",
+        "Raw": true,
+        "Input": "reduceState(initialState, [], [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}}]).paddleR",
+        "Output": "51.3",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Calling reduceState a single vote on team left causes the left paddle to move but only partially",
+        "Zome": "voting",
+        "FnName": "reduceState",
+        "Raw": true,
+        "Input": "reduceState(initialState, [{move: 1, teamL: {playerCount: 2}, teamR: {playerCount: 1}}], []).paddleL",
+        "Output": "50.65",
         "Exposure":"public"
     }
   ]

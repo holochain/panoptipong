@@ -46,6 +46,7 @@ function register() {
 
 
 function vote(payload) {
+  
 }
 
 /*=====  End of Public Functions  ======*/
@@ -69,6 +70,7 @@ var initialState = {
   paddleL: 50,
   paddleR: 50
 }
+
 
 function reduceState(initialState, votesL, votesR) {
 

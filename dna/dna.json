@@ -77,17 +77,14 @@
           {
             "Name": "anchor",
             "CallingType": "json",
-            "Exposure": "public"
           },
           {
             "Name": "exists",
             "CallingType": "json",
-            "Exposure": "public"
           },
           {
             "Name": "anchors",
             "CallingType": "string",
-            "Exposure": "public"
           }
         ]
     }
