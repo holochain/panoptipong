@@ -126,11 +126,15 @@ function reduceState(initialState, votesL, votesR) {
 
     return {
         ball: { x: unwrapBallPos(ballPos.x, width), y: unwrapBallPos(ballPos.y, height) },
-        paddleL: paddleL,
-        paddleR: paddleR
+        paddleL: mod(paddleL, height),
+        paddleR: mod(paddleR, height)
     };
 }
 
+
+function mod(n, m) {
+  return ((n % m) + m) % m;
+}
 
 function unwrapBallPos(pos, size) {
   var k = Math.floor(pos / size) % 2;
