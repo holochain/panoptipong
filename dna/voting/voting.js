@@ -65,9 +65,6 @@ function vote(payload) {
   var nPlayersL = getLinks(anchor('members', 'L'), '').length;
   var nPlayersR = getLinks(anchor('members', 'R'), '').length;
 
-  //var nVotesL = getLinks(anchor('votes', 'L'), '').length;
-  //var nVotesR = getLinks(anchor('votes', 'R'), '').length;
-
   var nVotesL =countVotes("L");
   var nVotesR =countVotes("R");
 
@@ -158,8 +155,7 @@ Count the vote for one team
 
 //@param :  teamID:string
 function countVotes(teamID){
-  var voteLinks = getLinks(anchor(teamID,"GameID"), 'vote',{Load:true});
-  return Object.keys(voteLinks).length;
+  return getLinks(anchor(teamID,"GameID"), 'vote',{Load:true}).length;
 }
 
 /*
