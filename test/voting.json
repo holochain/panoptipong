@@ -6,8 +6,15 @@
         "FnName": "register",
         "Input": {},
         "Output": "L",
-        "Exposure":"public",
-        "Err": ""
+        "Exposure":"public"
+    },
+    {
+        "Convey":"The same agent cannot register again",
+        "Zome": "voting",
+        "FnName": "register",
+        "Input": {},
+        "Output": "AlreadyRegistered",
+        "Exposure":"public"
     }
   ]
 }

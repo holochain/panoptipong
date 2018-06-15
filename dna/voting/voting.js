@@ -19,11 +19,23 @@ function getState() {
 
 function register() {
   // get the number of agents in each team so far
-  var nMembersL = getLinks(anchor('members', 'L'), '').length;
-  var nMembersR = getLinks(anchor('members', 'R'), '').length;
+  var membersL = getLinks(anchor('members', 'L'), '');
+  var membersR = getLinks(anchor('members', 'R'), '');
+
+  // check the agent is not in any team already
+  var inL = membersL.some(function(elem) {
+    return elem.Hash ===  App.Key.Hash;
+  });
+  var inR = membersR.some(function(elem) {
+    return elem.Hash ===  App.Key.Hash;
+  });  
+
+  if( inL || inR) {
+    return "AlreadyRegistered";
+  }
 
   var team;
-  if(nMembersL <= nMembersR) {
+  if(membersL.length <= membersR.length) {
     team = 'L'
   } else {
     team = 'R'
