@@ -7,13 +7,7 @@
 
 
 function getState() {
-  var votesL = getLinks(anchor('votes', 'L'), '', { Load: true}).map(function(elem) {
-    return elem.Entry;
-  });
-  var votesR = getLinks(anchor('votes', 'R'), '', { Load: true}).map(function(elem) {
-    return elem.Entry;
-  });
-  return reduceState(initialState, votesL, votesR);
+  return reduceState(initialState, getVoteList('L'), getVoteList('L'));
 }
 
 
@@ -30,7 +24,7 @@ function register() {
     return elem.Hash ===  App.Key.Hash;
   });  
 
-  if( inL || inR) {
+  if( inL || inR ) {
     return "AlreadyRegistered";
   }
 
@@ -41,6 +35,7 @@ function register() {
     team = 'R'
   }
   joinTeam(team);
+  debug(team);
   return team;
 }
 

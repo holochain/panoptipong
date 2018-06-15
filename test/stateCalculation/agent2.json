@@ -1,7 +1,7 @@
 {
   "Tests":[
     {
-        "Time": 1000,
+        "Time": 2000,
         "Convey":"An agent is registered and initially assigned to team L",
         "Zome": "voting",
         "FnName": "register",
