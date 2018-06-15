@@ -65,26 +65,20 @@ function vote(payload) {
 
   var nPlayersL = getLinks(anchor('members', 'L'), '').length;
   var nPlayersR = getLinks(anchor('members', 'R'), '').length;
-  
+
   var nVotesL = getLinks(anchor('votes', 'L'), '').length;
   var nVotesR = getLinks(anchor('votes', 'R'), '').length;  
 
-  var voteHash = commit("vote", {
+  var vote = {
     move: move,
     teamL: {playerCount: nPlayersL, voteCount: nVotesL},
     teamR: {playerCount: nPlayersR, voteCount: nVotesR},
     agentHash: App.Key.Hash,
-    randomSalt: Math.random()
-  });
-
-  var team = getTeam();
-  if(['L', 'R'].indexOf(team) > 0) {
-    commit("voteLink", {
-      Links: [{Base: anchor('votes', team), Link: voteHash, tag: ''}]
-    });
-  } else {
-    return "NotRegistered"
+    randomSalt: ""+Math.random(),
+    teamID: getTeam()
   }
+
+  return castVote(vote);
 }
 
 /*=====  End of Public Functions  ======*/
@@ -137,6 +131,47 @@ function reduceState(initialState, votesL, votesR) {
         paddleR: paddleR
     }
 }
+
+
+//VOTE
+//vote = {teamID:"",move:"",teamL:{payerCount:"",voteCount:""},teamR:{payerCount:"",voteCount:""},agentHash:"",randomSalt:"",}
+//NOTE: if you want to have mutiple games, you woud need the GameID too;
+function castVote(vote){
+  if(anchorExists(vote.teamID,"GameID")==="false"){
+    anchor(vote.teamID,"GameID");
+  }
+
+  voteHash = commit("vote",vote);
+
+  // On the DHT, puts a link on my anchor to the new post
+  commit('voteLink', {
+    Links: [{ Base: anchor(vote.teamID,"GameID"), Link: voteHash, Tag: 'vote' }]
+  });
+
+
+  return voteHash;
+}
+
+/*
+Count the vote for one team
+*/
+
+//@param :  teamID:string
+function countVotes(teamID){
+  voteList=getVoteList(teamID);
+  return Object.keys(voteList).length;
+}
+
+/*
+Used for getting the list of votes commited
+*/
+//@param :  teamID:string
+function getVoteList(teamID) {
+  var voteLinks = getLinks(anchor(teamID,"GameID"), 'vote',{Load:true});
+  debug("Votes Casted by "+teamID+" : "+JSON.stringify(voteLinks));
+  return voteLinks;
+}
+
 
 
 function joinTeam(team) {

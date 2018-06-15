@@ -59,6 +59,11 @@
           "Name": "getTeam",
           "CallingType": "json",
           "Exposure": "public"
+        },
+        {
+          "Name": "getVoteList",
+          "CallingType": "string",
+          "Exposure": "private"
         }
       ],
       "Code": "'use strict'"
