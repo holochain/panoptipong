@@ -179,7 +179,7 @@ Used for getting the list of votes commited
 //@param :  teamID:string
 function getVoteList(teamID) {
   var voteLinks = getLinks(anchor(teamID,"GameID"), 'vote',{Load:true});
-  debug("Votes Casted by "+teamID+" : "+JSON.stringify(voteLinks));
+  // debug("Votes Casted by "+teamID+" : "+JSON.stringify(voteLinks));
   debug("Number of votes: "+Object.keys(voteLinks).length);
   return voteLinks;
 }
