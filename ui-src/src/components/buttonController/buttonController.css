@@ -1,37 +1,7 @@
-.button {
-  padding: 15px 25px;
-  font-size: 24px;
-  text-align: center;
-  cursor: pointer;
-  outline: none;
-  color: #fff;
-  border: .5px solid black;
-  border-radius: 15px;
-  box-shadow: 0 9px #999;
+.no-bullets {
+  list-style: none;
 }
 
-.button:hover {
-  background-color: #3e8e41;
-  padding-right: 0px;
-}
-
-.button:active {
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-}
-
-.button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-
-.button span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -15px;
-  transition: 0.5s;
+.button-wrapper {
+  margin: 10px auto;
 }
