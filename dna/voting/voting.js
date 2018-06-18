@@ -102,20 +102,20 @@ var initialState = {
   paddleR: 50
 };
 
-
+//Remove comments to include the -2(NUll Votes)
 function reduceState(initialState, votesL, votesR) {
 
     var paddleL =  votesL.reduce(function(acc, elem) {
-      if(elem.move!=-2){
+//      if(elem.move!=-2){
         acc += vPaddle * (elem.move / elem.teamL.playerCount);
-      }
+//      }
       return acc;
     }, initialState.paddleL);
 
     var paddleR = votesR.reduce(function(acc, elem){
-      if(elem.move!=-2){
+//      if(elem.move!=-2){
         acc += vPaddle * (elem.move / elem.teamR.playerCount);
-      }
+//      }
       return acc;
     }, initialState.paddleR);
 
