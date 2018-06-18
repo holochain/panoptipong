@@ -1,7 +1,8 @@
 #!/bin/bash
 counter=1
-n_agents=2
+n_agents=10
 initial_port=4140
+initial_dht_port=6000
 
 killall hcdev
 killall bs
@@ -17,9 +18,9 @@ do
   cp -r PostPongChain/test ./pongChain$counter
   cd  ./pongChain$counter
 
-  hcdev -agentID=$counter -bootstrapServer=localhost:3142 web $((initial_port + counter)) > ./hcdevlog.txt & 
+  hcdev -agentID=$counter -bootstrapServer=localhost:3142 -DHTport=$((initial_dht_port + counter)) web $((initial_port + counter)) > ./hcdevlog.txt & 
 
-  sleep 10
+  sleep 2
 
   cd ..
 
@@ -30,14 +31,13 @@ counter=1
 while [ $counter -le $n_agents ]
 do
 
-  sleep 10
+  sleep 0.5
 
-  cd ./pongChain$counter
+  cd ./pongChain$counter/test/nodeTests
 
-  node ./test/nodeTests/testHolochainRuntime.js $((initial_port + counter)) > ./agentlog.txt &
+  node testHolochainRuntime.js $((initial_port + counter)) > ../../agentlog.txt &
 
-
-  cd ..
+  cd ../../../
 
   ((counter++))
 done

@@ -2,7 +2,7 @@ const axios = require('axios');
 const sleep = require('sleep');
 const RenderPong = require('./renderPong')
 
-const nIter = 100;
+const nIter = 500;
 const waitTime = 5000; //ms
 
 const port = process.argv[2];
