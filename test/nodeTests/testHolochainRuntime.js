@@ -5,7 +5,8 @@ const RenderPong = require('./renderPong')
 const nIter = 100;
 const waitTime = 5000; //ms
 
-const HC_ENDPOINT = 'http://localhost:4141/fn/voting/';
+const port = process.argv[2];
+const HC_ENDPOINT = `http://localhost:${port}/fn/voting/`;
 const REGISTER = HC_ENDPOINT+'register';
 const VOTE = HC_ENDPOINT+'vote';
 const GET_STATE = HC_ENDPOINT+'getState';
@@ -17,8 +18,6 @@ const boardParams = {
   paddleHeight: 30,
   ballSize:3
 };
-
-
 
 
 // register on start
@@ -36,8 +35,8 @@ async function gameLoop() {
   for (var i = 0; i < nIter; i++) {
   
     console.log('interation: '+i);
-
-    await axios.post(VOTE, JSON.stringify({move: -1}))
+    let direction = Math.round((Math.random()*2 - 1));
+    await axios.post(VOTE, JSON.stringify({move: direction}))
 
     var response = await axios.post(GET_STATE)
     console.log(response.data);
