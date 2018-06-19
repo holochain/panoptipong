@@ -258,5 +258,16 @@ function getTeam() {
 }
 ```
 
-## 
+# Development
 
+Run two processes:
+
+```
+# run holochain local dev server
+hcdev web
+
+# run react dev server
+cd ui-src && npm start
+```
+
+Then go to http://localhost:3000
