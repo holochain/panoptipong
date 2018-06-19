@@ -1,0 +1,26 @@
+
+.Game-wrapper {
+  display: inline-block;
+  padding: 0 20px;
+  overflow-y: hidden;
+  border: 2px solid forestgreen;
+}
+
+.Game {
+  position: relative;
+/*  width: 100%;
+  height: 100%;*/
+  width: 500px;
+  height: 500px;
+  overflow: visible;
+}
+
+.Game .paddle {
+  background: sienna;
+  position: absolute;
+}
+
+.Game .ball {
+  background: turquoise;
+  position: absolute;
+}
