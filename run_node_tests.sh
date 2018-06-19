@@ -9,7 +9,7 @@ killall bs
 
 bs &
 
-sleep 10
+sleep 5
 
 while [ $counter -le $n_agents ]
 do
