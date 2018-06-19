@@ -10,6 +10,9 @@ storiesOf('Game', module)
   .add('nonsplit', () =>
     <Game ballX={10} ballY={20} leftPaddleY={30} rightPaddleY={40} />
   )
+  .add('paddle split', () =>
+    <Game ballX={10} ballY={20} leftPaddleY={95} rightPaddleY={4} />
+  )
 
 storiesOf('VoteButton', module)
   .add('default', () =>
