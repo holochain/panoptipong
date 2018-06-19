@@ -24,6 +24,12 @@
           "Sharing": "public"
         },
         {
+          "Name": "voteLocal",
+          "DataFormat": "json",
+          "SchemaFile": "vote.json",
+          "Sharing": "private"
+        },
+        {
           "Name": "teamDesignation",
           "DataFormat": "string",
           "Sharing": "private"

@@ -65,8 +65,8 @@ function vote(payload) {
   var nPlayersL = getLinks(anchor('members', 'L'), '').length;
   var nPlayersR = getLinks(anchor('members', 'R'), '').length;
 
-  var nVotesL =countVotes("L");
-  var nVotesR =countVotes("R");
+  var nVotesL =countVotes('L');
+  var nVotesR =countVotes('R');
 
   var vote = {
     move: move,
@@ -155,9 +155,11 @@ function castVote(vote){
   if(anchorExists(vote.teamID,"GameID")==="false"){
     anchor(vote.teamID,"GameID");
   }
-
+debug("COMMIT:")
   voteHash = commit("vote",vote);
   // On the DHT, puts a link on my anchor to the new post
+  debug("Link:")
+
   commit('voteLink', {
     Links: [{ Base: anchor(vote.teamID,"GameID"), Link: voteHash, Tag: 'vote' }]
   });
@@ -165,26 +167,57 @@ function castVote(vote){
   return voteHash;
 }
 
+function commitToLocal(entry_type,entry){
+    commit(entry_type,entry)
+}
+
+
 /*
 Count the vote for one team
 */
-
+/*
 //@param :  teamID:string
 function countVotes(teamID){
   return getLinks(anchor(teamID,"GameID"), 'vote',{Load:true}).length;
 }
-
+*/
+//@param :  teamID:string
+function countVotes(teamID){
+  return query({
+    Constrain: {
+      EntryTypes: ["voteLocal"],
+      Contains:JSON.stringify({"teamID":teamID})
+    }
+  }).length;
+}
 /*
 Used for getting the list of votes commited
 */
-//@param :  teamID:string
+/*//@param :  teamID:string
+
 function getVoteList(teamID) {
   var voteLinks = getLinks(anchor(teamID,"GameID"), 'vote',{Load:true});
   // debug("Votes Casted by "+teamID+" : "+JSON.stringify(voteLinks));
   debug("Number of votes: "+Object.keys(voteLinks).length);
   return voteLinks;
 }
+*/
 
+function getVoteList(teamID){
+  debug("GETING VOTES")
+  result=  query({
+    Return: {
+    Hashes: true,
+    Entries: true
+  },
+    Constrain: {
+      EntryTypes: ["voteLocal"],
+      Contains:JSON.stringify({"teamID":teamID})
+    }
+  });
+  debug(result);
+  return result;
+}
 
 
 function joinTeam(team) {
@@ -225,9 +258,18 @@ function genesis() {
 
 
 function validatePut(entry_type,entry,header,pkg,sources) {
-  return validateCommit(entry_type,entry,header,pkg,sources);
-}
+//  debug("PUT:: ENTRY TYPE: "+entry_type+" ENTRY: "+JSON.stringify(entry)+" HEADER:"+header+" PKG: "+pkg+" SOURCES: "+sources)
+
+  if(validateCommit(entry_type,entry,header,pkg,sources)==true){
+    if(entry_type=="vote")
+    commitToLocal("voteLocal",entry);
+    return true;
+  }
+  return false;
+  }
 function validateCommit(entry_type,entry,header,pkg,sources) {
+//  debug("COMMIT:: ENTRY TYPE: "+entry_type+" ENTRY: "+entry+" HEADER:"+header+" PKG: "+pkg+" SOURCES: "+sources)
+
     return true;
 }
 

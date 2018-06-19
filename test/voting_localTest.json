@@ -9,12 +9,14 @@
         "Exposure":"public"
     },
     {
-        "Convey":"Can vote on a move",
+        "Convey":"Set your initial Vote",
         "Zome": "voting",
         "FnName": "vote",
-        "Input": {"move": 0},
-        "RegExp": ".*",
-        "Repeat": 5
+        "Input": {"move":1},
+        "Output": "%h1%",
+        "Exposure":"public",
+        "Err": "",
+        "Regexp": ""
     },
     {
         "Convey":"Count the votes on the TeamL",
@@ -22,17 +24,11 @@
         "FnName": "countVotes",
         "Raw": true,
         "Input": "countVotes('L')",
-        "Output": "5",
+        "Output": "1",
         "Exposure":"public",
         "Err": "",
         "Regexp": ""
-    },
-    {
-      "Convey": "The state of the ball has been updated by voting",
-      "Zome": "voting",
-      "FnName": "getState",
-      "Input": {},
-      "Output": {"ball":{"x":81.71320343559643,"y":71.21320343559643},"paddleL":50,"paddleR":50}
     }
   ]
+
 }
