@@ -30,10 +30,9 @@ const pongReducer = function(state = initialState, action) {
         },
       }
     case actions.REGISTER:
-      return {
-        ...state,
-        team: payload,
-      }
+      const team = payload === 'L' || payload === 'R' ? {team: payload} : {}
+      console.log('team', team)
+      return Object.assign({...state}, team)
     default:
       return state
   }

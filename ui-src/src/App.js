@@ -16,12 +16,17 @@ import {
 class App extends Component {
 
   componentWillMount() {
-    this.props.register(() => {
+    this.props.register(data => {
       setInterval(this.props.getState, 500);
+      return data;
     })
   }
 
   render() {
+    const game = <Game ballX={10} ballY={20} leftPaddleY={30} rightPaddleY={40} />
+    const buttons = <ButtonController />
+    console.log(this.props)
+
     return (
       <div className="App">
         <header className="App-header">
@@ -29,13 +34,17 @@ class App extends Component {
           <h1 className="App-title">Holo's Post PongChain</h1>
         </header>
         <div className="game-and-controls">
-          <Game ballX={10} ballY={20} leftPaddleY={30} rightPaddleY={40} />
-          <ButtonController />
+          { this.props.team === 'L'
+            ? [buttons, game]
+            : [game, buttons]
+          }
         </div>
       </div>
     );
   }
 }
+
+const mapStateToProps = ({team}) => ({team})
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -48,4 +57,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

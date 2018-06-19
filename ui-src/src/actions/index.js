@@ -36,7 +36,6 @@ export function register(then) {
     meta: {
       isHc: true,
       namespace,
-      data: {},
       then,
     }
   }
