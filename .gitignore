@@ -7,7 +7,7 @@ ui-src/package-lock.json
 
 # OS generated files #
 ######################
-.DS_Store
+dna/.DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
