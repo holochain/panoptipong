@@ -1,3 +1,5 @@
+/* Based on https://codepen.io/pixelsailor/pen/MaBXbY */
+
 div {
   box-sizing: border-box;
 }
@@ -25,7 +27,7 @@ div {
 }
 
 .spinner.animate {
-  animation: rota 5s linear 1;
+  animation: rota 3s linear 1;
   animation-fill-mode: forwards;
 }
 
@@ -38,7 +40,7 @@ div {
 }
 
 .filler.animate {
-  animation: opa 5s steps(1, end) 1 reverse;
+  animation: opa 3s steps(1, end) 1 reverse;
   animation-fill-mode: forwards;
 }
 
@@ -52,7 +54,7 @@ div {
 }
 
 .mask.animate {
-  animation: opa 5s steps(1, end) 1;
+  animation: opa 3s steps(1, end) 1;
   animation-fill-mode: forwards;
 }
 
