@@ -3,20 +3,18 @@
 =============================================*/
 
 import { combineReducers } from 'redux';
+
 import * as actions from '../actions'
+import {gameDimensions} from '../config';
 
-export const gameDimensions = {
-  width: 200,
-  height: 100,
-}
-
-const initialState = {
-  game: {}
-}
 
 /*=============================================
 =              Reducer Logic
 =============================================*/
+
+const initialState = {
+  game: {}
+}
 
 const pongReducer = function(state = initialState, action) {
   const { payload } = action

@@ -2,32 +2,50 @@ import React, { Component, PropTypes } from "react";
 import "./ButtonController.css";
 import {connect} from 'react-redux';
 
+import {rateLimitInterval} from '../../config';
 import {vote} from '../../actions';
 import VoteButton from './VoteButton';
 
 class ButtonController extends Component {
 
+	constructor(props) {
+		super(props)
+		this.state = {
+			waiting: false
+		}
+	}
+
 	handleVote = move => event => {
 		this.props.vote({move})
+		this.activateWaiting()
+	}
+
+	activateWaiting = () => {
+		this.setState(
+			{waiting: true},
+			() => setTimeout(
+				() => this.setState({waiting: false}),
+				rateLimitInterval
+			)
+		)
 	}
 
 	render() {
-		const waiting = false
 		return (
 			<div className="ButtonController-wrapper">
 				<ul className="no-bullets">
 					<li>
-						<VoteButton disabled={waiting} handleVote={this.handleVote(-1)}>
+						<VoteButton disabled={this.state.waiting} handleVote={this.handleVote(-1)}>
 							Up
 						</VoteButton>
 					</li>
 					<li>
-						<VoteButton disabled={waiting} handleVote={this.handleVote(0)}>
+						<VoteButton disabled={this.state.waiting} handleVote={this.handleVote(0)}>
 							Stay
 						</VoteButton>
 					</li>
 					<li>
-						<VoteButton disabled={waiting} handleVote={this.handleVote(+1)}>
+						<VoteButton disabled={this.state.waiting} handleVote={this.handleVote(+1)}>
 							Down
 						</VoteButton>
 					</li>
