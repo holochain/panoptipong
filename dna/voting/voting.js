@@ -155,10 +155,10 @@ function castVote(vote){
   if(anchorExists(vote.teamID,"GameID")==="false"){
     anchor(vote.teamID,"GameID");
   }
-debug("COMMIT:")
+  debug("COMMIT Vote:")
   voteHash = commit("vote",vote);
   // On the DHT, puts a link on my anchor to the new post
-  debug("Link:")
+  debug("Link Vote:")
 
   commit('voteLink', {
     Links: [{ Base: anchor(vote.teamID,"GameID"), Link: voteHash, Tag: 'vote' }]
@@ -256,20 +256,24 @@ function genesis() {
   return true;
 }
 
+function validate(entry_type, entry, header, sources) {
+
+  return true;
+}
 
 function validatePut(entry_type,entry,header,pkg,sources) {
-//  debug("PUT:: ENTRY TYPE: "+entry_type+" ENTRY: "+JSON.stringify(entry)+" HEADER:"+header+" PKG: "+pkg+" SOURCES: "+sources)
-
+  debug("PUT:: ENTRY TYPE: "+entry_type+" ENTRY: "+JSON.stringify(entry)+" HEADER:"+header+" PKG: "+pkg+" SOURCES: "+sources)
+//debug("putting")
   if(validateCommit(entry_type,entry,header,pkg,sources)==true){
     if(entry_type=="vote")
-    commitToLocal("voteLocal",entry);
+      commitToLocal("voteLocal",entry);
     return true;
   }
   return false;
   }
 function validateCommit(entry_type,entry,header,pkg,sources) {
-//  debug("COMMIT:: ENTRY TYPE: "+entry_type+" ENTRY: "+entry+" HEADER:"+header+" PKG: "+pkg+" SOURCES: "+sources)
-
+//  debug("committing:: ENTRY TYPE: "+entry_type+" ENTRY: "+entry+" HEADER:"+header+" PKG: "+pkg+" SOURCES: "+sources)
+//debug("committing")
     return true;
 }
 
