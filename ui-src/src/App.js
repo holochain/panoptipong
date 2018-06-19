@@ -5,7 +5,21 @@ import Game from "./components/Game";
 import ButtonController from "./components/ButtonController";
 import "./components/Header";
 
+import {
+  register,
+  getState,
+  getTeam,
+} from './actions'
+
+
 class App extends Component {
+
+  componentWillMount() {
+    this.props.register(() => {
+      setInterval(this.props.getState, 1000);
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -21,3 +35,20 @@ class App extends Component {
 }
 
 export default App;
+
+// const mapStateToProps = state => {
+//   return {
+//     ...state
+//   }
+// }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    register: () => {
+      dispatch(register())
+    },
+    getState: () => {
+      dispatch(getState())
+    },
+  }
+}

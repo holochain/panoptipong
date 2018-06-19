@@ -1,5 +1,5 @@
 /*=============================================
-=            Action Exports           
+=            Action Exports
 =============================================*/
 // UI actions
 export const TOGGLE_MODAL = 'toggleModal'
@@ -13,8 +13,9 @@ export const APP_PROPERTY = "appProperty"
 
 
 /*=============================================
-=            Action Definitions           
+=            Action Definitions
 =============================================*/
+
 // Holochain actions
 export function appProperty(appState, then) {
   return {
@@ -38,16 +39,6 @@ export function register() {
   }
 }
 
-export function getTeam() {
-  return {
-    type: GET_TEAM,
-    meta: {
-      isHc: true,
-      namespace: "postPongChain"
-    }
-  }
-}
-
 export function vote(payload) {
   return {
     type: VOTE,
@@ -59,24 +50,12 @@ export function vote(payload) {
   }
 }
 
-export function getState(initialState, votesL, votesR) {
+export function getState() {
   return {
     type: GET_STATE,
     meta: {
       isHc: true,
       namespace: "postPongChain",
-      data: {
-        initialState: initialState,
-        votesL: votesL,
-        votesR: votesR
-      }
     }
-  }
-}
-
-//UI Action:
-export function toggleModal() {
-  return {
-    type: TOGGLE_MODAL
   }
 }

@@ -1,31 +1,13 @@
 import React, { Component, PropTypes } from "react";
 import "./ButtonController.css";
 
+import {vote} from '../../actions';
 import VoteButton from './VoteButton';
 
 class ButtonController extends Component {
-	// static propTypes = {
-	// 	upCount: PropTypes.number,
-	// 	stayCount: PropTypes.number,
-	// 	downCount: PropTypes.number
-	// };
 
-	// static defaultProps = {
-	// 	upCount: 0,
-	// 	stayCount: 0,
-	// 	downCount: 0
-	// };
-
-
-	handleInputChange = event => {
-	    let { name, value } = event.target;
-	    if (name === "upCount"){
-	    	value += 1
-	    }
-	   	else if (name === "downCount"){
-	    	value -= 1
-	    }
-	    console.log('TODO: action: ', value)
+	handleVote = move => event => {
+		vote({move})
 	}
 
 	render() {
@@ -34,17 +16,17 @@ class ButtonController extends Component {
 			<div>
 				<ul className="no-bullets">
 					<li>
-						<VoteButton disabled={waiting} handleVote={this.handleChange}>
+						<VoteButton disabled={waiting} handleVote={this.handleVote(-1)}>
 							Up
 						</VoteButton>
 					</li>
 					<li>
-						<VoteButton disabled={waiting} handleVote={this.handleChange}>
+						<VoteButton disabled={waiting} handleVote={this.handleVote(0)}>
 							Stay
 						</VoteButton>
 					</li>
 					<li>
-						<VoteButton disabled={waiting} handleVote={this.handleChange}>
+						<VoteButton disabled={waiting} handleVote={this.vote(1)}>
 							Down
 						</VoteButton>
 					</li>

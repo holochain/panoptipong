@@ -2,6 +2,12 @@ import React, { Component } from "react";
 
 import './Game.css';
 
+import {
+  vote,
+} from '../actions'
+
+import {connect} from 'react-redux';
+
 
 /*=============================================
 =              Game Logic
@@ -57,4 +63,6 @@ const Game = ({ballX, ballY, leftPaddleY, rightPaddleY}) => {
 	);
 }
 
-export default Game;
+const mapStateToProps = state => state.game
+
+export default connect(mapStateToProps)(Game);
