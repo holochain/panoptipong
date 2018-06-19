@@ -17,7 +17,7 @@ class App extends Component {
 
   componentWillMount() {
     this.props.register(() => {
-      setInterval(this.props.getState, 500);
+      setInterval(this.props.getState, 250);
     })
   }
 
@@ -28,8 +28,10 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Holo's Post PongChain</h1>
         </header>
-        <Game ballX={10} ballY={20} leftPaddleY={30} rightPaddleY={40} />
-        <ButtonController />
+        <div className="game-and-controls">
+          <Game ballX={10} ballY={20} leftPaddleY={30} rightPaddleY={40} />
+          <ButtonController />
+        </div>
       </div>
     );
   }

@@ -92,8 +92,8 @@ var initialBallVelocity = {x: vBall*Math.sqrt(2)+0.1, y: vBall*Math.sqrt(2)};
 
 
 var boardParams = {
-  width: 300,
-  height: 150,
+  width: 200,
+  height: 100,
   paddleWidth: 5,
   paddleHeight: 30,
   ballSize:3

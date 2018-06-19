@@ -8,14 +8,13 @@ import VoteButton from './VoteButton';
 class ButtonController extends Component {
 
 	handleVote = move => event => {
-		console.log("voted", move)
 		this.props.vote({move})
 	}
 
 	render() {
 		const waiting = false
 		return (
-			<div>
+			<div className="ButtonController-wrapper">
 				<ul className="no-bullets">
 					<li>
 						<VoteButton disabled={waiting} handleVote={this.handleVote(-1)}>

@@ -21,7 +21,7 @@ const pongReducer = function(state = initialState, action) {
       return {
         ...state,
         game: {
-          ballX: payload.ball.x,
+          ballX: payload.ball.x / 2,
           ballY: payload.ball.y,
           leftPaddleY: payload.paddleL,
           rightPaddleY: payload.paddleR,
