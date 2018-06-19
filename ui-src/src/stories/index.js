@@ -5,14 +5,7 @@ import { action } from '@storybook/addon-actions';
 import VoteButton from '../components/ButtonController/VoteButton';
 import ButtonController from '../components/ButtonController';
 import Game from '../components/Game';
-
-storiesOf('Game', module)
-  .add('nonsplit', () =>
-    <Game ballX={10} ballY={20} leftPaddleY={30} rightPaddleY={40} />
-  )
-  .add('paddle split', () =>
-    <Game ballX={10} ballY={20} leftPaddleY={95} rightPaddleY={4} />
-  )
+import App from '../App';
 
 storiesOf('VoteButton', module)
   .add('default', () =>
@@ -31,3 +24,16 @@ storiesOf('ButtonController', module)
     <ButtonController />
   );
 
+
+storiesOf('Game', module)
+  .add('nonsplit', () =>
+    <Game ballX={10} ballY={20} leftPaddleY={30} rightPaddleY={40} />
+  )
+  .add('paddle split', () =>
+    <Game ballX={10} ballY={20} leftPaddleY={95} rightPaddleY={4} />
+  )
+
+storiesOf('App', module)
+  .add('initial state', () =>
+    <App />
+  )

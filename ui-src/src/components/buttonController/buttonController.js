@@ -16,10 +16,6 @@ class ButtonController extends Component {
 	// 	downCount: 0
 	// };
 
-	constructor(props) {
-		super(props);
-	}
-
 
 	handleInputChange = event => {
 	    let { name, value } = event.target;
@@ -33,21 +29,22 @@ class ButtonController extends Component {
 	}
 
 	render() {
+		const waiting = true
 		return (
 			<div>
 				<ul className="no-bullets">
 					<li>
-						<VoteButton handleVote={this.handleChange}>
+						<VoteButton disabled={waiting} handleVote={this.handleChange}>
 							Up
 						</VoteButton>
 					</li>
 					<li>
-						<VoteButton handleVote={this.handleChange}>
+						<VoteButton disabled={waiting} handleVote={this.handleChange}>
 							Stay
 						</VoteButton>
 					</li>
 					<li>
-						<VoteButton handleVote={this.handleChange}>
+						<VoteButton disabled={waiting} handleVote={this.handleChange}>
 							Down
 						</VoteButton>
 					</li>

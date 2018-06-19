@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import "./containers/Game";
+import Game from "./components/Game";
+import ButtonController from "./components/ButtonController";
 import "./components/Header";
 
 class App extends Component {
@@ -12,10 +13,8 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Holo's Post PongChain</h1>
         </header>
-        <p className="App-intro">
-          </Header>
-          </Game>
-        </p>
+        <Game ballX={10} ballY={20} leftPaddleY={30} rightPaddleY={40} />
+        <ButtonController />
       </div>
     );
   }
