@@ -1,5 +1,5 @@
 const axios = require('axios');
-const sleep = require('sleep');
+//const sleep = require('sleep');
 const RenderPong = require('./renderPong')
 
 const nIter = 100;
@@ -34,7 +34,6 @@ axios.post(REGISTER)
 
 async function gameLoop() {
   for (var i = 0; i < nIter; i++) {
-  
     console.log('interation: '+i);
 
     await axios.post(VOTE, JSON.stringify({move: -1}))
@@ -44,4 +43,3 @@ async function gameLoop() {
     RenderPong.renderGameState(response.data, i, boardParams, './outputs/testHolochainRuntime/');
   }
 }
-
