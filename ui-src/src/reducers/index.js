@@ -4,7 +4,7 @@
 
 import { combineReducers } from 'redux';
 import * as actions from '../actions'
-
+import {gameDimensions} from '../config';
 
 const initialState = {
   game: {}

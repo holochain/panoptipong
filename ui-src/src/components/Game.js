@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {connect} from 'react-redux';
 
 import './Game.css';
 
@@ -6,7 +7,8 @@ import {
   vote,
 } from '../actions'
 
-import {connect} from 'react-redux';
+import {gameDimensions} from '../config';
+
 
 
 /*=============================================

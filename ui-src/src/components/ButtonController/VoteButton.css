@@ -14,14 +14,14 @@
   position: relative;
 }
 
+.button:hover {
+  background-color: #3e8e41;
+}
+
 .button.active {
   background: cornflowerblue;
 }
 
-.button:hover {
-  background-color: #3e8e41;
-  padding-right: 0px;
-}
 
 .button:active {
   box-shadow: 0 5px #666;
