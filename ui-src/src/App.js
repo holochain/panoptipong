@@ -1,21 +1,49 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import Game from "./components/Game";
+import ButtonController from "./components/ButtonController";
+import "./components/Header";
+import {connect} from 'react-redux';
+
+import {
+  register,
+  getState,
+  getTeam,
+} from './actions'
+
 
 class App extends Component {
+
+  componentWillMount() {
+    this.props.register(() => {
+      setInterval(this.props.getState, 500);
+    })
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Holo's Post PongChain</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Game ballX={10} ballY={20} leftPaddleY={30} rightPaddleY={40} />
+        <ButtonController />
       </div>
     );
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+  return {
+    register: (then) => {
+      dispatch(register(then))
+    },
+    getState: () => {
+      dispatch(getState())
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App);

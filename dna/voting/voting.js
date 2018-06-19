@@ -109,6 +109,7 @@ var initialState = {
   paddleR: 50
 };
 
+
 function reduceState(initialState, votesL, votesR) {
 
     var paddleL =  votesL.reduce(function(acc, elem) {
