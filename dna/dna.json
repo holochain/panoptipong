@@ -99,22 +99,17 @@
         ]
     },
     {
-    "Name": "peerVis",
-    "Desription": "show whos online",
-    "CodeFile": "peerVis.js",
+    "Name": "getLinks",
+    "Desription": "Exposes getLinks functionality to the web interface",
+    "CodeFile": "getLinks.js",
     "RibosomeType": "js",
     "Config": {
       "ErrorHandling": "throwErrors"
     },
-    "Entries": [
-      {
-        "Name": "peerLink",
-        "DataFormat": "links"
-      }
-    ],
+    "Entries": [],
     "Functions": [
         {
-          "Name": "getPeers",
+          "Name": "getLinks",
           "CallingType": "json",
           "Exposure": "public"
         }
