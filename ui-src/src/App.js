@@ -17,7 +17,7 @@ class App extends Component {
 
   componentWillMount() {
     this.props.register(() => {
-      setInterval(this.props.getState, 250);
+      setInterval(this.props.getState, 500);
     })
   }
 
