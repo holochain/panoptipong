@@ -17,6 +17,9 @@ storiesOf('VoteButton', module)
   .add('active & disabled', () =>
     <VoteButton active={true} disabled={true}>A & D</VoteButton>
   )
+  .add('clickability', () =>
+    <VoteButton active={false} disabled={false} handleVote={e => console.log('voted')}>Default</VoteButton>
+  )
 
 
 storiesOf('ButtonController', module)

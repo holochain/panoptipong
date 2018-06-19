@@ -11,6 +11,7 @@ export const VOTE = "vote"
 export const GET_STATE = "getState"
 export const APP_PROPERTY = "appProperty"
 
+const namespace = 'voting'
 
 /*=============================================
 =            Action Definitions
@@ -22,30 +23,32 @@ export function appProperty(appState, then) {
     type: APP_PROPERTY,
     meta: {
       isHc: true,
-      namespace: 'postPongChain',
+      namespace,
       data: appState,
       then
     }
   }
 }
 
-export function register() {
+export function register(then) {
   return {
     type: REGISTER,
     meta: {
       isHc: true,
-      namespace: "postPongChain",
+      namespace,
+      data: {},
+      then,
     }
   }
 }
 
-export function vote(payload) {
+export function vote(data) {
   return {
     type: VOTE,
     meta: {
       isHc: true,
-      namespace: "postPongChain",
-      data: payload
+      namespace,
+      data
     }
   }
 }
@@ -55,7 +58,7 @@ export function getState() {
     type: GET_STATE,
     meta: {
       isHc: true,
-      namespace: "postPongChain",
+      namespace,
     }
   }
 }

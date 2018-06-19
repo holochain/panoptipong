@@ -4,6 +4,7 @@ import "./App.css";
 import Game from "./components/Game";
 import ButtonController from "./components/ButtonController";
 import "./components/Header";
+import {connect} from 'react-redux';
 
 import {
   register,
@@ -16,7 +17,7 @@ class App extends Component {
 
   componentWillMount() {
     this.props.register(() => {
-      setInterval(this.props.getState, 1000);
+      setInterval(this.props.getState, 500);
     })
   }
 
@@ -34,21 +35,15 @@ class App extends Component {
   }
 }
 
-export default App;
-
-// const mapStateToProps = state => {
-//   return {
-//     ...state
-//   }
-// }
-
 const mapDispatchToProps = dispatch => {
   return {
-    register: () => {
-      dispatch(register())
+    register: (then) => {
+      dispatch(register(then))
     },
     getState: () => {
       dispatch(getState())
     },
   }
 }
+
+export default connect(null, mapDispatchToProps)(App);

@@ -6,13 +6,17 @@ import { combineReducers } from 'redux';
 import * as actions from '../actions'
 
 
+const initialState = {
+  game: {}
+}
+
 /*=============================================
 =              Reducer Logic
 =============================================*/
 
-const pongReducer = function(state = {}, action) {
-  const { actionType, meta, payload } = action
-  switch (actionType) {
+const pongReducer = function(state = initialState, action) {
+  const { payload } = action
+  switch (action.type) {
     case actions.GET_STATE:
       return {
         ...state,
@@ -33,4 +37,4 @@ const pongReducer = function(state = {}, action) {
   }
 }
 
-export default pongApp;
+export default pongReducer;

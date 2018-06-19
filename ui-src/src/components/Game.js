@@ -50,7 +50,9 @@ const PongBall = ({x, y}) => {
 	return <div className="ball" style={style}></div>
 }
 
-const Game = ({ballX, ballY, leftPaddleY, rightPaddleY}) => {
+const Game = (props) => {
+	const {ballX, ballY, leftPaddleY, rightPaddleY} = props
+	console.log('game props', props)
 
 	return (
 		<div className="Game-wrapper">
