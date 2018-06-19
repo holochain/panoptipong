@@ -19,9 +19,12 @@
   opacity: 1;
 }
 
+.button[disabled] {
+  opacity: 0.75;
+  color: #bbb;
+}
 
 .button.active, .button:active {
-  /*box-shadow: 0 5px #666;*/
   transform: scale(1.3);
   opacity: 0.75;
 }
