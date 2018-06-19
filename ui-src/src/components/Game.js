@@ -6,6 +6,8 @@ import {
   vote,
 } from '../actions'
 
+import {gameDimensions} from '../reducers';
+
 import {connect} from 'react-redux';
 
 
@@ -37,8 +39,8 @@ const Paddle = ({y, side}) => {
 }
 
 const PongBall = ({x, y}) => {
-	const width = 5.0;
-	const height = 5.0;
+	const width = 5.0 * 100 / gameDimensions.width;
+	const height = 5.0 * 100 / gameDimensions.height;
 	const left = x - (width / 2)
 	const top = y - (height / 2)
 	const style = {

@@ -18,9 +18,11 @@
 .Game .paddle {
   background: sienna;
   position: absolute;
+  transition: top 200ms;
 }
 
 .Game .ball {
   background: turquoise;
   position: absolute;
+  transition: top 200ms, left 200ms;
 }
