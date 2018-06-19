@@ -1,6 +1,6 @@
 #!/bin/bash
 counter=1
-n_agents=10
+n_agents=2
 initial_port=4140
 initial_dht_port=6000
 
