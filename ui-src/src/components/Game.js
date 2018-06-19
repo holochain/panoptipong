@@ -15,16 +15,16 @@ import {gameDimensions} from '../config';
 =============================================*/
 
 const Paddle = ({y, side}) => {
-	const width = 5.0;
-	const height = 20.0;
-	const sideStyle = side == 'left' ? {left: `-${width}%`} : {right: `-${width}%`};
+	const widthPx = "12px";
+	const heightPct = 20.0;
+	const sideStyle = side == 'left' ? {left: `-${widthPx}`} : {right: `-${widthPx}`};
 
 	const SubPaddle = ({y}) => {
-		const top = y - (height / 2)
+		const top = y - (heightPct / 2)
 		const style = Object.assign({
 			top: `${top}%`,
-			width: `${width}%`,
-			height: `${height}%`,
+			width: `${widthPx}`,
+			height: `${heightPct}%`,
 		}, sideStyle)
 		return <div className="paddle" style={style}></div>
 	}
@@ -58,6 +58,7 @@ const Game = (props) => {
 	return (
 		<div className="Game-wrapper">
 			<div className="Game">
+				<div className="midpoint"/>
 				<Paddle side="left" y={leftPaddleY} />
 				<Paddle side="right" y={rightPaddleY} />
 				<PongBall x={ballX} y={ballY} />

@@ -36,17 +36,17 @@ class ButtonController extends Component {
 				<ul className="no-bullets">
 					<li>
 						<VoteButton disabled={this.state.waiting} handleVote={this.handleVote(-1)}>
-							Up
+							<i class="fas fa-chevron-up"></i>
 						</VoteButton>
 					</li>
 					<li>
 						<VoteButton disabled={this.state.waiting} handleVote={this.handleVote(0)}>
-							Stay
+							<i class="fas fa-ellipsis-h"></i>
 						</VoteButton>
 					</li>
 					<li>
 						<VoteButton disabled={this.state.waiting} handleVote={this.handleVote(+1)}>
-							Down
+							<i class="fas fa-chevron-down"></i>
 						</VoteButton>
 					</li>
 				</ul>
