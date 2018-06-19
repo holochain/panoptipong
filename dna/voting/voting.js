@@ -28,9 +28,8 @@ function register() {
     return elem.Hash ===  App.Key.Hash;
   });
 
-  if( inL || inR ) {
-    return "AlreadyRegistered";
-  }
+  if(inL) { return 'L' }
+  if(inR) { return 'R' }
 
   var team;
   if(membersL.length <= membersR.length) {
