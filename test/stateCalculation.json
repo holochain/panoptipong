@@ -35,6 +35,15 @@
         "Input": "calcState(initialState, [{move: -1, teamL: {playerCount: 2}, teamR: {playerCount: 1}, teamID: 'L'}], boardParams).paddleL",
         "Output": "49.35",
         "Exposure":"public"
+    },
+    {
+        "Convey":"Calling calcState at the boundary of the board causes ballMovingLeft to flip state",
+        "Zome": "voting",
+        "FnName": "calcState",
+        "Raw": true,
+        "Input": "calcState({ball: {x: 199, y:45}, paddleL: 41, paddleR: 33, scoreL: 0, scoreR: 0, ballMovingLeft: false}, [{move: -1, teamL: {playerCount: 1}, teamR: {playerCount: 1}, teamID: 'L'}], boardParams).ballMovingLeft",
+        "Output": "true",
+        "Exposure":"public"      
     }
   ]
 }

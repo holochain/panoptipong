@@ -125,8 +125,8 @@ var initialState = {
 function calcState(initialState, sortedVotes, boardParams) {
 
   function isCollision(paddleY, ballY) {
-    paddleY = mod(paddleL, boardParams.height);
-    ballY = unwrapBallPos(ball.y, boardParams.height);
+    paddleY = mod(paddleY, boardParams.height);
+    ballY = unwrapBallPos(ballY, boardParams.height);
     var h = boardParams.paddleHeight;
     return ballY <= paddleY + h/2 && ballY >= paddleY - h/2;
   }
