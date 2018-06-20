@@ -169,8 +169,11 @@ function castVote(vote){
   return voteHash;
 }
 
-function commitToLocal(entry_type,entry){
-    commit(entry_type,entry)
+function commitToLocal(triggeredEntry,entry_type,entry){
+  debug("TriggeredEntry: "+triggeredEntry);
+  debug("commitToLocal : "+JSON.stringify(entry));
+  hash=  commit(entry_type,entry);
+    debug("Local Commit Hash : "+hash);
 }
 
 
@@ -267,12 +270,14 @@ function validatePut(entry_type,entry,header,pkg,sources) {
 //  debug("PUT:: ENTRY TYPE: "+entry_type+" ENTRY: "+JSON.stringify(entry)+" HEADER:"+header+" PKG: "+pkg+" SOURCES: "+sources)
 //debug("putting")
   if(validateCommit(entry_type,entry,header,pkg,sources)==true){
-//    if(entry_type=="vote")
-//    debug("COMMITING LOCALY->")
-      commitToLocal("voteLocal",entry);
+
+  //debug("COMMITING LOCALY->"+entry_type);
+  //  if(entry_type!="voteLink" && entry_type!="teamLink")
+    if(entry_type=="vote" || entry_type=="voteLocal")
+         commitToLocal(entry_type,"voteLocal",entry);
     return true;
   }
-  return false;
+  return true;
   }
 function validateCommit(entry_type,entry,header,pkg,sources) {
 //  debug("committing:: ENTRY TYPE: "+entry_type+" ENTRY: "+entry+" HEADER:"+header+" PKG: "+pkg+" SOURCES: "+sources)
