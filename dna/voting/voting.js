@@ -138,7 +138,6 @@ function calcState(initialState, sortedVotes, boardParams) {
     var paddleR = state.paddleR;
     var scoreL = state.scoreL;
     var scoreR = state.scoreR;
-    
     var ball = {
       x : state.ball.x + boardParams.vBallx / totalPlayers,
       y : state.ball.y + boardParams.vBally / totalPlayers
@@ -168,7 +167,20 @@ function calcState(initialState, sortedVotes, boardParams) {
     }
   }
 
-  return sortedVotes.reduce(reduceState, initialState)
+  var reducedState = sortedVotes.reduce(reduceState, initialState);
+
+  return {
+    paddleL: mod(reducedState.paddleL, boardParams.height),
+    paddleR: mod(reducedState.paddleR, boardParams.height),
+    ball: {
+      x: unwrapBallPos(reducedState.ball.x, boardParams.width),
+      y: unwrapBallPos(reducedState.ball.y, boardParams.height),
+    },
+    scoreL: reducedState.scoreL,
+    scoreR: reducedState.scoreR,
+    ballMovingLeft: reducedState.ballMovingLeft,
+  }
+
 }
 
 function voteStamp(vote) {
