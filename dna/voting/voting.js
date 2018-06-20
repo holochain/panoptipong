@@ -7,16 +7,26 @@
 
 
 function getState() {
-  return reduceState(initialState, getVoteList('L').map(function(elem){
-    return elem.Entry;
-  }), getVoteList('R').map(function(elem){
-    return elem.Entry;
-  }));
+  var sortedVotes =
+    getVoteList('L')
+    .concat(getVoteList('R'))
+    .map(function (item) { return item.Entry })
+    .sort(compareVotes);
+  return calcState(initialState, sortedVotes);
 }
 
-//REGESTERD YOUR AGENT
-function register() {
+function compareVotes(a, b) {
+  var totalVotesA = a.teamL.voteCount + a.teamR.voteCount;
+  var totalVotesB = b.teamL.voteCount + b.teamR.voteCount;
+  if (totalVotesA === totalVotesB) {
+    return makeHash('vote', a) < makeHash('vote', b) ? -1 : 1
+  } else {
+    return totalVotesA - totalVotesB;
+  }
+}
 
+// REGISTERED YOUR AGENT
+function register() {
 
   // get the number of agents in each team so far
   var membersL = getLinks(anchor('members', 'L'), '');
@@ -40,7 +50,6 @@ function register() {
     team = 'R';
   }
   joinTeam(team);
-  debug(team);
   return team;
 }
 
@@ -87,8 +96,8 @@ function vote(payload) {
 =            Local Zome Functions            =
 ============================================*/
 
-var vBall = 3.0 // how far the ball will move in a  'turn'
-var vPaddle = 1.3; // how far the paddle can possible move in a 'turn'
+var vBall = 10.0 // how far the ball will move in a  'turn'
+var vPaddle = 5.; // how far the paddle can possible move in a 'turn'
 var initialBallVelocity = {x: vBall*Math.sqrt(2)+0.1, y: vBall*Math.sqrt(2)};
 
 
@@ -107,37 +116,79 @@ var initialState = {
       y: 50
   },
   paddleL: 50,
-  paddleR: 50
+  paddleR: 50,
+  scoreL: 0,
+  scoreR: 0,
+  ballMovingLeft: initialBallVelocity.x < 0,
 };
 
 
-function reduceState(initialState, votesL, votesR) {
+function calcState(initialState, sortedVotes) {
 
-    var paddleL =  votesL.reduce(function(acc, elem) {
-        return acc + vPaddle * (elem.move / elem.teamL.playerCount);
-    }, initialState.paddleL);
+  function isCollision(paddleY, ballY) {
+    paddleY = mod(paddleY, boardParams.height);
+    ballY = unwrapBallPos(ballY, boardParams.height);
+    var h = boardParams.paddleHeight;
+    return ballY <= paddleY + h/2 && ballY >= paddleY - h/2;
+  }
 
-    var paddleR = votesR.reduce(function(acc, elem){
-        return acc + vPaddle * (elem.move / elem.teamR.playerCount);
-    }, initialState.paddleR);
+  function reduceState(state, vote) {
+    var teamID = vote.teamID;
+    var totalPlayers = vote.teamL.playerCount + vote.teamR.playerCount;
+    var paddleL = state.paddleL;
+    var paddleR = state.paddleR;
+    var scoreL = state.scoreL;
+    var scoreR = state.scoreR;
+    
+    var ball = {
+      x : state.ball.x + initialBallVelocity.x / totalPlayers,
+      y : state.ball.y + initialBallVelocity.y / totalPlayers
+    }
 
-    var ballReducer = function(acc, elem, i) {
-        return {
-          x : acc.x + initialBallVelocity.x / (elem.teamL.playerCount + elem.teamR.playerCount),
-          y : acc.y + initialBallVelocity.y / (elem.teamL.playerCount + elem.teamR.playerCount)
-        };
-    };
+    if (vote.teamID === 'L') {
+      paddleL += vPaddle * (vote.move / vote.teamL.playerCount);
+    } else {
+      paddleR += vPaddle * (vote.move / vote.teamR.playerCount);
+    }
 
-    var ballPos = votesR.reduce(ballReducer,
-        votesL.reduce(ballReducer, initialState.ball));
-
+    var ballMovingLeft = Boolean(Math.floor(ball.x / boardParams.width) % 2);
+    if (ballMovingLeft !== state.ballMovingLeft) {
+      if (!ballMovingLeft && !isCollision(paddleL, ball.y)) {
+        scoreR += 1;
+      } else if (ballMovingLeft && !isCollision(paddleR, ball.y)) {
+        scoreL += 1;
+      }
+    }
     return {
-        ball: { x: unwrapBallPos(ballPos.x, boardParams.width), y: unwrapBallPos(ballPos.y, boardParams.height) },
-        paddleL: mod(paddleL, boardParams.height),
-        paddleR: mod(paddleR, boardParams.height)
-    };
+      ball: ball,
+      paddleL: paddleL,
+      paddleR: paddleR,
+      scoreL: scoreL,
+      scoreR: scoreR,
+      ballMovingLeft: ballMovingLeft,
+    }
+  }
+
+  var reducedState = sortedVotes.reduce(reduceState, initialState);
+
+  return {
+    paddleL: unwrapBallPos(reducedState.paddleL, boardParams.height),
+    paddleR: unwrapBallPos(reducedState.paddleR, boardParams.height),
+    ball: {
+      x: unwrapBallPos(reducedState.ball.x, boardParams.width),
+      y: unwrapBallPos(reducedState.ball.y, boardParams.height),
+    },
+    scoreL: reducedState.scoreL,
+    scoreR: reducedState.scoreR,
+    ballMovingLeft: reducedState.ballMovingLeft,
+  }
+
 }
 
+function voteStamp(vote) {
+  var totalVotes = vote.teamL.voteCount + vote.teamR.voteCount;
+  return String(totalVotes) + makeHash('vote', vote);
+}
 
 function mod(n, m) {
   return ((n % m) + m) % m;
@@ -181,8 +232,6 @@ Used for getting the list of votes commited
 //@param :  teamID:string
 function getVoteList(teamID) {
   var voteLinks = getLinks(anchor(teamID,"GameID"), 'vote',{Load:true});
-  // debug("Votes Casted by "+teamID+" : "+JSON.stringify(voteLinks));
-  debug("Number of votes: "+Object.keys(voteLinks).length);
   return voteLinks;
 }
 

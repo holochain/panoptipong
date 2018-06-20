@@ -52,7 +52,7 @@ const PongBall = ({x, y}) => {
 }
 
 const Game = (props) => {
-	const {ballX, ballY, leftPaddleY, rightPaddleY} = props
+	const {ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore} = props
 	console.log('game props', props)
 
 	return (
@@ -62,6 +62,8 @@ const Game = (props) => {
 				<Paddle side="left" y={leftPaddleY} />
 				<Paddle side="right" y={rightPaddleY} />
 				<PongBall x={ballX} y={ballY} />
+				<div className="score score-left">{leftScore}</div>
+				<div className="score score-right">{rightScore}</div>
 			</div>
 		</div>
 	);

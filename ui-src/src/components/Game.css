@@ -38,3 +38,17 @@
   height: 100%;
   width: 1px;
 }
+
+.Game .score {
+  position: absolute;
+  top: 10px;
+  font-size: 50px;
+  color: white;
+  font-family: Bungee;
+}
+.Game .score-left {
+  left: 40%;
+}
+.Game .score-right {
+  right: 40%;
+}
