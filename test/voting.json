@@ -17,14 +17,6 @@
         "Exposure":"public"
     },
     {
-        "Convey":"The same agent cannot register again",
-        "Zome": "voting",
-        "FnName": "register",
-        "Input": {},
-        "Output": "AlreadyRegistered",
-        "Exposure":"public"
-    },
-    {
         "Convey":"Can get the team designation from local chain",
         "Zome": "voting",
         "FnName": "getTeam",

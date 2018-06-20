@@ -1,5 +1,19 @@
 # Post Pong Chain - CRDT Pong
 
+# installation
+
+Run two processes:
+
+```
+# run holochain local dev server
+hcdev web
+
+# run react dev server
+cd ui-src && npm start
+```
+
+Then go to http://localhost:3000
+
 ## Registration
 - As an agent, when I join I link my key hash to a team membership anchor
 - This is selected by picking the membership anchor with the fewest links
@@ -257,17 +271,3 @@ function getTeam() {
     "required": ["move", "teamL", "teamR", "agentHash", "randomSalt"]
 }
 ```
-
-# Development
-
-Run two processes:
-
-```
-# run holochain local dev server
-hcdev web
-
-# run react dev server
-cd ui-src && npm start
-```
-
-Then go to http://localhost:3000

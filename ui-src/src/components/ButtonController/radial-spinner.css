@@ -4,10 +4,10 @@ div {
   box-sizing: border-box;
 }
 .button-wrapper {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   position: relative;
-  background: white;
+  background: black;
   text-align: center;
 }
 
@@ -16,7 +16,7 @@ div {
   height: 100%;
   transform-origin: 100% 50%;
   position: absolute;
-  background: magenta;
+  background: cornflowerblue;
 }
 
 .spinner {

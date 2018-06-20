@@ -3,26 +3,50 @@ import { Button } from "react-bootstrap";
 import "./radial-spinner.css";
 import "./VoteButton.css";
 
-export default props => {
+import {rateLimitInterval} from '../../config';
+
+export default class VoteButton extends Component {
   // props:
   //  active
   //  disabled
   //  handleVote
+  //
+  constructor(props) {
+    super(props)
+    this.state = {active: false}
+  }
 
-  const animateClass = props.disabled ? ' animate' : '';
-  const buttonClass = props.active ? 'button active' : 'button';
+  static getDerivedStateFromProps(props, state) {
+    if (props.disabled) {
+      return null
+    } else {
+      return {active: false}
+    }
+  }
 
-  return <div className="button-wrapper">
-    <div className={"spinner pie" + animateClass}></div>
-    <div className={"filler pie" + animateClass}></div>
-    <div className={"mask" + animateClass}></div>
-    <Button
-      disabled={props.disabled}
-      className={buttonClass}
-      bsStyle="success"
-      bsSize="large"
-      onClick={props.handleVote}>
-      { props.children }
-    </Button>
-  </div>
+  handleClick = e => {
+    this.setState({active: true})
+    this.props.handleVote()
+  }
+
+  render () {
+    const animateClass = this.props.disabled ? ' animate' : '';
+    const buttonClass = this.state.active ? 'button active' : 'button';
+    const intervalStyle = {animationDuration: `${rateLimitInterval}ms`}
+
+    return <div className="button-wrapper">
+      <div style={intervalStyle} className={"spinner pie" + animateClass}></div>
+      <div style={intervalStyle} className={"filler pie" + animateClass}></div>
+      <div style={intervalStyle} className={"mask" + animateClass}></div>
+      <Button
+        disabled={this.props.disabled}
+        className={buttonClass}
+        bsStyle="success"
+        bsSize="large"
+        onClick={this.handleClick}>
+        { this.props.children }
+      </Button>
+    </div>
+  }
+
 }
