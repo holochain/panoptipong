@@ -96,8 +96,8 @@ function vote(payload) {
 =            Local Zome Functions            =
 ============================================*/
 
-var vBall = 50.0 // how far the ball will move in a  'turn'
-var vPaddle = 5.; // how far the paddle can possible move in a 'turn'
+var vBall = 10.0 // how far the ball will move in a  'turn'
+var vPaddle = 4.5; // how far the paddle can possible move in a 'turn'
 var initialBallVelocity = {x: vBall*Math.sqrt(2)+0.1, y: vBall*Math.sqrt(2)};
 
 
@@ -139,7 +139,6 @@ function calcState(initialState, sortedVotes) {
     var paddleR = state.paddleR;
     var scoreL = state.scoreL;
     var scoreR = state.scoreR;
-    
     var ball = {
       x : state.ball.x + initialBallVelocity.x / totalPlayers,
       y : state.ball.y + initialBallVelocity.y / totalPlayers
@@ -172,8 +171,8 @@ function calcState(initialState, sortedVotes) {
   var reducedState = sortedVotes.reduce(reduceState, initialState);
 
   return {
-    paddleL: unwrapBallPos(reducedState.paddleL, boardParams.height),
-    paddleR: unwrapBallPos(reducedState.paddleR, boardParams.height),
+    paddleL: mod(reducedState.paddleL, boardParams.height),
+    paddleR: mod(reducedState.paddleR, boardParams.height),
     ball: {
       x: unwrapBallPos(reducedState.ball.x, boardParams.width),
       y: unwrapBallPos(reducedState.ball.y, boardParams.height),
