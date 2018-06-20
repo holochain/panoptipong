@@ -1,0 +1,30 @@
+{
+  "Tests":[
+    {
+        "Time": 1000,
+        "Convey":"An agent 1 is registered",
+        "Zome": "voting",
+        "FnName": "register",
+        "Input": {},
+        "RegExp":".*"
+    },
+    {
+        "Time": 3000,
+        "Convey":"An agent 1 Voting",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move":1},
+        "Output":"%h1%",
+        "RegExp":".*"
+    },
+    {
+      "Time": 4500,
+      "Convey": "The state of the ball for agent 1 should be the same as state of agent2" ,
+      "Zome": "voting",
+      "FnName": "getState",
+      "Input": {},
+      "Output": {"ball":{"x":64.34264068711929,"y":54.24264068711929},"paddleL":51.30000000000001,"paddleR":51.30000000000001}
+
+    }
+  ]
+}

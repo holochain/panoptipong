@@ -7,6 +7,8 @@
 
 
 function getState() {
+  debug("count L: "+countVotes('L'));
+  debug("count R: "+countVotes('R'));
   return reduceState(initialState, getVoteList('L').map(function(elem){
     return elem.Entry;
   }), getVoteList('R').map(function(elem){
@@ -155,10 +157,10 @@ function castVote(vote){
   if(anchorExists(vote.teamID,"GameID")==="false"){
     anchor(vote.teamID,"GameID");
   }
-  debug("COMMIT Vote:")
+//  debug("COMMIT Vote:")
   voteHash = commit("vote",vote);
   // On the DHT, puts a link on my anchor to the new post
-  debug("Link Vote:")
+//  debug("Link Vote:")
 
   commit('voteLink', {
     Links: [{ Base: anchor(vote.teamID,"GameID"), Link: voteHash, Tag: 'vote' }]
@@ -204,7 +206,7 @@ function getVoteList(teamID) {
 */
 
 function getVoteList(teamID){
-  debug("GETING VOTES")
+  debug("GETING VOTES for team : "+teamID)
   result=  query({
     Return: {
     Hashes: true,
@@ -262,10 +264,11 @@ function validate(entry_type, entry, header, sources) {
 }
 
 function validatePut(entry_type,entry,header,pkg,sources) {
-  debug("PUT:: ENTRY TYPE: "+entry_type+" ENTRY: "+JSON.stringify(entry)+" HEADER:"+header+" PKG: "+pkg+" SOURCES: "+sources)
+//  debug("PUT:: ENTRY TYPE: "+entry_type+" ENTRY: "+JSON.stringify(entry)+" HEADER:"+header+" PKG: "+pkg+" SOURCES: "+sources)
 //debug("putting")
   if(validateCommit(entry_type,entry,header,pkg,sources)==true){
-    if(entry_type=="vote")
+//    if(entry_type=="vote")
+//    debug("COMMITING LOCALY->")
       commitToLocal("voteLocal",entry);
     return true;
   }
