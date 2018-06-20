@@ -110,33 +110,6 @@ var initialState = {
 };
 
 
-function oldCalcState(initialState, votesL, votesR) {
-
-    var paddleL =  votesL.reduce(function(acc, elem) {
-        return acc + vPaddle * (elem.move / elem.teamL.playerCount);
-    }, initialState.paddleL);
-
-    var paddleR = votesR.reduce(function(acc, elem){
-        return acc + vPaddle * (elem.move / elem.teamR.playerCount);
-    }, initialState.paddleR);
-
-    var ballReducer = function(acc, elem, i) {
-        return {
-          x : acc.x + initialBallVelocity.x / (elem.teamL.playerCount + elem.teamR.playerCount),
-          y : acc.y + initialBallVelocity.y / (elem.teamL.playerCount + elem.teamR.playerCount)
-        };
-    };
-
-    var ballPos = votesR.reduce(ballReducer,
-        votesL.reduce(ballReducer, initialState.ball));
-
-    return {
-        ball: { x: unwrapBallPos(ballPos.x, boardParams.width), y: unwrapBallPos(ballPos.y, boardParams.height) },
-        paddleL: mod(paddleL, boardParams.height),
-        paddleR: mod(paddleR, boardParams.height)
-    };
-}
-
 function calcState(initialState, sortedVotes) {
 
   function isCollision(paddleY, ballY) {
