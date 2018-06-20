@@ -7,8 +7,22 @@
 
 
 function getState() {
-  var sortedVotes = getVoteList('L').concat(getVoteList('R')).sort(compareVotes);
+  var sortedVotes =
+    getVoteList('L')
+    .concat(getVoteList('R'))
+    .map(function (item) { return item.Entry })
+    .sort(compareVotes);
   return calcState(initialState, sortedVotes);
+}
+
+function compareVotes(a, b) {
+  var totalVotesA = a.teamL.voteCount + a.teamR.voteCount;
+  var totalVotesB = b.teamL.voteCount + b.teamR.voteCount;
+  if (totalVotesA === totalVotesB) {
+    return makeHash('vote', a) < makeHash('vote', b) ? -1 : 1
+  } else {
+    return totalVotesA - totalVotesB;
+  }
 }
 
 // REGISTERED YOUR AGENT
@@ -36,7 +50,6 @@ function register() {
     team = 'R';
   }
   joinTeam(team);
-  debug(team);
   return team;
 }
 
@@ -164,7 +177,7 @@ function calcState(initialState, sortedVotes) {
       paddleR += vPaddle * (vote.move / vote.teamR.playerCount);
     }
 
-    var ballMovingLeft = Boolean(Math.floor(ball.x / width) % 2);
+    var ballMovingLeft = Boolean(Math.floor(ball.x / boardParams.width) % 2);
     if (ballMovingLeft !== state.ballMovingLeft) {
       if (!ballMovingLeft && !isCollision(paddleL, ball.y)) {
         scoreR += 1;
@@ -182,17 +195,7 @@ function calcState(initialState, sortedVotes) {
     }
   }
 
-  function compareVotes(a, b) {
-    var totalVotesA = a.teamL.voteCount + a.teamR.voteCount;
-    var totalVotesB = b.teamL.voteCount + b.teamR.voteCount;
-    if (totalVotesA === totalVotesB) {
-      return makeHash('vote', a) < makeHash('vote', b) ? -1 : 1
-    } else {
-      return totalVotesA - totalVotesB;
-    }
-  }
-
-  sortedVotes.reduce(reduceState, initialState)
+  return sortedVotes.reduce(reduceState, initialState)
 }
 
 function voteStamp(vote) {
@@ -242,8 +245,6 @@ Used for getting the list of votes commited
 //@param :  teamID:string
 function getVoteList(teamID) {
   var voteLinks = getLinks(anchor(teamID,"GameID"), 'vote',{Load:true});
-  // debug("Votes Casted by "+teamID+" : "+JSON.stringify(voteLinks));
-  debug("Number of votes: "+Object.keys(voteLinks).length);
   return voteLinks;
 }
 
