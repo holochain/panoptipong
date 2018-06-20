@@ -54,11 +54,6 @@
           "Name": "getTeam",
           "CallingType": "json",
           "Exposure": "public"
-        },
-        {
-          "Name": "commitReceivedVotes",
-          "CallingType": "json",
-          "Exposure": "public"
         }
       ],
       "Code": "'use strict'"

@@ -21,7 +21,7 @@
       "Zome": "voting",
       "FnName": "getState",
       "Input": {},
-      "Output": {"ball":{"x":76.2634559672906,"y":66.2634559672906},"paddleL":50,"paddleR":50}      
+      "Output": {"ball":{"x":81.71320343559643,"y":71.21320343559643},"paddleL":50,"paddleR":50}      
     }
   ]
 }

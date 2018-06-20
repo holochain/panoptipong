@@ -15,7 +15,7 @@
         "FnName": "reduceState",
         "Raw": true,
         "Input": "reduceState(initialState, [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}}], []).paddleL",
-        "Output": "51.3",
+        "Output": "51.30000000000001",
         "Exposure":"public"
     },
     {
@@ -24,7 +24,7 @@
         "FnName": "reduceState",
         "Raw": true,
         "Input": "reduceState(initialState, [], [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}}]).paddleR",
-        "Output": "51.3",
+        "Output": "51.30000000000001",
         "Exposure":"public"
     },
     {
@@ -33,7 +33,7 @@
         "FnName": "reduceState",
         "Raw": true,
         "Input": "reduceState(initialState, [{move: -1, teamL: {playerCount: 2}, teamR: {playerCount: 1}}], []).paddleL",
-        "Output": "49.35",
+        "Output": "49.349999999999994",
         "Exposure":"public"
     }
   ]

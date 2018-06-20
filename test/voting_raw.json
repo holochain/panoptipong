@@ -13,7 +13,7 @@
         "Zome": "voting",
         "FnName": "vote",
         "Input": {"move":1},
-        "Output": "%h1%",
+        "Output": "%h%",
         "Exposure":"public",
         "Err": "",
         "Regexp": ""
@@ -23,7 +23,7 @@
         "Zome": "voting",
         "FnName": "vote",
         "Input": {"move":0},
-        "Output": "%h1%",
+        "Output": "%h%",
         "Exposure":"public",
         "Err": "",
         "Regexp": ""
@@ -33,7 +33,7 @@
         "Zome": "voting",
         "FnName": "vote",
         "Input": {"move":-1},
-        "Output": "%h1%",
+        "Output": "%h%",
         "Exposure":"public",
         "Err": "",
         "Regexp": ""

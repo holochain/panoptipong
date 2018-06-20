@@ -157,9 +157,11 @@ function sendVotes(vote){
 
   // Sending to Agent on each team
   membersL.some(function(elem) {
-    var agentHash = send(elem.Hash,vote);
+    if(elem.Hash !==  App.Key.Hash)
+      var agentHash = send(elem.Hash,vote);
   });
   membersR.some(function(elem) {
+    if(elem.Hash !==  App.Key.Hash)
       var agentHash = send(elem.Hash,vote);
   });
 }
