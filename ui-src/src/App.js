@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
+import logo from "./holochain_logo.png";
 import "./App.css";
 import Game from "./components/Game";
 import ButtonController from "./components/ButtonController";
@@ -29,10 +29,12 @@ class App extends Component {
 
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Holo's Post PongChain</h1>
-        </header>
+        <div class="App-header-wrapper">
+          <div class="left"></div>
+          <header className="App-header">
+            <h1 className="App-title">PANOPTIPONG</h1>
+          </header>
+        </div>
         <div className="game-and-controls">
           { this.props.team === 'L'
             ? [buttons, game]

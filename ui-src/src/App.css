@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Bungee');
+
 html, body {
   background: black;
 }
@@ -9,7 +11,18 @@ html, body {
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  height: 50px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.App-header-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.App-header-wrapper .left {
+  flex: 0 0 120px;
 }
 
 .App-header {
@@ -17,6 +30,8 @@ html, body {
   height: 150px;
   padding: 20px;
   color: white;
+  font-size: 30px;
+  font-family: Bungee;
 }
 
 .App-title {
