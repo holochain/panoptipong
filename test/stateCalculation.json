@@ -5,7 +5,7 @@
         "Zome": "voting",
         "FnName": "calcState",
         "Raw": true,
-        "Input": "JSON.stringify(calcState(initialState, []))",
+        "Input": "JSON.stringify(calcState(initialState, [], boardParams))",
         "Output": {"ball":{"x":60,"y":50},"ballMovingLeft":false,"paddleL":50,"paddleR":50,"scoreL":0,"scoreR":0},
         "Exposure":"public"
     },
@@ -14,7 +14,7 @@
         "Zome": "voting",
         "FnName": "calcState",
         "Raw": true,
-        "Input": "calcState(initialState, [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}, teamID: 'L'}]).paddleL",
+        "Input": "calcState(initialState, [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}, teamID: 'L'}], boardParams).paddleL",
         "Output": "51.3",
         "Exposure":"public"
     },
@@ -23,7 +23,7 @@
         "Zome": "voting",
         "FnName": "calcState",
         "Raw": true,
-        "Input": "calcState(initialState, [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}, teamID: 'R'}]).paddleR",
+        "Input": "calcState(initialState, [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}, teamID: 'R'}], boardParams).paddleR",
         "Output": "51.3",
         "Exposure":"public"
     },
@@ -32,7 +32,7 @@
         "Zome": "voting",
         "FnName": "calcState",
         "Raw": true,
-        "Input": "calcState(initialState, [{move: -1, teamL: {playerCount: 2}, teamR: {playerCount: 1}, teamID: 'L'}]).paddleL",
+        "Input": "calcState(initialState, [{move: -1, teamL: {playerCount: 2}, teamR: {playerCount: 1}, teamID: 'L'}], boardParams).paddleL",
         "Output": "49.35",
         "Exposure":"public"
     }
