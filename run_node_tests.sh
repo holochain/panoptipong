@@ -18,7 +18,7 @@ do
   cp -r PostPongChain/test ./pongChain$counter
   cd  ./pongChain$counter
 
-  hcdev -agentID=$counter -bootstrapServer=localhost:3142 -DHTport=$((initial_dht_port + counter)) web $((initial_port + counter)) > ./hcdevlog.txt & 
+  hcdev -agentID=$counter -bootstrapServer=localhost:3142 -DHTport=$((initial_dht_port + counter)) web $((initial_port + counter)) > ./hcdevlog.txt &
 
   sleep 2
 

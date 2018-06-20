@@ -71,19 +71,19 @@ function reduceState(initialState, votesL, votesR) {
     var paddleL =  votesL.reduce(function(acc, elem) {
         acc += vPaddle * (elem.move / elem.teamL.playerCount);
     }, initialState.paddleL);
-    
+
     var paddleR = votesR.reduce(function(acc, elem){
         acc += vPaddle * (elem.move / elem.teamR.playerCount);
     }, initialState.paddleR);
-    
+
     var ballReducer = function(acc, elem, i) {
         acc.x += initialBallVelocity.x / (elem.teamL.playerCount + elem.teamR.playerCount);
         acc.y += initialBallVelocity.y / (elem.teamL.playerCount + elem.teamR.playerCount);
     }
-    
-    ballPos = votesR.reduce(ballReducer, 
+
+    ballPos = votesR.reduce(ballReducer,
         votesL.reduce(ballReducer, initialState.ball));
-    
+
     return {
         ball: ballPos,
         paddleL: paddleL,
