@@ -21,7 +21,7 @@
           "Name": "vote",
           "DataFormat": "json",
           "SchemaFile": "vote.json",
-          "Sharing": "public"
+          "Sharing": "private"
         },
         {
           "Name": "teamDesignation",
@@ -30,11 +30,6 @@
         },
         {
           "Name": "teamLink",
-          "DataFormat": "links",
-          "Sharing": "public"
-        },
-        {
-          "Name": "voteLink",
           "DataFormat": "links",
           "Sharing": "public"
         }
@@ -57,6 +52,11 @@
         },
         {
           "Name": "getTeam",
+          "CallingType": "json",
+          "Exposure": "public"
+        },
+        {
+          "Name": "commitReceivedVotes",
           "CallingType": "json",
           "Exposure": "public"
         }

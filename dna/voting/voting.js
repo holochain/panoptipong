@@ -7,6 +7,8 @@
 
 
 function getState() {
+  //debug("L: "+getVoteList('L'));
+  //debug("R: "+getVoteList('R'));
   return reduceState(initialState, getVoteList('L').map(function(elem){
     return elem.Entry;
   }), getVoteList('R').map(function(elem){
@@ -148,42 +150,77 @@ function unwrapBallPos(pos, size) {
   return (pos % size)*(-2*k + 1) + size*k;
 }
 
+//Messagin the votes to the peers
+function sendVotes(vote){
+  var membersL = getLinks(anchor('members', 'L'), '');
+  var membersR = getLinks(anchor('members', 'R'), '');
+
+  // Sending to Agent on each team
+  membersL.some(function(elem) {
+    var agentHash = send(elem.Hash,vote);
+  });
+  membersR.some(function(elem) {
+      var agentHash = send(elem.Hash,vote);
+  });
+}
+
+
+//Recever of the message containing votes
+function receive(from, msg) {
+  //TODO check if you receave a vote and not any garbage values
+
+  debug("Receaved");
+  debug(JSON.stringify(msg));
+  voteHash = commitReceivedVotes(msg);
+
+ return voteHash;
+}
+
+function commitReceivedVotes(vote){
+  voteHash = commit("vote", vote);
+  return voteHash;
+}
 
 //VOTE
 //vote = {teamID:"",move:"",teamL:{payerCount:"",voteCount:""},teamR:{payerCount:"",voteCount:""},agentHash:"",randomSalt:"",}
 //NOTE: if you want to have mutiple games, you woud need the GameID too;
 function castVote(vote){
-  if(anchorExists(vote.teamID,"GameID")==="false"){
-    anchor(vote.teamID,"GameID");
-  }
-
-  voteHash = commit("vote",vote);
-  // On the DHT, puts a link on my anchor to the new post
-  commit('voteLink', {
-    Links: [{ Base: anchor(vote.teamID,"GameID"), Link: voteHash, Tag: 'vote' }]
-  });
-
+  voteHash = commit("vote", vote);
+  sendVotes(vote);
   return voteHash;
 }
 
 /*
 Count the vote for one team
 */
-
 //@param :  teamID:string
 function countVotes(teamID){
-  return getLinks(anchor(teamID,"GameID"), 'vote',{Load:true}).length;
+  return query({
+    Constrain: {
+      EntryTypes: ["vote"],
+      Contains:JSON.stringify({"teamID":teamID})
+    }
+  }).length;
 }
 
 /*
 Used for getting the list of votes commited
 */
 //@param :  teamID:string
-function getVoteList(teamID) {
-  var voteLinks = getLinks(anchor(teamID,"GameID"), 'vote',{Load:true});
-  // debug("Votes Casted by "+teamID+" : "+JSON.stringify(voteLinks));
-  debug("Number of votes: "+Object.keys(voteLinks).length);
-  return voteLinks;
+function getVoteList(teamID){
+  debug("GETING VOTES "+teamID)
+  result=  query({
+    Return: {
+    Hashes: true,
+    Entries: true
+  },
+    Constrain: {
+      EntryTypes: ["vote"],
+      Contains:JSON.stringify({"teamID":teamID})
+    }
+  });
+  debug(result);
+  return result;
 }
 
 
