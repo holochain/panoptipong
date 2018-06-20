@@ -28,6 +28,15 @@
         "Exposure":"public"
     },
     {
+        "Convey":"Calling calcState with an up and down vote from two players on the same team there is no change in paddle position",
+        "Zome": "voting",
+        "FnName": "calcState",
+        "Raw": true,
+        "Input": "calcState(initialState, [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}, teamID: 'L'}, {move: -1, teamL: {playerCount: 1}, teamR: {playerCount: 1}, teamID: 'L'}], boardParams).paddleL",
+        "Output": "50",
+        "Exposure":"public"
+    },
+    {
         "Convey":"Calling calcState a single vote on team left causes the left paddle to move but only partially",
         "Zome": "voting",
         "FnName": "calcState",
@@ -51,6 +60,15 @@
         "FnName": "calcState",
         "Raw": true,
         "Input": "calcState({ball: {x: 199, y:45}, paddleL: 0, paddleR: 0, scoreL: 0, scoreR: 0, ballMovingLeft: false}, [{move: -1, teamL: {playerCount: 1}, teamR: {playerCount: 1}, teamID: 'L'}], boardParams).scoreL",
+        "Output": "1",
+        "Exposure":"public"      
+    },
+    {
+        "Convey":"Calling calcState at the boundary of the board when the paddle !IS! there causes no change in score",
+        "Zome": "voting",
+        "FnName": "calcState",
+        "Raw": true,
+        "Input": "calcState({ball: {x: 199, y:45}, paddleL: 0, paddleR: 0, scoreL: 0, scoreR: 45, ballMovingLeft: false}, [{move: -1, teamL: {playerCount: 1}, teamR: {playerCount: 1}, teamID: 'L'}], boardParams).scoreL",
         "Output": "1",
         "Exposure":"public"      
     }
