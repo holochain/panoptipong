@@ -96,8 +96,8 @@ function vote(payload) {
 =            Local Zome Functions            =
 ============================================*/
 
-var vBall = 3.0 // how far the ball will move in a  'turn'
-var vPaddle = 1.3; // how far the paddle can possible move in a 'turn'
+var vBall = 10.0 // how far the ball will move in a  'turn'
+var vPaddle = 5.; // how far the paddle can possible move in a 'turn'
 var initialBallVelocity = {x: vBall*Math.sqrt(2)+0.1, y: vBall*Math.sqrt(2)};
 
 
