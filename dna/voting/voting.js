@@ -153,8 +153,8 @@ function oldCalcState(initialState, votesL, votesR) {
 function calcState(initialState, sortedVotes) {
 
   function isCollision(paddleY, ballY) {
-    paddleY = mod(paddleL, boardParams.height);
-    ballY = unwrapBallPos(ball.y, boardParams.height);
+    paddleY = mod(paddleY, boardParams.height);
+    ballY = unwrapBallPos(ballY, boardParams.height);
     var h = boardParams.paddleHeight;
     return ballY <= paddleY + h/2 && ballY >= paddleY - h/2;
   }
@@ -195,7 +195,20 @@ function calcState(initialState, sortedVotes) {
     }
   }
 
-  return sortedVotes.reduce(reduceState, initialState)
+  var reducedState = sortedVotes.reduce(reduceState, initialState);
+
+  return {
+    paddleL: unwrapBallPos(reducedState.paddleL, boardParams.height),
+    paddleR: unwrapBallPos(reducedState.paddleR, boardParams.height),
+    ball: {
+      x: unwrapBallPos(reducedState.ball.x, boardParams.width),
+      y: unwrapBallPos(reducedState.ball.y, boardParams.height),
+    },
+    scoreL: reducedState.scoreL,
+    scoreR: reducedState.scoreR,
+    ballMovingLeft: reducedState.ballMovingLeft,
+  }
+
 }
 
 function voteStamp(vote) {
