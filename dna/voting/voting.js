@@ -139,6 +139,7 @@ function calcState(initialState, sortedVotes) {
     var paddleR = state.paddleR;
     var scoreL = state.scoreL;
     var scoreR = state.scoreR;
+    
     var ball = {
       x : state.ball.x + initialBallVelocity.x / totalPlayers,
       y : state.ball.y + initialBallVelocity.y / totalPlayers

@@ -1,38 +1,38 @@
 {
   "Tests":[
     {
-        "Convey":"Calling reduceState with empty lists returns the initial state",
+        "Convey":"Calling calcState with empty lists returns the initial state",
         "Zome": "voting",
-        "FnName": "reduceState",
+        "FnName": "calcState",
         "Raw": true,
-        "Input": "JSON.stringify(reduceState(initialState, [], []))",
-        "Output": {"ball":{"x":60,"y":50},"paddleL":50,"paddleR":50},
+        "Input": "JSON.stringify(calcState(initialState, []))",
+        "Output": {"ball":{"x":60,"y":50},"ballMovingLeft":false,"paddleL":50,"paddleR":50,"scoreL":0,"scoreR":0},
         "Exposure":"public"
     },
     {
-        "Convey":"Calling reduceState with a single vote on team left causes the left paddle to move",
+        "Convey":"Calling calcState with a single vote on team left causes the left paddle to move",
         "Zome": "voting",
-        "FnName": "reduceState",
+        "FnName": "calcState",
         "Raw": true,
-        "Input": "reduceState(initialState, [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}}], []).paddleL",
+        "Input": "calcState(initialState, [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}, teamID: 'L'}]).paddleL",
         "Output": "51.3",
         "Exposure":"public"
     },
     {
-        "Convey":"Calling reduceState with a single vote on team right causes the left paddle to move",
+        "Convey":"Calling calcState with a single vote on team right causes the right paddle to move",
         "Zome": "voting",
-        "FnName": "reduceState",
+        "FnName": "calcState",
         "Raw": true,
-        "Input": "reduceState(initialState, [], [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}}]).paddleR",
+        "Input": "calcState(initialState, [{move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}, teamID: 'R'}]).paddleR",
         "Output": "51.3",
         "Exposure":"public"
     },
     {
-        "Convey":"Calling reduceState a single vote on team left causes the left paddle to move but only partially",
+        "Convey":"Calling calcState a single vote on team left causes the left paddle to move but only partially",
         "Zome": "voting",
-        "FnName": "reduceState",
+        "FnName": "calcState",
         "Raw": true,
-        "Input": "reduceState(initialState, [{move: -1, teamL: {playerCount: 2}, teamR: {playerCount: 1}}], []).paddleL",
+        "Input": "calcState(initialState, [{move: -1, teamL: {playerCount: 2}, teamR: {playerCount: 1}, teamID: 'L'}]).paddleL",
         "Output": "49.35",
         "Exposure":"public"
     }
