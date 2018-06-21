@@ -1,6 +1,6 @@
 # Post Pong Chain - CRDT Pong
 
-# installation
+# How to Install 
 
 Run two processes:
 
