@@ -24,12 +24,6 @@
           "Sharing": "public"
         },
         {
-          "Name": "voteLocal",
-          "DataFormat": "json",
-          "SchemaFile": "vote.json",
-          "Sharing": "private"
-        },
-        {
           "Name": "teamDesignation",
           "DataFormat": "string",
           "Sharing": "private"
@@ -103,6 +97,28 @@
             "CallingType": "string"
           }
         ]
+    },
+    {
+    "Name": "peerVis",
+    "Desription": "show whos online",
+    "CodeFile": "peerVis.js",
+    "RibosomeType": "js",
+    "Config": {
+      "ErrorHandling": "throwErrors"
+    },
+    "Entries": [
+      {
+        "Name": "peerLink",
+        "DataFormat": "links"
+      }
+    ],
+    "Functions": [
+        {
+          "Name": "getPeers",
+          "CallingType": "json",
+          "Exposure": "public"
+        }
+      ]
     }
   ]
 }
