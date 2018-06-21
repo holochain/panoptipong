@@ -9,7 +9,7 @@
 function getState() {
   var sortedVotes =
     getVoteList()
-    .map(function (item) { return item.Entry })
+    .map(function (item) { return item.Entry; })
     .sort(compareVotes);
   return calcState(initialState, sortedVotes, boardParams);
 }
@@ -253,16 +253,16 @@ function getVoteList(teamID) {
 }
 */
 
-function getVoteList(teamID){
-  debug("GETING VOTES for team : "+teamID)
+function getVoteList(){
+  //debug("GETING VOTES for team : "+teamID)
   result=  query({
     Return: {
     Hashes: true,
     Entries: true
   },
     Constrain: {
-      EntryTypes: ["voteLocal"],
-      Contains:JSON.stringify({"teamID":teamID})
+      EntryTypes: ["voteLocal"]
+      //Contains:JSON.stringify({"teamID":teamID})
     }
   });
   debug(result);
