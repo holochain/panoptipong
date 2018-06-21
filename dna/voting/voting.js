@@ -214,8 +214,8 @@ function castVote(vote){
 }
 
 function commitToLocal(entry_type,entry){
-    //debug("commitToLocal : "+JSON.stringify(entry));
-    hash=  commit(entry_type,entry);
+  //  debug("commitToLocal : "+JSON.stringify(entry));
+    commit(entry_type,entry);
   }
 
 
@@ -258,7 +258,7 @@ function getVoteList(){
       EntryTypes: ["voteLocal"]
     }
   });
-  debug(result);
+  //debug(result);
   return result;
 }
 
@@ -307,7 +307,8 @@ function validate(entry_type, entry, header, sources) {
 function validatePut(entry_type,entry,header,pkg,sources) {
   if(validateCommit(entry_type,entry,header,pkg,sources)==true){
     if(entry_type=="vote" || entry_type=="voteLocal")
-         commitToLocal(entry_type,"voteLocal",entry);
+  //  debug("validatePut : entry_type :" + entry_type)
+         commitToLocal("voteLocal",entry);
     return true;
   }
   return true;
