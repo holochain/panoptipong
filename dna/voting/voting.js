@@ -170,7 +170,6 @@ function sendVotes(vote){
 //Recever of the message containing votes
 function receive(from, msg) {
   //TODO check if you receave a vote and not any garbage values
-
   debug("Receaved");
   debug(JSON.stringify(msg));
   voteHash = commitReceivedVotes(msg);
