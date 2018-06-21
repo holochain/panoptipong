@@ -16,7 +16,8 @@
             "voteCount" : {"type": "integer"}
         },
         "agentHash" : {"type": "string"},
-        "randomSalt" : {"type": "string"}
+        "randomSalt" : {"type": "string"},
+        "teamID": {"type": "string"}
     },
-    "required": ["move", "teamL", "teamR", "agentHash", "randomSalt"]
+    "required": ["move", "teamL", "teamR", "agentHash", "randomSalt", "teamID"]
 }

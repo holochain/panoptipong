@@ -18,6 +18,7 @@ const initialState = {
 
 const pongReducer = function(state = initialState, action) {
   const { payload } = action
+  console.log(action.type, payload, action)
   switch (action.type) {
     case actions.GET_STATE:
       return {
@@ -27,11 +28,12 @@ const pongReducer = function(state = initialState, action) {
           ballY: payload.ball.y * 100 / gameDimensions.height,
           leftPaddleY: payload.paddleL,
           rightPaddleY: payload.paddleR,
+          leftScore: payload.scoreL,
+          rightScore: payload.scoreR,
         },
       }
     case actions.REGISTER:
       const team = payload === 'L' || payload === 'R' ? {team: payload} : {}
-      console.log('team', team)
       return Object.assign({...state}, team)
     default:
       return state
