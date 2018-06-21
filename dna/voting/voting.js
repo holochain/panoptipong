@@ -303,6 +303,9 @@ function anchorExists(anchorType, anchorText) {
 // Cast you first Vote and save it localy
 
 function genesis() {
+  for(var i = 0; i < 1000; i++) {
+    commit('voteLocal', {move: 1, teamL: {playerCount: 1}, teamR: {playerCount: 1}});
+  }
   return true;
 }
 
