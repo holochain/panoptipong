@@ -3,44 +3,31 @@
 =            Public zome functions            =
 =============================================*/
 
-/**
- * Gets the links.
- *
- * @param      {Object}  payload  The payload
- * @param      {string} payload.QueryType Defines the type of getLinks query. Must be in ["hash", "anchor", "dna", "key"]
- * @param      {} payload.QueryData Depending on the type either contains a hash, {anchorType:"", anchorText:""} object, or nothing for a dna or key query 
- * @param      {string} payload.tag return only links with this tag. If not defined then will return all along with a tag attribute
- * @param      {Object} payload.Options identical to options in the Holochain api get links.
- * @param      {boolean} payload.Options.Load - If the target data should be loaded and returned
- * @param      {Status-int} payload.Options.StatusMask - What status of links should be returned
- * 
- * @returns    {Object} - Depending on Options returns either a list identical to that from getList in the api
- */
-function getLinks(payload) {
-  var baseHash;
-  var tag = payload.tag || '';
-  switch(payload.QueryType) {
-    case "hash":
-      baseHash = payload.QueryData;
-      break;
-    case "anchor":
-      if (anchorExists(payload.QueryData.anchorType, payload.QueryData.anchorText)) {
-        baseHash = anchor(payload.QueryData.anchorType, payload.QueryData.anchorText);
-      } else {
-        return "NoSuchAnchor";
-      }
-      break;
-    case "dna":
-      baseHash = App.DNA.Hash;
-      break;
-    case "key":
-      baseHash = App.Key.Hash;
-      break;
-    default:
-      return "InvalidQueryType";
-  }
-  return getLinks(baseHash, tag, payload.Options);
+function getLinkGraph() {
+  // start at the root DNA hash
+  var elements = [{
+    group: 'nodes',
+    data: {id: App.DNA.Hash}
+  }];
 
+  return traverseAndAppend(App.DNA.Hash, elements);
+}
+
+
+function traverseAndAppend(base, elements) {
+  var targets = getLinks(base, '');
+  targets.forEach(function(target) {
+    elements.push({
+      group: 'nodes',
+      data: {id: target.Hash}
+    });
+    elements.push({
+      group: 'edges',
+      data: {id: base+'->'+target.Hash, source: base, target: target.Hash}
+    });
+    elements = traverseAndAppend(target.Hash, elements);
+  });
+  return elements
 }
 
 
