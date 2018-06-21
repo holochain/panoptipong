@@ -204,11 +204,8 @@ function castVote(vote){
   if(anchorExists(vote.teamID,"GameID")==="false"){
     anchor(vote.teamID,"GameID");
   }
-//  debug("COMMIT Vote:")
   voteHash = commit("vote",vote);
   // On the DHT, puts a link on my anchor to the new post
-//  debug("Link Vote:")
-
   commit('voteLink', {
     Links: [{ Base: anchor(vote.teamID,"GameID"), Link: voteHash, Tag: 'vote' }]
   });
@@ -216,12 +213,10 @@ function castVote(vote){
   return voteHash;
 }
 
-function commitToLocal(triggeredEntry,entry_type,entry){
-  debug("TriggeredEntry: "+triggeredEntry);
-  debug("commitToLocal : "+JSON.stringify(entry));
-  hash=  commit(entry_type,entry);
-    debug("Local Commit Hash : "+hash);
-}
+function commitToLocal(entry_type,entry){
+    //debug("commitToLocal : "+JSON.stringify(entry));
+    hash=  commit(entry_type,entry);
+  }
 
 
 /*
@@ -254,7 +249,6 @@ function getVoteList(teamID) {
 */
 
 function getVoteList(){
-  //debug("GETING VOTES for team : "+teamID)
   result=  query({
     Return: {
     Hashes: true,
@@ -262,7 +256,6 @@ function getVoteList(){
   },
     Constrain: {
       EntryTypes: ["voteLocal"]
-      //Contains:JSON.stringify({"teamID":teamID})
     }
   });
   debug(result);
@@ -312,12 +305,7 @@ function validate(entry_type, entry, header, sources) {
 }
 
 function validatePut(entry_type,entry,header,pkg,sources) {
-//  debug("PUT:: ENTRY TYPE: "+entry_type+" ENTRY: "+JSON.stringify(entry)+" HEADER:"+header+" PKG: "+pkg+" SOURCES: "+sources)
-//debug("putting")
   if(validateCommit(entry_type,entry,header,pkg,sources)==true){
-
-  //debug("COMMITING LOCALY->"+entry_type);
-  //  if(entry_type!="voteLink" && entry_type!="teamLink")
     if(entry_type=="vote" || entry_type=="voteLocal")
          commitToLocal(entry_type,"voteLocal",entry);
     return true;
@@ -325,8 +313,6 @@ function validatePut(entry_type,entry,header,pkg,sources) {
   return true;
   }
 function validateCommit(entry_type,entry,header,pkg,sources) {
-//  debug("committing:: ENTRY TYPE: "+entry_type+" ENTRY: "+entry+" HEADER:"+header+" PKG: "+pkg+" SOURCES: "+sources)
-//debug("committing")
     return true;
 }
 
