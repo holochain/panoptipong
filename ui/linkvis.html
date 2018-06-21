@@ -14,20 +14,40 @@
     <div id="vis"></div>
 
     <script type="text/javascript">
-    var cy
-    var currentPeers = ""
-    function getPeers (callback) {
+
+  /**
+   * Wrapper for getLinks call
+   *
+   * @param      {Object}  payload  The payload
+   * @param      {string} payload.QueryType Defines the type of getLinks query. Must be in ["hash", "anchor", "dna", "key"]
+   * @param      {} payload.QueryData Depending on the type either contains a hash, {anchorType:"", anchorText:""} object, or nothing for a dna or key query 
+   * @param      {string} payload.tag return only links with this tag. If not defined then will return all along with a tag attribute
+   * @param      {Object} payload.Options identical to options in the Holochain api get links.
+   * @param      {boolean} payload.Options.Load - If the target data should be loaded and returned
+   * @param      {Status-int} payload.Options.StatusMask - What status of links should be returned
+   * 
+   */
+     function getLinks(payload, then) {
         var xhr = new XMLHttpRequest()
-        var url = '/fn/peerVis/getPeers'
+        var url = '/fn/getLinks/getLinks'
         xhr.open('POST', url, true)
         xhr.setRequestHeader('Content-type', 'application/json')
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4 && xhr.status === 200) {
-            callback(JSON.parse(xhr.responseText))
+            then(JSON.parse(xhr.responseText))
           }
         }
-        xhr.send("")
+        xhr.send(payload)
       }
+
+
+      // traverses from the DNA hash to find every anchor that exists
+      // returns a list of cyto elements and edges
+      function getAllAnchors(then) {
+        
+      }
+
+
       function addResultsToPage(peers) {
         var peersTest = peers.sort().join('')
         var isSame = peersTest === currentPeers
@@ -38,8 +58,10 @@
         }
         console.log('peer list is different')
         // update the currentPeers cache
+
         currentPeers = peersTest
         if (cy) cy.destroy()
+
         var elements = []
         peers.forEach(function(p) {
           elements.push({
@@ -52,15 +74,23 @@
             }
           })
         })
+
         cy = cytoscape({
           container: document.getElementById('vis'),
           elements: elements
         })
       }
-      
+
+
+
+      // perioidcally refresh the visualisation
       window.setInterval(function() {
-        getPeers(addResultsToPage)
+        getAllAnchors(addResultsToPage)
       }, 1000)
+
+
+
+
     </script>
   </body>
 </html>
