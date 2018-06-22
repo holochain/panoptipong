@@ -4,7 +4,7 @@
 =            Public Zome Functions            =
 =============================================*/
 
-
+var BUCKET_SIZE = 10;
 
 function getState() {
   var sortedVotes =
@@ -200,7 +200,7 @@ function unwrapBallPos(pos, size) {
 
 //VOTE
 //vote = {teamID:"",move:"",teamL:{payerCount:"",voteCount:""},teamR:{payerCount:"",voteCount:""},agentHash:"",randomSalt:"",}
-//NOTE: if you want to have mutiple games, you woud need the GameID too;
+//NOTE: if you want to have mutiple games, you would need the GameID too;
 function castVote(vote){
   var bucketIndex = getOpenBucketIndex();
   var anchorHash = anchor("bucket", bucketIndex+"");
@@ -221,7 +221,9 @@ function makeSeal(bucketIndex){
     var bucketVotes = getLinks(anchorHash, 'vote', { Load : true});
     var sortedVotes = bucketVotes.map(function (item) { return item.Entry }).sort(compareVotes);  
     var sealingVote = sortedVotes[BUCKET_SIZE-1];
-    var state = calcState(getSealedBucketState(bucketIndex-1), sortedVotes.slice(0, BUCKET_SIZE));
+    //TODO: replace with calculated state
+    //var state = calcState(getSealedBucketState(bucketIndex-1), sortedVotes.slice(0, BUCKET_SIZE));
+    var state = calcState(initialState, sortedVotes.slice(0, BUCKET_SIZE), boardParams);
     var voteCount = (bucketIndex+1)*BUCKET_SIZE;
     var seal = {
       "voteHash" : makeHash('vote', sealingVote),
@@ -235,6 +237,64 @@ function makeSeal(bucketIndex){
     return true;
   }
   return false;
+}
+
+function getBucketHash(bucket) {
+  return anchor('bucket', '' + bucket.index)
+}
+
+// function getNumberOfBuckets() {
+//   var total = getLinks(anchor('bucket', ''), '').length;
+//   get(OPEN_BUCKET_HASH)
+//   commit("openBucketIndex", total - 1); // TODO: add as private entry
+//   return total;
+// }
+//
+function getCachedOpenBucketEntry() {
+  var results = query({
+    Return: {
+      Hashes: true,
+      Entries: true
+    },
+    Constrain: {
+      EntryTypes: ['openBucketIndex']
+    }
+  });
+  if (results.length === 0) {
+    return null;
+  } else {
+    return results[0];
+  }
+}
+
+function getOpenBucketIndex() {
+  var cacheExists = false;
+  var result = getCachedOpenBucketEntry();
+  var index = 0;
+  if (result) {
+    cacheExists = true;
+    index = parseInt(result.Entry, 10);
+  }
+  var startIndex = index;
+  while(isBucketFull(index)) {
+    index += 1
+  }
+  if (startIndex < index || !cacheExists) {
+    if (cacheExists) {
+      update('openBucketIndex', index+"", result.Hash)
+    } else {
+      commit('openBucketIndex', index+"")
+    }
+  }
+  return index;
+}
+
+function isBucketFull(index) {
+  //var hash = getBucketHash({index: data.index});
+  //var size = getLinks(hash, 'vote').length;
+  debug(size);  
+  var size = getLinks(anchor('bucket', index+""), 'vote').length;
+  return size >= BUCKET_SIZE;
 }
 
 /*

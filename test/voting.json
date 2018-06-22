@@ -70,14 +70,23 @@
         "Exposure":"public"
     },
     {
+        "Convey":"Almost fill the bucket",
+        "Zome": "voting",
+        "FnName": "",
+        "Raw": true,
+        "Repeat": 7,
+        "Wait": 100,
+        "Input": "castVote({move: 1, teamL: {playerCount: 1, voteCount: 1}, teamR: {playerCount: 0, voteCount: 0}, agentHash: 'scatteredsmotheredcovered', randomSalt: '%reps%', teamID: 'L'})",
+        "Output": "%h1%",
+        "Exposure":"public"
+    },
+    {
         "Convey":"Fill the bucket",
         "Zome": "voting",
         "FnName": "",
         "Raw": true,
-        "Repeat": 10,
-        "Wait": 100,
-        "Input": "castVote({move: 1, teamL: {playerCount: 1, voteCount: 1}, teamR: {playerCount: 0, voteCount: 0}, agentHash: 'scatteredsmotheredcovered', randomSalt: '%reps%', teamID: 'L'})",
-        "Output": "%h1%",
+        "Input": "castVote({move: 1, teamL: {playerCount: 1, voteCount: 1}, teamR: {playerCount: 0, voteCount: 0}, agentHash: 'scatteredsmotheredcovered', randomSalt: 'celerySalt', teamID: 'L'})",
+        "Output": "%h3%",
         "Exposure":"public"
     },
     {
