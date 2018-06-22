@@ -1,0 +1,46 @@
+{
+  "Tests": [
+    {
+        "Convey":"that we register",
+        "Zome": "voting",
+        "FnName": "register",
+        "Input": {},
+        "Output": "L",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"cast N-1 votes",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move": 0},
+        "Output": "%h1%",
+        "Exposure":"public",
+        "Repeat": 4
+    },
+    {
+        "Convey":"That a bucket on the cusp of fullness is not yet full",
+        "Zome": "state",
+        "FnName": "isBucketFull",
+        "Input": {"index": 0, "capacity": 5},
+        "Output": false,
+        "Exposure":"private"
+    },
+    {
+        "Convey":"cast 1 mo' vote",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move": 0},
+        "Output": "%h1%",
+        "Exposure":"public",
+        "Repeat": 1
+    },
+    {
+        "Convey":"That a full bucket is full",
+        "Zome": "state",
+        "FnName": "isBucketFull",
+        "Input": {"index": 0, "capacity": 5},
+        "Output": true,
+        "Exposure":"private"
+    }
+  ]
+}
