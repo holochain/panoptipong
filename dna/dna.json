@@ -57,6 +57,12 @@
           "Name": "voteLink",
           "DataFormat": "links",
           "Sharing": "public"
+        },
+        {
+          "Name": "seal",
+          "DataFormat": "json",
+          "SchemaFile": "seal.json",
+          "Sharing": "public"
         }
       ],
       "Functions": [
