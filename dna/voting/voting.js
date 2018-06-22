@@ -215,14 +215,23 @@ function castVote(vote){
 }
 
 function makeSeal(bucketIndex){
+  var anchorHash = anchor('bucket', bucketIndex+"");
   var bucketVoteCount = getLinks(anchorHash, 'vote').length;
   if (bucketVoteCount >= BUCKET_SIZE) {
     var bucketVotes = getLinks(anchorHash, 'vote', { Load : true});
     var sortedVotes = bucketVotes.map(function (item) { return item.Entry }).sort(compareVotes);  
     var sealingVote = sortedVotes[BUCKET_SIZE-1];
     var state = calcState(getSealedBucketState(bucketIndex-1), sortedVotes.slice(0, BUCKET_SIZE));
-    state
-    commit('')
+    var voteCount = (bucketIndex+1)*BUCKET_SIZE;
+    var seal = {
+      "voteHash" : makeHash('vote', sealingVote),
+      "voteCount" : voteCount,
+      "gameState" : state
+    }
+    var sealHash = commit('seal', seal);
+    commit('voteLink', {
+      Links: [{ Base: anchorHash, Link: sealHash, Tag: 'seal' }]
+    });
     return true;
   }
   return false;
