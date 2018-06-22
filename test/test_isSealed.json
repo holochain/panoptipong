@@ -1,0 +1,30 @@
+{
+  "Tests": [
+    {
+        "Convey":"that we register",
+        "Zome": "voting",
+        "FnName": "register",
+        "Input": {},
+        "Output": "L",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"cast 100 votes",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move": 0},
+        "Output": {},
+        "Exposure":"public",
+        "Repeat": 100,
+    },
+    {
+        "Convey":"That a full bucket with no seals is not recognized as 'sealed'",
+        "Zome": "state",
+        "FnName": "isSealed",
+        "Raw": true,
+        "Input": "{bucketHash: getBucketHash(0)}",
+        "Output": false,
+        "Exposure":"public"
+    },
+  ]
+}

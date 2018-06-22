@@ -12,6 +12,26 @@
   },
   "Zomes": [
     {
+      "Name": "state",
+      "Description": "better than voting",
+      "RibosomeType": "js",
+      "CodeFile": "state.js",
+      "Entries": [
+        {
+          "Name": "openBucketIndex",
+          "DataFormat": "string",
+          "Sharing": "private"
+        }
+      ],
+      "Functions": [
+        {
+          "Name": "isBucketFull",
+          "CallingType": "integer",
+          "Exposure": "private"
+        }
+      ]
+    },
+    {
       "Name": "voting",
       "Description": "To determine green/red paddle choice.",
       "RibosomeType": "js",
@@ -62,41 +82,41 @@
         }
       ],
       "Code": "'use strict'"
+    },
+    {
+      "Name": "anchors",
+      "Description": "anchors mixin",
+      "RibosomeType": "js",
+      "CodeFile": "anchors.js",
+      "Config": {
+        "ErrorHandling": "throwErrors"
       },
-      {
-        "Name": "anchors",
-        "Description": "anchors mixin",
-        "RibosomeType": "js",
-        "CodeFile": "anchors.js",
-        "Config": {
-          "ErrorHandling": "throwErrors"
+      "Entries": [
+        {
+          "Name": "anchor",
+          "DataFormat": "json",
+          "SchemaFile": "anchor.json",
+          "Sharing": "public"
         },
-        "Entries": [
-          {
-            "Name": "anchor",
-            "DataFormat": "json",
-            "SchemaFile": "anchor.json",
-            "Sharing": "public"
-          },
-          {
-            "Name": "anchor_link",
-            "DataFormat": "links"
-          }
-        ],
-        "Functions": [
-          {
-            "Name": "anchor",
-            "CallingType": "json"
-          },
-          {
-            "Name": "exists",
-            "CallingType": "json"
-          },
-          {
-            "Name": "anchors",
-            "CallingType": "string"
-          }
-        ]
+        {
+          "Name": "anchor_link",
+          "DataFormat": "links"
+        }
+      ],
+      "Functions": [
+        {
+          "Name": "anchor",
+          "CallingType": "json"
+        },
+        {
+          "Name": "exists",
+          "CallingType": "json"
+        },
+        {
+          "Name": "anchors",
+          "CallingType": "string"
+        }
+      ]
     }
   ]
 }
