@@ -1,0 +1,28 @@
+{
+    "title": "Seal Schema",
+    "type": "object",
+    "properties" : {   
+        "voteHash" : {"type" : "string"},
+        "voteCount" : {"type" : "integer"},
+        "gameState" : {
+                "type" : "object",
+                "properties" : {
+                    "paddleL": {"type": "number"}, 
+                    "paddleR": {"type": "number"},
+                    "ball": {
+                        "type": "object",
+                        "properties": {
+                            "x": {"type": "number"},
+                            "y": {"type": "number"}
+                        },
+                        "required": ["x","y"]
+                    },
+                    "scoreL": {"type": "integer"},
+                    "scoreR": {"type": "integer"},
+                    "ballMovingLeft": {"type": "boolean"}
+                },
+                "required": ["paddleL", "paddleR", "ball", "scoreL", "scoreR", "ballMovingLeft"]
+        }
+    },
+    "required": ["voteHash", "voteCount", "gameState"]
+}

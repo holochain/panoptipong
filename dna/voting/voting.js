@@ -202,17 +202,30 @@ function unwrapBallPos(pos, size) {
 //vote = {teamID:"",move:"",teamL:{payerCount:"",voteCount:""},teamR:{payerCount:"",voteCount:""},agentHash:"",randomSalt:"",}
 //NOTE: if you want to have mutiple games, you woud need the GameID too;
 function castVote(vote){
-  if(anchorExists(vote.teamID,"GameID")==="false"){
-    anchor(vote.teamID,"GameID");
-  }
+  var bucketIndex = getOpenBucketIndex();
+  var anchorHash = anchor("bucket", bucketIndex+"");
 
   voteHash = commit("vote",vote);
   // On the DHT, puts a link on my anchor to the new post
   commit('voteLink', {
-    Links: [{ Base: anchor(vote.teamID,"GameID"), Link: voteHash, Tag: 'vote' }]
+    Links: [{ Base: anchorHash, Link: voteHash, Tag: 'vote' }]
   });
-
+  var sealed = makeSeal(bucketIndex);
   return voteHash;
+}
+
+function makeSeal(bucketIndex){
+  var bucketVoteCount = getLinks(anchorHash, 'vote').length;
+  if (bucketVoteCount >= BUCKET_SIZE) {
+    var bucketVotes = getLinks(anchorHash, 'vote', { Load : true});
+    var sortedVotes = bucketVotes.map(function (item) { return item.Entry }).sort(compareVotes);  
+    var sealingVote = sortedVotes[BUCKET_SIZE-1];
+    var state = calcState(getSealedBucketState(bucketIndex-1), sortedVotes.slice(0, BUCKET_SIZE));
+    state
+    commit('')
+    return true;
+  }
+  return false;
 }
 
 /*

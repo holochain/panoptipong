@@ -23,6 +23,107 @@
         "Input": {},
         "Output": "L",
         "Exposure":"public"
+    },
+    {
+        "Convey":"Can vote into a open bucket",
+        "Zome": "voting",
+        "FnName": "castVote",
+        "Raw": true,
+        "Input": "castVote({move: 1, teamL: {playerCount: 1, voteCount: 0}, teamR: {playerCount: 0, voteCount: 0}, agentHash: 'scatteredsmotheredcovered', randomSalt: 'kosherSalt', teamID: 'L'})",
+        "Output": "%h1%",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Bucket was created in the last test",
+        "Zome": "voting",
+        "FnName": "castVote",
+        "Raw": true,
+        "Input": "anchorExists('bucket','0')",
+        "Output": "true",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Bucket was linked to bucket train",
+        "Zome": "voting",
+        "FnName": "",
+        "Raw": true,
+        "Input": "getLinks(anchor('bucket', '0'), 'vote').length",
+        "Output": "1",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Can vote into an open bucket",
+        "Zome": "voting",
+        "FnName": "",
+        "Raw": true,
+        "Input": "castVote({move: 1, teamL: {playerCount: 1, voteCount: 1}, teamR: {playerCount: 0, voteCount: 0}, agentHash: 'scatteredsmotheredcovered', randomSalt: 'chickenSalt', teamID: 'L'})",
+        "Output": "%h1%",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"There is only one bucket",
+        "Zome": "voting",
+        "FnName": "",
+        "Raw": true,
+        "Input": "getLinks(anchor('bucket', '0'), 'vote').length",
+        "Output": "2",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Fill the bucket",
+        "Zome": "voting",
+        "FnName": "",
+        "Raw": true,
+        "Repeat": 10,
+        "Wait": 100,
+        "Input": "castVote({move: 1, teamL: {playerCount: 1, voteCount: 1}, teamR: {playerCount: 0, voteCount: 0}, agentHash: 'scatteredsmotheredcovered', randomSalt: '%reps%', teamID: 'L'})",
+        "Output": "%h1%",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Bucket is full",
+        "Zome": "voting",
+        "FnName": "",
+        "Raw": true,
+        "Input": "getLinks(anchor('bucket', '0'), 'vote').length === BUCKET_SIZE",
+        "Output": "true",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Bucket is sealed",
+        "Zome": "voting",
+        "FnName": "",
+        "Raw": true,
+        "Input": "getLinks(anchor('bucket', '0'), 'seal').length",
+        "Output": "1",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Post-seal vote makes a new bucket",
+        "Zome": "voting",
+        "FnName": "",
+        "Raw": true,
+        "Input": "castVote({move: 1, teamL: {playerCount: 1, voteCount: 1}, teamR: {playerCount: 0, voteCount: 0}, agentHash: 'scatteredsmotheredcovered', randomSalt: 'lawrysSalt', teamID: 'L'})",
+        "Output": "%h1%",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"New bucket exists",
+        "Zome": "voting",
+        "FnName": "",
+        "Raw": true,
+        "Input": "anchorExists('bucket','1')",
+        "Output": "true",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"New bucket has vote",
+        "Zome": "voting",
+        "FnName": "",
+        "Raw": true,
+        "Input": "getLinks(anchor('bucket', '1'), 'vote').length",
+        "Output": "1",
+        "Exposure":"public"
     }
   ]
 }
