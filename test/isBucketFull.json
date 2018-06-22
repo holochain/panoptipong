@@ -9,38 +9,38 @@
         "Exposure":"public"
     },
     {
-        "Convey":"cast 99 votes",
+        "Convey":"cast N-1 votes",
         "Zome": "voting",
         "FnName": "vote",
         "Input": {"move": 0},
-        "Output": {},
+        "Output": "%h1%",
         "Exposure":"public",
-        "Repeat": 99
+        "Repeat": 4
     },
     {
         "Convey":"That a bucket on the cusp of fullness is not yet full",
         "Zome": "state",
         "FnName": "isBucketFull",
-        "Input": 0,
+        "Input": {"index": 0, "capacity": 5},
         "Output": false,
-        "Exposure":"public"
+        "Exposure":"private"
     },
     {
         "Convey":"cast 1 mo' vote",
         "Zome": "voting",
         "FnName": "vote",
         "Input": {"move": 0},
-        "Output": {},
+        "Output": "%h1%",
         "Exposure":"public",
         "Repeat": 1
     },
     {
-        "Convey":"That a bucket full bucket is full",
+        "Convey":"That a full bucket is full",
         "Zome": "state",
         "FnName": "isBucketFull",
-        "Input": 0,
+        "Input": {"index": 0, "capacity": 5},
         "Output": true,
-        "Exposure":"public"
+        "Exposure":"private"
     }
   ]
 }

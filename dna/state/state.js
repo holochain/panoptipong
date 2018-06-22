@@ -1,5 +1,8 @@
-var OPEN_BUCKET_HASH = makeHash('openBucketIndex');
+var BUCKET_SIZE = 100;
 
+function genesis() {
+  return true;
+}
 
 function getBucketHash(bucket) {
   return anchor('bucket', '' + bucket.index)
@@ -35,7 +38,7 @@ function getOpenBucketIndex() {
   var index = 0;
   if (result) {
     cacheExists = true;
-    index = result.Entry;
+    index = parseInt(result.Entry, 10);
   }
   var startIndex = index;
   while(isBucketFull(index)) {
@@ -51,9 +54,72 @@ function getOpenBucketIndex() {
   return index;
 }
 
-function isBucketFull(index) {
-  var hash = getBucketHash({index: index})
-  return getLinks(hash, '').length >= BUCKET_SIZE;
+function isBucketFull(data) {
+  var hash = getBucketHash({index: data.index});
+  var size = getLinks(hash, '').length;
+  debug(size);
+  return size >= data.capacity;
 }
 
-// var total = getLinks(anchor('bucket', ''), '').length;
+
+
+// TODO: simplify
+/*----------  Anchor API  ----------*/
+
+function anchor(anchorType, anchorText) {
+  return call('anchors', 'anchor', {
+    anchorType: anchorType,
+    anchorText: anchorText
+  }).replace(/"/g, '');
+}
+
+
+function anchorExists(anchorType, anchorText) {
+  return call('anchors', 'exists', {
+    anchorType: anchorType,
+    anchorText: anchorText
+  });
+}
+
+/*=====  End of Local Zome Functions  ======*/
+
+
+
+
+
+function validatePut(entry_type,entry,header,pkg,sources) {
+  return true;
+}
+function validateCommit(entry_type,entry,header,pkg,sources) {
+  return true;
+}
+
+function validateLink(linkingEntryType,baseHash,linkHash,pkg,sources){
+  return true;
+}
+function validateMod(entry_type,hash,newHash,pkg,sources){
+  return true;
+}
+function validateDel(entry_type,hash,pkg,sources) {
+  return true;
+}
+function validatePutPkg(entry_type) {
+  return null;
+}
+function validateModPkg(entry_type) {
+  return null;
+}
+function validateDelPkg(entry_type) {
+  return null;
+}
+function validateLinkPkg(entry_type) {
+  return null;
+}
+
+function validateLink(entryType, hash, links, package, sources) {
+  return true;
+}
+
+function validateDelPkg (entryType) {
+  return null;
+}
