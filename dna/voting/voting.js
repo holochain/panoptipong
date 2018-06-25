@@ -178,6 +178,8 @@ function calcState(initialState, sortedVotes, boardParams) {
   };
 }
 
+
+//NOT
 function voteStamp(vote) {
   var totalVotes = vote.teamL.voteCount + vote.teamR.voteCount;
   return String(totalVotes) + makeHash('vote', vote);
@@ -215,7 +217,7 @@ Count the vote for one team
 
 //@param :  teamID:string
 function countVotes(teamID) {
-  return getLinks(anchor(teamID, "GameID"), 'vote', { Load: true }).length;
+  return getLinks(anchor(teamID, "GameID"), 'vote').length;
 }
 
 /*
