@@ -1,4 +1,8 @@
 
+function genesis() {
+  return true;
+}
+
 function validatePut(entry_type, entry, header, pkg, sources) {
   return true;
 }

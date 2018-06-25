@@ -1,8 +1,5 @@
 const BUCKET_SIZE = 100;
 
-function genesis() {
-  return true;
-}
 
 function getBucketHash(bucket) {
   return anchor('bucket', '' + bucket.index)
@@ -59,67 +56,4 @@ function isBucketFull(data) {
   var size = getLinks(hash, '').length;
   debug(size);
   return size >= data.capacity;
-}
-
-
-
-// TODO: simplify
-/*----------  Anchor API  ----------*/
-
-function anchor(anchorType, anchorText) {
-  return call('anchors', 'anchor', {
-    anchorType: anchorType,
-    anchorText: anchorText
-  }).replace(/"/g, '');
-}
-
-
-function anchorExists(anchorType, anchorText) {
-  return call('anchors', 'exists', {
-    anchorType: anchorType,
-    anchorText: anchorText
-  });
-}
-
-/*=====  End of Local Zome Functions  ======*/
-
-
-
-
-
-function validatePut(entry_type,entry,header,pkg,sources) {
-  return true;
-}
-function validateCommit(entry_type,entry,header,pkg,sources) {
-  return true;
-}
-
-function validateLink(linkingEntryType,baseHash,linkHash,pkg,sources){
-  return true;
-}
-function validateMod(entry_type,hash,newHash,pkg,sources){
-  return true;
-}
-function validateDel(entry_type,hash,pkg,sources) {
-  return true;
-}
-function validatePutPkg(entry_type) {
-  return null;
-}
-function validateModPkg(entry_type) {
-  return null;
-}
-function validateDelPkg(entry_type) {
-  return null;
-}
-function validateLinkPkg(entry_type) {
-  return null;
-}
-
-function validateLink(entryType, hash, links, pkg, sources) {
-  return true;
-}
-
-function validateDelPkg (entryType) {
-  return null;
 }
