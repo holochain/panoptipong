@@ -1,13 +1,11 @@
-'use strict';
-
-var BUCKET_SIZE = 100;
+const BUCKET_SIZE = 100;
 
 function genesis() {
   return true;
 }
 
 function getBucketHash(bucket) {
-  return anchor('bucket', '' + bucket.index);
+  return anchor('bucket', '' + bucket.index)
 }
 
 // function getNumberOfBuckets() {
@@ -43,25 +41,27 @@ function getOpenBucketIndex() {
     index = parseInt(result.Entry, 10);
   }
   var startIndex = index;
-  while (isBucketFull(index)) {
-    index += 1;
+  while(isBucketFull(index)) {
+    index += 1
   }
   if (startIndex < index || !cacheExists) {
     if (cacheExists) {
-      update('openBucketIndex', index, result.Hash);
+      update('openBucketIndex', index, result.Hash)
     } else {
-      commit('openBucketIndex', index);
+      commit('openBucketIndex', index)
     }
   }
   return index;
 }
 
 function isBucketFull(data) {
-  var hash = getBucketHash({ index: data.index });
+  var hash = getBucketHash({index: data.index});
   var size = getLinks(hash, '').length;
   debug(size);
   return size >= data.capacity;
 }
+
+
 
 // TODO: simplify
 /*----------  Anchor API  ----------*/
@@ -73,6 +73,7 @@ function anchor(anchorType, anchorText) {
   }).replace(/"/g, '');
 }
 
+
 function anchorExists(anchorType, anchorText) {
   return call('anchors', 'exists', {
     anchorType: anchorType,
@@ -82,20 +83,24 @@ function anchorExists(anchorType, anchorText) {
 
 /*=====  End of Local Zome Functions  ======*/
 
-function validatePut(entry_type, entry, header, pkg, sources) {
+
+
+
+
+function validatePut(entry_type,entry,header,pkg,sources) {
   return true;
 }
-function validateCommit(entry_type, entry, header, pkg, sources) {
+function validateCommit(entry_type,entry,header,pkg,sources) {
   return true;
 }
 
-function validateLink(linkingEntryType, baseHash, linkHash, pkg, sources) {
+function validateLink(linkingEntryType,baseHash,linkHash,pkg,sources){
   return true;
 }
-function validateMod(entry_type, hash, newHash, pkg, sources) {
+function validateMod(entry_type,hash,newHash,pkg,sources){
   return true;
 }
-function validateDel(entry_type, hash, pkg, sources) {
+function validateDel(entry_type,hash,pkg,sources) {
   return true;
 }
 function validatePutPkg(entry_type) {
@@ -115,49 +120,6 @@ function validateLink(entryType, hash, links, pkg, sources) {
   return true;
 }
 
-function validateDelPkg(entryType) {
-  return null;
-}
-"use strict";
-
-var craziness = function craziness(i, want) {
-  var yo = want.yo;
-};
-"use strict";
-
-function validatePut(entry_type, entry, header, pkg, sources) {
-  return true;
-}
-function validateCommit(entry_type, entry, header, pkg, sources) {
-  return true;
-}
-
-function validateLink(linkingEntryType, baseHash, linkHash, pkg, sources) {
-  return true;
-}
-function validateMod(entry_type, hash, newHash, pkg, sources) {
-  return true;
-}
-function validateDel(entry_type, hash, pkg, sources) {
-  return true;
-}
-function validatePutPkg(entry_type) {
-  return null;
-}
-function validateModPkg(entry_type) {
-  return null;
-}
-function validateDelPkg(entry_type) {
-  return null;
-}
-function validateLinkPkg(entry_type) {
-  return null;
-}
-
-function validateLink(entryType, hash, links, pkg, sources) {
-  return true;
-}
-
-function validateDelPkg(entryType) {
+function validateDelPkg (entryType) {
   return null;
 }

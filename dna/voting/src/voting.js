@@ -7,9 +7,11 @@
 var BUCKET_SIZE = 10;
 
 function getState() {
-  var sortedVotes = getVoteList('L').concat(getVoteList('R')).map(function (item) {
-    return item.Entry;
-  }).sort(compareVotes);
+  var sortedVotes =
+    getVoteList('L')
+    .concat(getVoteList('R'))
+    .map(function (item) { return item.Entry })
+    .sort(compareVotes);
   return calcState(initialState, sortedVotes, boardParams);
 }
 
@@ -18,7 +20,7 @@ function compareVotes(a, b) {
   var totalVotesB = b.teamL.voteCount + b.teamR.voteCount;
 
   if (totalVotesA === totalVotesB) {
-    return makeHash('vote', a) < makeHash('vote', b) ? -1 : 1;
+    return makeHash('vote', a) < makeHash('vote', b) ? -1 : 1
   } else {
     return totalVotesA - totalVotesB;
   }
@@ -32,22 +34,18 @@ function register() {
   var membersR = getLinks(anchor('members', 'R'), '');
 
   // check the agent is not in any team already
-  var inL = membersL.some(function (elem) {
-    return elem.Hash === App.Key.Hash;
+  var inL = membersL.some(function(elem) {
+    return elem.Hash ===  App.Key.Hash;
   });
-  var inR = membersR.some(function (elem) {
-    return elem.Hash === App.Key.Hash;
+  var inR = membersR.some(function(elem) {
+    return elem.Hash ===  App.Key.Hash;
   });
 
-  if (inL) {
-    return 'L';
-  }
-  if (inR) {
-    return 'R';
-  }
+  if(inL) { return 'L' }
+  if(inR) { return 'R' }
 
   var team;
-  if (membersL.length <= membersR.length) {
+  if(membersL.length <= membersR.length) {
     team = 'L';
   } else {
     team = 'R';
@@ -55,6 +53,7 @@ function register() {
   joinTeam(team);
   return team;
 }
+
 
 function getTeam() {
   var response = query({
@@ -70,21 +69,22 @@ function getTeam() {
   return response[0] || "NotRegistered";
 }
 
+
 function vote(payload) {
   var move = payload.move;
 
   var nPlayersL = getLinks(anchor('members', 'L'), '').length;
   var nPlayersR = getLinks(anchor('members', 'R'), '').length;
 
-  var nVotesL = countVotes("L");
-  var nVotesR = countVotes("R");
+  var nVotesL =countVotes("L");
+  var nVotesR =countVotes("R");
 
   var vote = {
     move: move,
-    teamL: { playerCount: nPlayersL, voteCount: nVotesL },
-    teamR: { playerCount: nPlayersR, voteCount: nVotesR },
+    teamL: {playerCount: nPlayersL, voteCount: nVotesL},
+    teamR: {playerCount: nPlayersR, voteCount: nVotesR},
     agentHash: App.Key.Hash,
-    randomSalt: "" + Math.random(),
+    randomSalt: ""+Math.random(),
     teamID: getTeam()
   };
 
@@ -102,23 +102,25 @@ var boardParams = {
   height: 100,
   paddleWidth: 5,
   paddleHeight: 30,
-  ballSize: 3,
+  ballSize:3,
   vBallx: 10.0,
   vBally: 4.8,
-  vPaddle: 1.3
+  vPaddle: 1.3,
 };
+
 
 var initialState = {
   ball: {
-    x: 60,
-    y: 50
+      x: 60,
+      y: 50
   },
   paddleL: 50,
   paddleR: 50,
   scoreL: 0,
   scoreR: 0,
-  ballMovingLeft: boardParams.vBallx < 0
+  ballMovingLeft: boardParams.vBallx < 0,
 };
+
 
 function calcState(initialState, sortedVotes, boardParams) {
 
@@ -126,7 +128,7 @@ function calcState(initialState, sortedVotes, boardParams) {
     paddleY = mod(paddleY, boardParams.height);
     ballY = unwrapBallPos(ballY, boardParams.height);
     var h = boardParams.paddleHeight;
-    return ballY <= paddleY + h / 2 && ballY >= paddleY - h / 2;
+    return ballY <= paddleY + h/2 && ballY >= paddleY - h/2;
   }
 
   function reduceState(state, vote) {
@@ -137,9 +139,9 @@ function calcState(initialState, sortedVotes, boardParams) {
     var scoreL = state.scoreL;
     var scoreR = state.scoreR;
     var ball = {
-      x: state.ball.x + boardParams.vBallx / totalPlayers,
-      y: state.ball.y + boardParams.vBally / totalPlayers
-    };
+      x : state.ball.x + boardParams.vBallx / totalPlayers,
+      y : state.ball.y + boardParams.vBally / totalPlayers
+    }
 
     if (vote.teamID === 'L') {
       paddleL += boardParams.vPaddle * (vote.move / vote.teamL.playerCount);
@@ -161,8 +163,8 @@ function calcState(initialState, sortedVotes, boardParams) {
       paddleR: paddleR,
       scoreL: scoreL,
       scoreR: scoreR,
-      ballMovingLeft: ballMovingLeft
-    };
+      ballMovingLeft: ballMovingLeft,
+    }
   }
 
   var reducedState = sortedVotes.reduce(reduceState, initialState);
@@ -172,12 +174,13 @@ function calcState(initialState, sortedVotes, boardParams) {
     paddleR: mod(reducedState.paddleR, boardParams.height),
     ball: {
       x: unwrapBallPos(reducedState.ball.x, boardParams.width),
-      y: unwrapBallPos(reducedState.ball.y, boardParams.height)
+      y: unwrapBallPos(reducedState.ball.y, boardParams.height),
     },
     scoreL: reducedState.scoreL,
     scoreR: reducedState.scoreR,
-    ballMovingLeft: reducedState.ballMovingLeft
-  };
+    ballMovingLeft: reducedState.ballMovingLeft,
+  }
+
 }
 
 function voteStamp(vote) {
@@ -186,22 +189,23 @@ function voteStamp(vote) {
 }
 
 function mod(n, m) {
-  return (n % m + m) % m;
+  return ((n % m) + m) % m;
 }
 
 function unwrapBallPos(pos, size) {
   var k = Math.floor(pos / size) % 2;
-  return pos % size * (-2 * k + 1) + size * k;
+  return (pos % size)*(-2*k + 1) + size*k;
 }
+
 
 //VOTE
 //vote = {teamID:"",move:"",teamL:{payerCount:"",voteCount:""},teamR:{payerCount:"",voteCount:""},agentHash:"",randomSalt:"",}
 //NOTE: if you want to have mutiple games, you would need the GameID too;
-function castVote(vote) {
+function castVote(vote){
   var bucketIndex = getOpenBucketIndex();
-  var anchorHash = anchor("bucket", bucketIndex + "");
+  var anchorHash = anchor("bucket", bucketIndex+"");
 
-  voteHash = commit("vote", vote);
+  voteHash = commit("vote",vote);
   // On the DHT, puts a link on my anchor to the new post
   commit('voteLink', {
     Links: [{ Base: anchorHash, Link: voteHash, Tag: 'vote' }]
@@ -210,24 +214,22 @@ function castVote(vote) {
   return voteHash;
 }
 
-function makeSeal(bucketIndex) {
-  var anchorHash = anchor('bucket', bucketIndex + "");
+function makeSeal(bucketIndex){
+  var anchorHash = anchor('bucket', bucketIndex+"");
   var bucketVoteCount = getLinks(anchorHash, 'vote').length;
   if (bucketVoteCount >= BUCKET_SIZE) {
-    var bucketVotes = getLinks(anchorHash, 'vote', { Load: true });
-    var sortedVotes = bucketVotes.map(function (item) {
-      return item.Entry;
-    }).sort(compareVotes);
-    var sealingVote = sortedVotes[BUCKET_SIZE - 1];
+    var bucketVotes = getLinks(anchorHash, 'vote', { Load : true});
+    var sortedVotes = bucketVotes.map(function (item) { return item.Entry }).sort(compareVotes);
+    var sealingVote = sortedVotes[BUCKET_SIZE-1];
     //TODO: replace with calculated state
     //var state = calcState(getSealedBucketState(bucketIndex-1), sortedVotes.slice(0, BUCKET_SIZE));
     var state = calcState(initialState, sortedVotes.slice(0, BUCKET_SIZE), boardParams);
-    var voteCount = (bucketIndex + 1) * BUCKET_SIZE;
+    var voteCount = (bucketIndex+1)*BUCKET_SIZE;
     var seal = {
-      "voteHash": makeHash('vote', sealingVote),
-      "voteCount": voteCount,
-      "gameState": state
-    };
+      "voteHash" : makeHash('vote', sealingVote),
+      "voteCount" : voteCount,
+      "gameState" : state
+    }
     var sealHash = commit('seal', seal);
     commit('voteLink', {
       Links: [{ Base: anchorHash, Link: sealHash, Tag: 'seal' }]
@@ -238,7 +240,7 @@ function makeSeal(bucketIndex) {
 }
 
 function getBucketHash(bucket) {
-  return anchor('bucket', '' + bucket.index);
+  return anchor('bucket', '' + bucket.index)
 }
 
 // function getNumberOfBuckets() {
@@ -274,14 +276,14 @@ function getOpenBucketIndex() {
     index = parseInt(result.Entry, 10);
   }
   var startIndex = index;
-  while (isBucketFull(index)) {
-    index += 1;
+  while(isBucketFull(index)) {
+    index += 1
   }
   if (startIndex < index || !cacheExists) {
     if (cacheExists) {
-      update('openBucketIndex', index + "", result.Hash);
+      update('openBucketIndex', index+"", result.Hash)
     } else {
-      commit('openBucketIndex', index + "");
+      commit('openBucketIndex', index+"")
     }
   }
   return index;
@@ -291,7 +293,7 @@ function isBucketFull(index) {
   //var hash = getBucketHash({index: data.index});
   //var size = getLinks(hash, 'vote').length;
   debug(size);
-  var size = getLinks(anchor('bucket', index + ""), 'vote').length;
+  var size = getLinks(anchor('bucket', index+""), 'vote').length;
   return size >= BUCKET_SIZE;
 }
 
@@ -300,8 +302,8 @@ Count the vote for one team
 */
 
 //@param :  teamID:string
-function countVotes(teamID) {
-  return getLinks(anchor(teamID, "GameID"), 'vote', { Load: true }).length;
+function countVotes(teamID){
+  return getLinks(anchor(teamID,"GameID"), 'vote',{Load:true}).length;
 }
 
 /*
@@ -309,9 +311,11 @@ Used for getting the list of votes commited
 */
 //@param :  teamID:string
 function getVoteList(teamID) {
-  var voteLinks = getLinks(anchor(teamID, "GameID"), 'vote', { Load: true });
+  var voteLinks = getLinks(anchor(teamID,"GameID"), 'vote',{Load:true});
   return voteLinks;
 }
+
+
 
 function joinTeam(team) {
   commit("teamDesignation", team);
@@ -330,6 +334,7 @@ function anchor(anchorType, anchorText) {
   }).replace(/"/g, '');
 }
 
+
 function anchorExists(anchorType, anchorText) {
   return call('anchors', 'exists', {
     anchorType: anchorType,
@@ -339,26 +344,30 @@ function anchorExists(anchorType, anchorText) {
 
 /*=====  End of Local Zome Functions  ======*/
 
+
+
+
 // Cast you first Vote and save it localy
 
 function genesis() {
   return true;
 }
 
-function validatePut(entry_type, entry, header, pkg, sources) {
-  return validateCommit(entry_type, entry, header, pkg, sources);
+
+function validatePut(entry_type,entry,header,pkg,sources) {
+  return validateCommit(entry_type,entry,header,pkg,sources);
 }
-function validateCommit(entry_type, entry, header, pkg, sources) {
-  return true;
+function validateCommit(entry_type,entry,header,pkg,sources) {
+    return true;
 }
 
-function validateLink(linkingEntryType, baseHash, linkHash, pkg, sources) {
+function validateLink(linkingEntryType,baseHash,linkHash,pkg,sources){
   return true;
 }
-function validateMod(entry_type, hash, newHash, pkg, sources) {
+function validateMod(entry_type,hash,newHash,pkg,sources){
   return true;
 }
-function validateDel(entry_type, hash, pkg, sources) {
+function validateDel(entry_type,hash,pkg,sources) {
   return true;
 }
 function validatePutPkg(entry_type) {
@@ -378,6 +387,6 @@ function validateLink(entryType, hash, links, pkg, sources) {
   return true;
 }
 
-function validateDelPkg(entryType) {
-  return null;
+function validateDelPkg (entryType) {
+return null;
 }
