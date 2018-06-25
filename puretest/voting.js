@@ -18,7 +18,7 @@ test('Agent registration can be retrieved', t => {
 });
 
 test('Can vote in to an open bucket without throwing an error', t => {
-  let hash = castVote({
+  castVote({
     move: 1,
     teamL: {playerCount: 1, voteCount: 0},
     teamR: {playerCount: 0, voteCount: 0},
@@ -40,7 +40,7 @@ test('Vote was linked to first bucket', t => {
 });
 
 test('Can vote again in to an open bucket without throwing an error', t => {
-  let hash = castVote({
+  castVote({
     move: 1,
     teamL: {playerCount: 1, voteCount: 1},
     teamR: {playerCount: 0, voteCount: 0},
@@ -71,7 +71,7 @@ test('Almost fill the bucket', t => {
 });
 
 test('Can fill the bucket', t => {
-  let hash = castVote({
+  castVote({
     move: 1,
     teamL: {playerCount: 1, voteCount: BUCKET_SIZE-1},
     teamR: {playerCount: 0, voteCount: 0},
@@ -86,7 +86,7 @@ test('Can fill the bucket', t => {
 });
 
 test('Voting post seal created a new bucket', t => {
-  let hash = castVote({
+  castVote({
     move: 1,
     teamL: {playerCount: 1, voteCount: BUCKET_SIZE},
     teamR: {playerCount: 0, voteCount: 0},
@@ -94,6 +94,11 @@ test('Voting post seal created a new bucket', t => {
     randomSalt: 'rockSalt',
     teamID: 'L'
   });
+  t.ok(anchorExists('bucket','1'), 'Next anchor was created');
+  t.ok(getLinks(anchor('bucket', '1'), 'vote').length, 1, 'new vote was added to bucket');
+  t.end();
 });
+
+
 
 
