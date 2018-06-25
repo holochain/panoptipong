@@ -1,3 +1,4 @@
+'use strict';
 
 /*----------  Anchor API  ----------*/
 
@@ -14,6 +15,7 @@ function anchorExists(anchorType, anchorText) {
     anchorText: anchorText
   });
 }
+'use strict';
 
 function getBucketHash(bucket) {
   return anchor('bucket', '' + bucket.index);
@@ -72,7 +74,7 @@ function isBucketFull(index) {
   var size = getLinks(anchor('bucket', index + ""), 'vote').length;
   return size >= BUCKET_SIZE;
 }
-
+"use strict";
 
 // Cast you first Vote and save it localy
 
@@ -116,6 +118,7 @@ function validateLink(entryType, hash, links, pkg, sources) {
 function validateDelPkg(entryType) {
   return null;
 }
+"use strict";
 
 var BUCKET_SIZE = 10;
 
@@ -141,6 +144,7 @@ var initialState = {
   scoreR: 0,
   ballMovingLeft: boardParams.vBallx < 0
 };
+'use strict';
 
 /*=============================================
 =            Public Zome Functions            =
@@ -221,6 +225,7 @@ function vote(payload) {
 }
 
 /*=====  End of Public Functions  ======*/
+'use strict';
 
 function calcState(initialState, sortedVotes, boardParams) {
 
@@ -306,6 +311,7 @@ function unwrapBallPos(pos, size) {
   var k = Math.floor(pos / size) % 2;
   return pos % size * (-2 * k + 1) + size * k;
 }
+"use strict";
 
 //VOTE
 //vote = {teamID:"",move:"",teamL:{payerCount:"",voteCount:""},teamR:{payerCount:"",voteCount:""},agentHash:"",randomSalt:"",}

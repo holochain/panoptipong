@@ -1,0 +1,35 @@
+{
+  "name": "panoptipong",
+  "version": "1.0.0",
+  "description": "# Installation",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-core": "^6.26.3",
+    "parcel": "^1.9.2",
+    "tape": "^4.9.1"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "bin/watch-es6.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/holochain/panoptipong.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/holochain/panoptipong/issues"
+  },
+  "homepage": "https://github.com/holochain/panoptipong#readme"
+}

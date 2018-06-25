@@ -1,7 +1,7 @@
 
-var BUCKET_SIZE = 10;
+const BUCKET_SIZE = 10;
 
-var boardParams = {
+const boardParams = {
   width: 200,
   height: 100,
   paddleWidth: 5,
@@ -13,7 +13,7 @@ var boardParams = {
 };
 
 
-var initialState = {
+const initialState = {
   ball: {
       x: 60,
       y: 50
