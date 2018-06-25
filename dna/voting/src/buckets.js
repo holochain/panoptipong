@@ -56,3 +56,7 @@ function isBucketFull(index) {
   var size = getLinks(anchor('bucket', index+""), 'vote').length;
   return size >= BUCKET_SIZE;
 }
+
+function getSealedBucketState(bucketIndex) {
+  
+}

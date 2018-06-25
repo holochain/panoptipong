@@ -56,8 +56,8 @@ test('Both votes ended up linked to the same bucket', t => {
   t.end();
 });
 
-test('Almost fill the bucket', t => {
-  for(let i = 0; i < BUCKET_SIZE-3; i++) {
+test('Fill the bucket', t => {
+  for(let i = 0; i < BUCKET_SIZE-2; i++) {
     castVote({
       move: 1,
       teamL: {playerCount: 1, voteCount: i+1},
@@ -67,19 +67,6 @@ test('Almost fill the bucket', t => {
       teamID: 'L'
     });
   }
-  t.end();
-});
-
-test('Can fill the bucket', t => {
-  castVote({
-    move: 1,
-    teamL: {playerCount: 1, voteCount: BUCKET_SIZE-1},
-    teamR: {playerCount: 0, voteCount: 0},
-    agentHash: 'scatteredsmotheredcovered',
-    randomSalt: 'chickenSalt',
-    teamID: 'L'
-  });
-
   t.equal(getLinks(anchor('bucket', '0'), 'vote').length, BUCKET_SIZE, 'bucket is full');
   t.equal(getLinks(anchor('bucket', '0'), 'seal').length, 1, 'seal was added');
   t.end()

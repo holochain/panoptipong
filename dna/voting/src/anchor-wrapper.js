@@ -1,4 +1,4 @@
-
+ 
 /*----------  Anchor API  ----------*/
 
 function anchor(anchorType, anchorText) {
