@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "./bin/run-test.sh",
+    "test": "./bin/run-test.sh $1 $2",
     "watch": "bin/watch-es6.sh"
   },
   "repository": {
