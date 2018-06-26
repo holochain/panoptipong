@@ -7,8 +7,12 @@
 
 
 function getState() {
-  return getBucketState(getCurrentBucket())
+  var currentBucket = getCurrentBucket();
+  debug("getting state from bucket "+JSON.stringify(currentBucket));
+  return getBucketState(getCurrentBucket());
 }
+
+
 
 function compareVotes(a, b) {
   var totalVotesA = a.teamL.voteCount + a.teamR.voteCount;

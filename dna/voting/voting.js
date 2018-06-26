@@ -68,6 +68,8 @@ function validateDelPkg(entryType) {
 =============================================*/
 
 function getState() {
+  var currentBucket = getCurrentBucket();
+  debug("getting state from bucket " + JSON.stringify(currentBucket));
   return getBucketState(getCurrentBucket());
 }
 
