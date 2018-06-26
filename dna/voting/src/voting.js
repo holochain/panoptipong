@@ -12,7 +12,25 @@ function getState() {
   return getBucketState(getCurrentBucket());
 }
 
+function getVotesAfterVote(payload) {
 
+  var sortedVotes = getLinks(makeHash('gameBucket', getCurrentBucket()), 'vote', {Load: true})
+    .map(function (item) { return item.Entry })
+    .sort(compareVotes);
+
+  if(!payload.vote) {
+    // function called with no vote parameter
+    // return the n most recent votes
+    var n = 10;
+    var startIndex = Math.min(sortedVotes.length - n, 0);
+    return sortedVotes.slice(startIndex, sortedVotes.length);
+  } else {
+    // function called with a vote. Return votes ranked after by vote stamp
+    return sortedVotes.filter(function(element) {
+      return compareVotes(payload.vote, element) > 0;
+    });
+  }
+}
 
 function compareVotes(a, b) {
   var totalVotesA = a.teamL.voteCount + a.teamR.voteCount;
@@ -25,8 +43,14 @@ function compareVotes(a, b) {
   }
 }
 
+function getPlayer(payload) {
+
+}
+
 // REGISTERED YOUR AGENT
-function register() {
+function register(payload) {
+
+  var name = payload.name;
 
   // get the number of agents in each team so far
   var membersL = getLinks(anchor('members', 'L'), '');
@@ -49,7 +73,7 @@ function register() {
   } else {
     team = 'R';
   }
-  joinTeam(team);
+  joinTeam(team, name);
   return team;
 }
 
@@ -60,7 +84,7 @@ function getTeam() {
       Entries: true
     },
     Constrain: {
-      EntryTypes: ["teamDesignation"],
+      EntryTypes: ["privatePlayerRegistration"],
       Count: 1
     }
   });
@@ -75,8 +99,8 @@ function vote(payload) {
   var nPlayersL = getLinks(anchor('members', 'L'), '').length;
   var nPlayersR = getLinks(anchor('members', 'R'), '').length;
 
-  var nVotesL =countVotes("L");
-  var nVotesR =countVotes("R");
+  var nVotesL = countVotes("L");
+  var nVotesR = countVotes("R");
 
   var vote = {
     move: move,
@@ -233,7 +257,7 @@ function setCachedBucket(bucket, prevBucket) {
 }
 
 function getCachedBucket(hash) {
-  result=query({
+  var result = query({
     Constrain: {
       EntryTypes: ['cachedGameBucket']
     }
@@ -276,10 +300,18 @@ function getVoteList(teamID) {
 
 
 
-function joinTeam(team) {
-  commit("teamDesignation", team);
+function joinTeam(team, name) {
+  var regoHash = commit("playerRegistration", {teamID: team, agentHash: App.Key.Hash, name: name});
+  commit("privatePlayerRegistration", {teamID: team, agentHash: App.Key.Hash, name: name});
+ 
   var teamAnchorHash = anchor('members', team);
   commit("teamLink", {
     Links: [{ Base: teamAnchorHash, Link: App.Key.Hash, Tag: "" }]
   });
+
+  var playersAnchorHash = anchor('players', 'players');
+  commit("teamLink", {
+    Links: [{ Base: playersAnchorHash, Link: regoHash, Tag: "" }]
+  });
+
 }
