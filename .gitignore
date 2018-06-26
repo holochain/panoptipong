@@ -5,6 +5,9 @@ ui/
 node_modules/
 ui-src/node_modules
 ui-src/package-lock.json
+.dist/
+.cache/
+package-lock.json
 
 # OS generated files #
 ######################
