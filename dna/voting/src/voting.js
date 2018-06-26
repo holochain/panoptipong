@@ -180,7 +180,6 @@ function calcState(initialState, sortedVotes, boardParams) {
     scoreR: reducedState.scoreR,
     ballMovingLeft: reducedState.ballMovingLeft,
   }
-
 }
 
 function voteStamp(vote) {
@@ -197,19 +196,40 @@ function unwrapBallPos(pos, size) {
   return (pos % size)*(-2*k + 1) + size*k;
 }
 
+function getAnchorState(anchorHash) {
+  var sortedVotes = getLinks(anchorHash, 'vote', {Load: true})
+    .map(function (item) { return item.Entry })
+    .sort(compareVotes);
+
+  var initialAnchorState = initialState; // TODO: actually make a fresh new state for each anchor based on hash
+  return calcState(initialState, sortedVotes, boardParams);
+} 
+
+function getCurrentAnchor() {
+  // retrieved cached anchor
+
+  // resolve the state
+  var state = getAnchorState(anchorHash);
+
+  // is there a score?
+  if(state.scoreL > 0 || state.scoreR > 0) {
+    
+  } else {
+    return anchorHash;
+  }
+}
 
 //VOTE
 //vote = {teamID:"",move:"",teamL:{payerCount:"",voteCount:""},teamR:{payerCount:"",voteCount:""},agentHash:"",randomSalt:"",}
 //NOTE: if you want to have mutiple games, you woud need the GameID too;
 function castVote(vote){
-  if(anchorExists(vote.teamID,"GameID")==="false"){
-    anchor(vote.teamID,"GameID");
-  }
+
+  var anchorHash = getCurrentAnchor()
 
   voteHash = commit("vote",vote);
   // On the DHT, puts a link on my anchor to the new post
   commit('voteLink', {
-    Links: [{ Base: anchor(vote.teamID,"GameID"), Link: voteHash, Tag: 'vote' }]
+    Links: [{ Base: anchorHash, Link: voteHash, Tag: 'vote' }]
   });
 
   return voteHash;
