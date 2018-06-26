@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import logo from "./holochain_logo.png";
 import "./App.css";
+import BubbleChamber from "./components/BubbleChamber";
 import Game from "./components/Game";
 import ButtonController from "./components/ButtonController";
 import "./components/Header";
@@ -35,12 +36,14 @@ class App extends Component {
             <h1 className="App-title">PANOPTIPONG</h1>
           </header>
         </div>
-        <div className="game-and-controls">
-          { this.props.team === 'L'
-            ? [buttons, game]
-            : [game, buttons]
-          }
-        </div>
+        <BubbleChamber>
+          <div className="game-and-controls">
+            { this.props.team === 'L'
+              ? [buttons, game]
+              : [game, buttons]
+            }
+          </div>
+        </BubbleChamber>
       </div>
     );
   }

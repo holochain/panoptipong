@@ -5,13 +5,15 @@
 .BubbleChamber .player-bubble {
   position: absolute;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 45px;
+  height: 45px;
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0.5;
 }
 .BubbleChamber .player-bubble .name {
   display: block;
+  font-family: Arial;
+  font-weight: normal;
+  color: white;
 }
