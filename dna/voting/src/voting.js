@@ -8,8 +8,7 @@
 
 function getState() {
   var sortedVotes =
-    getVoteList('L')
-    .concat(getVoteList('R'))
+    getBucketState(getCurrentBucket())
     .map(function (item) { return item.Entry })
     .sort(compareVotes);
   return calcState(initialState, sortedVotes, boardParams);

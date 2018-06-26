@@ -68,7 +68,7 @@ function validateDelPkg(entryType) {
 =============================================*/
 
 function getState() {
-  var sortedVotes = getVoteList('L').concat(getVoteList('R')).map(function (item) {
+  var sortedVotes = getBucketState(getCurrentBucket()).map(function (item) {
     return item.Entry;
   }).sort(compareVotes);
   return calcState(initialState, sortedVotes, boardParams);
