@@ -7,11 +7,7 @@
 
 
 function getState() {
-  var sortedVotes =
-    getBucketState(getCurrentBucket())
-    .map(function (item) { return item.Entry })
-    .sort(compareVotes);
-  return calcState(initialState, sortedVotes, boardParams);
+  return getBucketState(getCurrentBucket())
 }
 
 function compareVotes(a, b) {
