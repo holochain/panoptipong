@@ -21,6 +21,7 @@ function anchorExists(anchorType, anchorText) {
 
 function genesis() {
   commit('cachedGameBucket', { scoreL: 0, scoreR: 0, gameID: 0 });
+  commit('gameBucket', { scoreL: 0, scoreR: 0, gameID: 0 });
   return true;
 }
 
@@ -264,9 +265,7 @@ function getBucketState(bucket) {
   return calcState(initialBucketState, sortedVotes, boardParams);
 }
 
-function getCurrentBucket(currentBucketParam) {
-  var currentBucket = currentBucketParam || getCachedBucket();
-
+function getCurrentBucket(currentBucket) {
   //  get the state on the cached bucket as currentBucket
   var state = getBucketState(currentBucket);
 
@@ -302,7 +301,7 @@ function getCachedBucket() {
 
 function castVote(vote) {
 
-  var currentBucket = getCurrentBucket();
+  var currentBucket = getCurrentBucket(getCachedBucket());
 
   voteHash = commit("vote", vote);
   // On the DHT, puts a link on my anchor to the new post

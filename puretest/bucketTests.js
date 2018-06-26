@@ -3,7 +3,7 @@ var genesisBucket = {scoreL: 0, scoreR: 0, gameID: 0};
 
 test('getBucketState returns initialState when called with an empty genesis bucket', function (t) {
     var result = getBucketState(genesisBucket);
-    t.equal(result, initialState);
+    t.deepEqual(result, initialState);
     t.end();
   });
 
