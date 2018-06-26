@@ -253,10 +253,31 @@ function getBucketState(bucket) {
   var sortedVotes = getLinks(makeHash('gameBucket', bucket), 'vote', { Load: true }).map(function (item) {
     return item.Entry;
   }).sort(compareVotes);
-  var initialBucketState = JSON.parse(JSON.stringify(initialState)); // TODO: actually make a fresh new state for each anchor based on hash
+  var initialBucketState = updateInitialState(bucket);
   initialBucketState.scoreL = bucket.scoreL;
   initialBucketState.scoreR = bucket.scoreR;
   return calcState(initialBucketState, sortedVotes, boardParams);
+}
+
+function updateInitialState(bucket) {
+  var bucketHash = makeHash(bucket);
+  var ballPositionDelta = hashToIntInRange(bucketHash);
+  var newState = {ball: {
+    x: 60 += ballPositionDelta,
+    y: 50 += ballPositionDelta
+  },
+  paddleL: 50,
+  paddleR: 50,
+  scoreL: 0,
+  scoreR: 0,
+  ballMovingLeft: boardParams.vBallx < 0};
+  return newState;
+}
+
+function hashToIntInRange(hash) {
+  var range = [-9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  var index = hash % range.length;
+  return range[index];
 }
 
 function getCurrentBucket(_currentBucket) {
@@ -272,7 +293,7 @@ function getCurrentBucket(_currentBucket) {
       scoreR: state.scoreR,
       gameID: currentBucket.gameID
     };
-
+    
     commit('gameBucket', nextBucket); // in case we are the first person to notice the score
     setCachedBucket(nextBucket, currentBucket); // TODO actually make work
     return getCurrentBucket(nextBucket);
