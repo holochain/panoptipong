@@ -53,7 +53,6 @@ const PongBall = ({x, y}) => {
 
 const Game = (props) => {
 	const {ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore} = props
-	console.log('game props', props)
 
 	return (
 		<div className="Game-wrapper">
