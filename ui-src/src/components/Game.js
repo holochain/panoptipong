@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux';
 
+import BubbleChamber from "./BubbleChamber";
+
 import './Game.css';
+import './VoteGauge.css';
 
 import {
   vote,
@@ -51,23 +54,43 @@ const PongBall = ({x, y}) => {
 	return <div className="ball" style={style}></div>
 }
 
-const Game = (props) => {
-	const {ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore} = props
+const VoteGauge = ({up, stay, down}) => {
+	const total = up + stay + down
+	const styleUp = {flexBasis: `${100 * up / total}%`}
+	const styleStay = {flexBasis: `${100 * stay / total}%`}
+	const styleDown = {flexBasis: `${100 * down / total}%`}
+	return <div className="vote-gauge">
+		<div className="vote-gauge-bar up" style={styleUp}/>
+		<div className="vote-gauge-bar stay" style={styleStay}/>
+		<div className="vote-gauge-bar down" style={styleDown}/>
+	</div>
+}
 
+const Game = ({game, viz}) => {
+	const {ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore} = game
+	const {gauges} = viz
 	return (
 		<div className="Game-wrapper">
-			<div className="Game">
-				<div className="midpoint"/>
-				<Paddle side="left" y={leftPaddleY} />
-				<Paddle side="right" y={rightPaddleY} />
-				<PongBall x={ballX} y={ballY} />
-				<div className="score score-left">{leftScore}</div>
-				<div className="score score-right">{rightScore}</div>
-			</div>
+			<BubbleChamber>
+				<div className="Game">
+					<div className="vote-gauge-wrapper left">
+						<VoteGauge {...gauges.left}/>
+					</div>
+					<div className="vote-gauge-wrapper right">
+						<VoteGauge {...gauges.right}/>
+					</div>
+					<div className="midpoint"/>
+					<Paddle side="left" y={leftPaddleY} />
+					<Paddle side="right" y={rightPaddleY} />
+					<PongBall x={ballX} y={ballY} />
+					<div className="score score-left">{leftScore}</div>
+					<div className="score score-right">{rightScore}</div>
+				</div>
+			</BubbleChamber>
 		</div>
 	);
 }
 
-const mapStateToProps = state => state.game
+const mapStateToProps = ({game, viz}) => ({game, viz})
 
 export default connect(mapStateToProps)(Game);

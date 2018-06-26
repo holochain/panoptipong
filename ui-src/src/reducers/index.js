@@ -12,8 +12,62 @@ import {gameDimensions} from '../config';
 =              Reducer Logic
 =============================================*/
 
+const dummyGauges = {
+  left: {
+    up: 3,
+    stay: 6,
+    down: 1,
+  },
+  right: {
+    up: 0,
+    stay: 1,
+    down: 1,
+  },
+}
+
 const initialState = {
-  game: {}
+  game: {},
+  viz: {
+    recentVotes: [],
+    gauges: dummyGauges,
+  },
+  players: {},  // agentHash => {name, color}
+}
+
+const getMoveName = move => {
+  if (move === 1) {
+    return 'up'
+  } else if (move === 0) {
+    return 'stay'
+  } else if (move === -1) {
+    return 'down'
+  } else {
+    return '???'
+  }
+}
+
+const calcVoteGauges = (votes) => {
+  const result = {
+    left: {
+      up: 0,
+      stay: 0,
+      down: 0,
+    },
+    right: {
+      up: 0,
+      stay: 0,
+      down: 0,
+    },
+  }
+  votes.map(({teamID, move}) => {
+    if (teamID === 'L') {
+      result.left[getMoveName(move)] += 1
+    } else {
+      result.right[getMoveName(move)] += 1
+    }
+  })
+
+  return result
 }
 
 const pongReducer = function(state = initialState, action) {
@@ -31,9 +85,10 @@ const pongReducer = function(state = initialState, action) {
           leftScore: payload.scoreL,
           rightScore: payload.scoreR,
         },
-        recentVotes: {
-          allVotes: payload.votes
-        }
+        // viz: {
+        //   recentVotes: payload.votes,
+        //   gauges: calcVoteGauges(payload.votes),
+        // }
       }
     case actions.REGISTER:
       const team = payload === 'L' || payload === 'R' ? {team: payload} : {}
