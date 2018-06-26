@@ -78,6 +78,16 @@
           "Name": "getTeam",
           "CallingType": "json",
           "Exposure": "public"
+        },
+        {
+          "Name": "getPlayers",
+          "CallingType": "json",
+          "Exposure": "public"
+        },
+        {
+          "Name": "getVotesAfterVote",
+          "CallingType": "json",
+          "Exposure": "public"
         }
       ],
       "Code": "'use strict'"
