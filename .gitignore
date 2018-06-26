@@ -2,8 +2,9 @@ agent.txt
 priv.key
 
 ui/
-ui-src/node-modules
+node_modules/
 ui-src/package-lock.json
+.cache/
 
 # OS generated files #
 ######################
