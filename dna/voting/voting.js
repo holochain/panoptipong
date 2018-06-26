@@ -1,3 +1,65 @@
+/*----------  Anchor API  ----------*/
+
+function anchor(anchorType, anchorText) {
+  return call('anchors', 'anchor', {
+    anchorType: anchorType,
+    anchorText: anchorText
+  }).replace(/"/g, '');
+}
+
+function anchorExists(anchorType, anchorText) {
+  return call('anchors', 'exists', {
+    anchorType: anchorType,
+    anchorText: anchorText
+  });
+}
+
+/*=====  End of Local Zome Functions  ======*/
+
+
+// Cast you first Vote and save it localy
+
+function genesis() {
+  commit('cachedGameBucket', { scoreL: 0, scoreR: 0, gameID: 0 });
+  return true;
+}
+
+function validatePut(entry_type, entry, header, pkg, sources) {
+  return validateCommit(entry_type, entry, header, pkg, sources);
+}
+function validateCommit(entry_type, entry, header, pkg, sources) {
+  return true;
+}
+
+function validateLink(linkingEntryType, baseHash, linkHash, pkg, sources) {
+  return true;
+}
+function validateMod(entry_type, hash, newHash, pkg, sources) {
+  return true;
+}
+function validateDel(entry_type, hash, pkg, sources) {
+  return true;
+}
+function validatePutPkg(entry_type) {
+  return null;
+}
+function validateModPkg(entry_type) {
+  return null;
+}
+function validateDelPkg(entry_type) {
+  return null;
+}
+function validateLinkPkg(entry_type) {
+  return null;
+}
+
+function validateLink(entryType, hash, links, pkg, sources) {
+  return true;
+}
+
+function validateDelPkg(entryType) {
+  return null;
+}
 
 
 /*=============================================
@@ -101,9 +163,9 @@ var boardParams = {
   paddleWidth: 5,
   paddleHeight: 30,
   ballSize: 3,
-  vBallx: 20.0,
-  vBally: 11.4,
-  vPaddle: 4.0
+  vBallx: 10.0,
+  vBally: 4.8,
+  vPaddle: 1.3
 };
 
 var initialState = {
@@ -178,8 +240,6 @@ function calcState(initialState, sortedVotes, boardParams) {
   };
 }
 
-
-//NOT
 function voteStamp(vote) {
   var totalVotes = vote.teamL.voteCount + vote.teamR.voteCount;
   return String(totalVotes) + makeHash('vote', vote);
@@ -194,18 +254,60 @@ function unwrapBallPos(pos, size) {
   return pos % size * (-2 * k + 1) + size * k;
 }
 
-//VOTE
-//vote = {teamID:"",move:"",teamL:{payerCount:"",voteCount:""},teamR:{payerCount:"",voteCount:""},agentHash:"",randomSalt:"",}
-//NOTE: if you want to have mutiple games, you woud need the GameID too;
-function castVote(vote) {
-  if (anchorExists(vote.teamID, "GameID") === "false") {
-    anchor(vote.teamID, "GameID");
+function getBucketState(bucket) {
+  var sortedVotes = getLinks(makeHash('gameBucket', bucket), 'vote', { Load: true }).map(function (item) {
+    return item.Entry;
+  }).sort(compareVotes);
+  var initialBucketState = initialState; // TODO: actually make a fresh new state for each anchor based on hash
+  initialBucketState.scoreL = bucket.scoreL;
+  initialBucketState.scoreR = bucket.scoreR;
+  return calcState(initialBucketState, sortedVotes, boardParams);
+}
+
+function getCurrentBucket(currentBucketParam) {
+  var currentBucket = currentBucketParam || getCachedBucket();
+
+  //  get the state on the cached bucket as currentBucket
+  var state = getBucketState(currentBucket);
+
+  if (state.scoreL > currentBucket.scoreL || state.scoreR > currentBucket.scoreR) {
+
+    var nextBucket = {
+      scoreL: state.scoreL,
+      scoreR: state.scoreR,
+      gameID: currentBucket.gameID
+    };
+
+    commit('gameBucket', nextBucket); // in case we are the first person to notice the score
+    setCachedBucket(nextBucket, currentBucket); // TODO actually make work
+    return getCurrentBucket(nextBucket);
+  } else {
+    return currentBucket;
   }
+}
+
+function setCachedBucket(bucket, prevBucket) {
+  update('cachedGameBucket', bucket, makeHash('cachedGameBucket', prevBucket));
+}
+
+function getCachedBucket() {
+  return query({
+    Returns: { Entries: true },
+    Constrain: {
+      EntryTypes: ['cachedGameBucket'],
+      Count: 1
+    }
+  });
+}
+
+function castVote(vote) {
+
+  var currentBucket = getCurrentBucket();
 
   voteHash = commit("vote", vote);
   // On the DHT, puts a link on my anchor to the new post
   commit('voteLink', {
-    Links: [{ Base: anchor(vote.teamID, "GameID"), Link: voteHash, Tag: 'vote' }]
+    Links: [{ Base: makeHash('gameBucket', currentBucket), Link: voteHash, Tag: 'vote' }]
   });
 
   return voteHash;
@@ -217,7 +319,7 @@ Count the vote for one team
 
 //@param :  teamID:string
 function countVotes(teamID) {
-  return getLinks(anchor(teamID, "GameID"), 'vote').length;
+  return getLinks(anchor(teamID, "GameID"), 'vote', { Load: true }).length;
 }
 
 /*
@@ -235,65 +337,4 @@ function joinTeam(team) {
   commit("teamLink", {
     Links: [{ Base: teamAnchorHash, Link: App.Key.Hash, Tag: "" }]
   });
-}
-
-/*----------  Anchor API  ----------*/
-
-function anchor(anchorType, anchorText) {
-  return call('anchors', 'anchor', {
-    anchorType: anchorType,
-    anchorText: anchorText
-  }).replace(/"/g, '');
-}
-
-function anchorExists(anchorType, anchorText) {
-  return call('anchors', 'exists', {
-    anchorType: anchorType,
-    anchorText: anchorText
-  });
-}
-
-/*=====  End of Local Zome Functions  ======*/
-
-// Cast you first Vote and save it localy
-
-function genesis() {
-  return true;
-}
-
-function validatePut(entry_type, entry, header, pkg, sources) {
-  return validateCommit(entry_type, entry, header, pkg, sources);
-}
-function validateCommit(entry_type, entry, header, pkg, sources) {
-  return true;
-}
-
-function validateLink(linkingEntryType, baseHash, linkHash, pkg, sources) {
-  return true;
-}
-function validateMod(entry_type, hash, newHash, pkg, sources) {
-  return true;
-}
-function validateDel(entry_type, hash, pkg, sources) {
-  return true;
-}
-function validatePutPkg(entry_type) {
-  return null;
-}
-function validateModPkg(entry_type) {
-  return null;
-}
-function validateDelPkg(entry_type) {
-  return null;
-}
-function validateLinkPkg(entry_type) {
-  return null;
-}
-
-function validateLink(entryType, hash, links, pkg, sources) {
-  return true;
-}
-
-function validateDelPkg(entryType) {
-  return null;
 }
