@@ -104,7 +104,7 @@ function compareVotes(a, b) {
   }
 }
 
-function getPlayer(payload) {
+function getPlayers() {
   return getLinks(anchor('players', 'players'), '', { Load: true }).map(function (item) {
     return item.Entry;
   });

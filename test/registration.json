@@ -23,6 +23,14 @@
         "Input": {},
         "Output": {"teamID" : "L", "agentHash" : "%key%", "name" : "testName"},
         "Exposure":"public"
+    },
+    {
+        "Convey":"Player was linked to player anchor and can be retrieved",
+        "Zome": "voting",
+        "FnName": "getPlayers",
+        "Input": {},
+        "Output": [{"teamID" : "L", "agentHash" : "%key%", "name" : "testName"}],
+        "Exposure":"public"
     }
   ]
 }
