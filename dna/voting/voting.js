@@ -104,7 +104,11 @@ function compareVotes(a, b) {
   }
 }
 
-function getPlayer(payload) {}
+function getPlayer(payload) {
+  return getLinks(anchor('players', 'players'), '', { Load: true }).map(function (item) {
+    return item.Entry;
+  });
+}
 
 // REGISTERED YOUR AGENT
 function register(payload) {
