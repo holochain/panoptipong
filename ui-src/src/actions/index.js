@@ -11,6 +11,11 @@ export const VOTE = "vote"
 export const GET_STATE = "getState"
 export const APP_PROPERTY = "appProperty"
 
+export const GET_PLAYERS = "getPlayers"
+export const GET_RECENT_VOTES = "getRecentVotes"
+
+export const UPDATE_NAME_ENTRY = "updateNameEntry"
+
 const namespace = 'voting'
 
 /*=============================================
@@ -30,12 +35,13 @@ export function appProperty(appState, then) {
   }
 }
 
-export function register(then) {
+export function register(data, then) {
   return {
     type: REGISTER,
     meta: {
       isHc: true,
       namespace,
+      data,
       then,
     }
   }
@@ -59,5 +65,33 @@ export function getState() {
       isHc: true,
       namespace,
     }
+  }
+}
+
+export function getPlayers() {
+  return {
+    type: GET_PLAYERS,
+    meta: {
+      isHc: true,
+      namespace,
+    }
+  }
+}
+
+export function getRecentVotes(data) {
+  return {
+    type: GET_RECENT_VOTES,
+    meta: {
+      isHc: true,
+      namespace,
+      data,
+    }
+  }
+}
+
+export function updateNameEntry(name) {
+  return {
+    type: UPDATE_NAME_ENTRY,
+    payload: name,
   }
 }

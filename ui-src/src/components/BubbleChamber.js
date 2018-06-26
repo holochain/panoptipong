@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux';
 
+import {Jdenticon} from './Common';
+
 import './BubbleChamber.css';
 
 import {
@@ -8,14 +10,13 @@ import {
 } from '../actions'
 
 
-const PlayerBubble = ({name, color, x, y, right, opacity}) => {
+const PlayerBubble = ({name, x, y, right, opacity}) => {
   const style = Object.assign({
-    backgroundColor: color,
     top: x,
     opacity,
   }, right ? {right: x} : {left: x})
   return <div className="player-bubble" style={style}>
-    <span className="name">{ name }</span>
+    <Jdenticon size="40px" hash={name} />
   </div>
 }
 
@@ -28,17 +29,15 @@ class BubbleChamber extends Component {
         {
           x: 50,
           y: 80,
-          color: 'green',
           right: true,
-          opacity: 0.5,
+          opacity: 0.75,
           name: 'MD'
         },
         {
           x: 130,
           y: 90,
-          color: 'blue',
           right: true,
-          opacity: 0.5,
+          opacity: 0.75,
           name: 'LJ'
         }
       ]

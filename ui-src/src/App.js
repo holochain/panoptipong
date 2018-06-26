@@ -17,7 +17,7 @@ import {
 class App extends Component {
 
   componentWillMount() {
-    this.props.register(data => {
+    this.props.register({name: this.props.nameEntry}, data => {
       setInterval(this.props.getState, 500);
       return data;
     })
@@ -49,7 +49,7 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({team}) => ({team})
+const mapStateToProps = ({team, nameEntry}) => ({team, nameEntry})
 
 const mapDispatchToProps = dispatch => {
   return {

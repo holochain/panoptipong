@@ -27,6 +27,8 @@ const dummyGauges = {
 
 const initialState = {
   game: {},
+  team: null,
+  nameEntry: "",
   viz: {
     recentVotes: [],
     gauges: dummyGauges,
@@ -93,6 +95,11 @@ const pongReducer = function(state = initialState, action) {
     case actions.REGISTER:
       const team = payload === 'L' || payload === 'R' ? {team: payload} : {}
       return Object.assign({...state}, team)
+    case actions.UPDATE_NAME_ENTRY:
+      return {
+        ...state,
+        nameEntry: payload,
+      }
     default:
       return state
   }
