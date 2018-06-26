@@ -210,10 +210,15 @@ function getBucketState(bucketHash) {
 function getCurrentBucket() {
 
   // get the cachaed current bucket if it exists
-  currentBucketHash = query();
+  var currentBucketHash = query({
+    Constrain: {
+      EntryTypes: 'currentGameBucketHash',
+      Count: 1
+    }
+  });
 
   //  get the state on the cached bucket
-  var state = getBucketState();
+  var state = getBucketState(currentBucketHash);
 
   if (state.scoreL > 0) {
     currentBucketHash = makeHash('gameBucket', {});
