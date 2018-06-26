@@ -21,7 +21,10 @@ function anchorExists(anchorType, anchorText) {
 
 function genesis() {
   commit('cachedGameBucket', { scoreL: 0, scoreR: 0, gameID: 0 });
+<<<<<<< HEAD
+=======
   commit('gameBucket', { scoreL: 0, scoreR: 0, gameID: 0 });
+>>>>>>> 0359051ccdbff1239295f29ee9687b3aa401dc22
   return true;
 }
 
@@ -291,14 +294,14 @@ function setCachedBucket(bucket, prevBucket) {
   update('cachedGameBucket', bucket, makeHash('cachedGameBucket', prevBucket));
 }
 
-function getCachedBucket() {
-  return query({
-    Returns: { Entries: true },
+function getCachedBucket(hash) {
+  result = query({
     Constrain: {
-      EntryTypes: ['cachedGameBucket'],
-      Count: 1
+      EntryTypes: ['cachedGameBucket']
     }
   });
+  // Returns the last entry because its the most updated values
+  return result[result.length - 1];
 }
 
 function castVote(vote) {
