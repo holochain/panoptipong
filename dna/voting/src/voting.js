@@ -198,12 +198,15 @@ function unwrapBallPos(pos, size) {
 
 
 
-function getBucketState(bucketHash) {
+function getBucketState(bucket) {
+  var bucketHash = makeHash('gameBucket', bucket);
   var sortedVotes = getLinks(bucketHash, 'vote', {Load: true})
     .map(function (item) { return item.Entry })
     .sort(compareVotes);
   var initialBucketState = initialState; // TODO: actually make a fresh new state for each anchor based on hash
-  return calcState(initialState, sortedVotes, boardParams);
+  initialBucketState.scoreL = bucket.scoreL;
+  initialBucketState.scoreR = bucket.scoreR;
+  return calcState(initialBucketState, sortedVotes, boardParams);
 } 
 
 
