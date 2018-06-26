@@ -1,0 +1,28 @@
+{
+  "Tests":[
+    {
+        "Convey":"Can check that initially an agent is not assigned",
+        "Zome": "voting",
+        "FnName": "getTeam",
+        "Input": {},
+        "Output": "NotRegistered",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"An agent is registered and initially assigned to team L",
+        "Zome": "voting",
+        "FnName": "register",
+        "Input": {"name" : "testName"},
+        "Output": "L",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Can get the registration from local chain",
+        "Zome": "voting",
+        "FnName": "getTeam",
+        "Input": {},
+        "Output": {"teamID" : "L", "agentHash" : "%key%", "name" : "testName"},
+        "Exposure":"public"
+    }
+  ]
+}
