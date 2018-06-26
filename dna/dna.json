@@ -24,9 +24,28 @@
           "Sharing": "public"
         },
         {
-          "Name": "teamDesignation",
-          "DataFormat": "string",
-          "Sharing": "private"
+          "Name": "playerRegistration",
+          "DataFormat": "json",
+          "Sharing": "public",
+          "SchemaFile" : "playerRegistration.json"
+        },
+        {
+          "Name": "privatePlayerRegistration",
+          "DataFormat": "json",
+          "Sharing": "private",
+          "SchemaFile" : "playerRegistration.json"
+        },
+        {
+          "Name": "gameBucket",
+          "DataFormat": "json",
+          "Sharing": "public",
+          "SchemaFile" : "gameBucket.json"
+        },
+        {
+          "Name": "cachedGameBucket",
+          "DataFormat": "json",
+          "Sharing": "private",
+          "SchemaFile" : "gameBucket.json"
         },
         {
           "Name": "teamLink",
@@ -57,6 +76,16 @@
         },
         {
           "Name": "getTeam",
+          "CallingType": "json",
+          "Exposure": "public"
+        },
+        {
+          "Name": "getPlayers",
+          "CallingType": "json",
+          "Exposure": "public"
+        },
+        {
+          "Name": "getVotesAfterVote",
           "CallingType": "json",
           "Exposure": "public"
         }

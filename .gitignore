@@ -3,7 +3,7 @@ priv.key
 
 ui/
 node_modules/
-ui-src/package-lock.json
+.dist/
 .cache/
 
 # OS generated files #

@@ -1,6 +1,6 @@
-# Post Pong Chain - CRDT Pong
+# PANOPTIPONG - CRDT Pong
 
-# Installation
+## Installation
 
 Run two processes:
 
@@ -13,6 +13,22 @@ cd ui-src && npm start
 ```
 
 Then go to http://localhost:3000
+
+## Running tests
+
+This repo uses an experimental method of running Holochain unit tests. It uses a fork of holochain-proto which adds a new command: `hcdev run-js`. This allows arbitrary execution of code in the Javascript ribosome, allowing us to use an existing JS test runner ([tape](https://github.com/substack/tape) in our case) to test app functionality.
+
+Get the fork from https://github.com/maackle/holochain-proto. 
+Then, `npm test -- [ZOME_NAME] [TEST_FILENAME]`.
+
+e.g.: `npm test -- voting puretest/index.js`
+
+### Setup
+
+```
+git clone github.com/maackle/holochain-proto
+cd $GOPATH/github.com/maackle/holochain-proto && make
+```
 
 ## Registration
 - As an agent, when I join I link my key hash to a team membership anchor

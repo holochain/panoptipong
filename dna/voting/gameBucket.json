@@ -1,0 +1,10 @@
+{
+    "title": "Game Bucket",
+    "type": "object",
+    "properties" : {
+      "scoreL" : { "type" : "integer"},
+      "scoreR" : { "type" : "integer"},
+      "gameID" : { "type" : "integer"}
+    },
+    "required": ["scoreL", "scoreR", "gameID"]
+}

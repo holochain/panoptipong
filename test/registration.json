@@ -1,0 +1,54 @@
+{
+  "Tests":[
+    {
+        "Convey":"Can check that initially an agent is not assigned",
+        "Zome": "voting",
+        "FnName": "getTeam",
+        "Input": {},
+        "Output": "NotRegistered",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"An agent is registered and initially assigned to team L",
+        "Zome": "voting",
+        "FnName": "register",
+        "Input": {"name" : "testName"},
+        "Output": "L",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Can get the registration from local chain",
+        "Zome": "voting",
+        "FnName": "getTeam",
+        "Input": {},
+        "Output": "L",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Player was linked to player anchor and can be retrieved",
+        "Zome": "voting",
+        "FnName": "getPlayers",
+        "Input": {},
+        "Output": [{"teamID" : "L", "agentHash" : "%key%", "name" : "testName"}],
+        "Exposure":"public"
+    },
+    {
+        "Convey":"cast a bunch of votes",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move" : 0},
+        "Repeat" : 5,
+        "RegExp" : ".*",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Can retrieve the votes",
+        "Zome": "voting",
+        "Raw" : true,
+        "FnName": "getVotesAfterVote",
+        "Input": "getVotesAfterVote().length",
+        "Output": "5",
+        "Exposure":"public"
+    }
+  ]
+}
