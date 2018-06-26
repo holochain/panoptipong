@@ -25,7 +25,13 @@ class App extends Component {
   render() {
     const game = <Game ballX={10} ballY={20} leftPaddleY={30} rightPaddleY={40} />
     const buttons = <ButtonController />
-    console.log(this.props)
+    const interstitialModal = <div className="interstitial-modal-overlay">
+      <div className="interstitial-modal">
+        <p>pick a name</p>
+        <button>join game</button>
+      </div>
+    </div>
+    const isRegistered = false
 
     return (
       <div className="App">
@@ -41,6 +47,8 @@ class App extends Component {
             : [game, buttons]
           }
         </div>
+
+        { isRegistered ? null : interstitialModal }
       </div>
     );
   }
