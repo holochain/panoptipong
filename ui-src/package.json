@@ -8,6 +8,7 @@
     "lodash": "^4.17.10",
     "react": "^16.4.0",
     "react-bootstrap": "^0.32.1",
+    "react-color": "^2.14.1",
     "react-dom": "^16.4.0",
     "react-redux": "^5.0.7",
     "react-scripts": "1.1.4",

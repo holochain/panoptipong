@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import logo from "./holochain_logo.png";
 import "./App.css";
-import Game from "./components/Game";
 import ButtonController from "./components/ButtonController";
+import Game from "./components/Game";
+import RegisterModal from "./components/RegisterModal";
 import "./components/Header";
 import {connect} from 'react-redux';
 
@@ -25,12 +26,6 @@ class App extends Component {
   render() {
     const game = <Game ballX={10} ballY={20} leftPaddleY={30} rightPaddleY={40} />
     const buttons = <ButtonController />
-    const interstitialModal = <div className="interstitial-modal-overlay">
-      <div className="interstitial-modal">
-        <p>pick a name</p>
-        <button>join game</button>
-      </div>
-    </div>
     const isRegistered = false
 
     return (
@@ -48,7 +43,7 @@ class App extends Component {
           }
         </div>
 
-        { isRegistered ? null : interstitialModal }
+        { isRegistered ? null : <RegisterModal/> }
       </div>
     );
   }
