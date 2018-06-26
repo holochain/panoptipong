@@ -31,3 +31,8 @@ class BubbleChamber extends Component {
     </div>
   }
 }
+
+
+const mapStateToProps = state => state.recentVotes
+
+export default connect(mapStateToProps)(BubbleChamber);

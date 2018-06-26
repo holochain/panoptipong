@@ -31,6 +31,9 @@ const pongReducer = function(state = initialState, action) {
           leftScore: payload.scoreL,
           rightScore: payload.scoreR,
         },
+        recentVotes: {
+          allVotes: payload.votes
+        }
       }
     case actions.REGISTER:
       const team = payload === 'L' || payload === 'R' ? {team: payload} : {}
