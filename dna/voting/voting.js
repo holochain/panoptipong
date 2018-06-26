@@ -265,7 +265,9 @@ function getBucketState(bucket) {
   return calcState(initialBucketState, sortedVotes, boardParams);
 }
 
-function getCurrentBucket(currentBucket) {
+function getCurrentBucket(_currentBucket) {
+  var currentBucket = _currentBucket || getCachedBucket();
+
   //  get the state on the cached bucket as currentBucket
   var state = getBucketState(currentBucket);
 
@@ -301,7 +303,7 @@ function getCachedBucket() {
 
 function castVote(vote) {
 
-  var currentBucket = getCurrentBucket(getCachedBucket());
+  var currentBucket = getCurrentBucket();
 
   voteHash = commit("vote", vote);
   // On the DHT, puts a link on my anchor to the new post
