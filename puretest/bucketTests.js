@@ -45,19 +45,17 @@ test('getCurrentBucket with param getCachedBucket returns cached (genesis) bucke
 
 test('getCurrentBucket returns next bucket when called after currentBucket has a score', function (t) {
     
-    for (let votes = 0; votes < 100; votes++) {
-        castVote({move: 0,
-            teamL: { playerCount: 1, voteCount: votes },
-            teamR: { playerCount: 0, voteCount: 0 },
-            agentHash: 'scatteredsmotheredcovered',
-            randomSalt: 'kosherSalt'+ votes,
-            teamID: 'L'});
-            if (getCurrentBucket() !== genesisBucket) {
-                t.ok(true);
-                t.end();
-            }
-        }
-    t.ok(false);    
-    t.end();
-  });
+  for (let votes = 0; votes < 20; votes++) {
+    castVote({move: 0,
+      teamL: { playerCount: 1, voteCount: votes },
+      teamR: { playerCount: 0, voteCount: 0 },
+      agentHash: 'scatteredsmotheredcovered',
+      randomSalt: 'kosherSalt'+ votes,
+      teamID: 'L'});
+  }
+
+  t.comment(JSON.stringify(getCurrentBucket()));
+  t.notDeepEqual(getCurrentBucket(), genesisBucket);
+  t.end();
+});
   

@@ -238,11 +238,6 @@ function calcState(initialState, sortedVotes, boardParams) {
   };
 }
 
-function voteStamp(vote) {
-  var totalVotes = vote.teamL.voteCount + vote.teamR.voteCount;
-  return String(totalVotes) + makeHash('vote', vote);
-}
-
 function mod(n, m) {
   return (n % m + m) % m;
 }
