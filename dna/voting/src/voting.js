@@ -206,7 +206,7 @@ function getBucketState(bucket) {
   initialBucketState.scoreL = bucket.scoreL;
   initialBucketState.scoreR = bucket.scoreR;
   return calcState(initialBucketState, sortedVotes, boardParams);
-} 
+}
 
 
 function getCurrentBucket(currentBucket) {
@@ -232,17 +232,17 @@ function getCurrentBucket(currentBucket) {
 }
 
 function setCachedBucket(bucket, prevBucket) {
-  update('cachedGameBucket', bucket, makeHash('cachedGameBucket', prevBucket));
+  update('cachedGameBucket',bucket,makeHash('cachedGameBucket',prevBucket))
 }
 
-function getCachedBucket() {
-  return query({
-    Returns: { Entries: true},
+function getCachedBucket(hash) {
+  result=query({
     Constrain: {
-      EntryTypes: ['cachedGameBucket'],
-      Count: 1
+      EntryTypes: ['cachedGameBucket']
     }
   });
+  // Returns the last entry because its the most updated values
+  return result[result.length-1];
 }
 
 
@@ -286,4 +286,3 @@ function joinTeam(team) {
     Links: [{ Base: teamAnchorHash, Link: App.Key.Hash, Tag: "" }]
   });
 }
-

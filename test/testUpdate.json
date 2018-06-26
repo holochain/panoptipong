@@ -1,0 +1,70 @@
+{
+  "Tests":[
+    {
+        "Convey":"Checing if cachedBucket is created in genesis",
+        "Zome": "voting",
+        "Raw": true,
+        "FnName": "getCachedBucket",
+        "Input": "JSON.stringify(getCachedBucket())",
+        "Output": "{\"gameID\":0,\"scoreL\":0,\"scoreR\":0}",
+        "Exposure":"private"
+    },
+    {
+        "Convey":"setting a new bucket state",
+        "Zome": "voting",
+        "Raw": true,
+        "FnName": "setCachedBucket",
+        "Input": "setCachedBucket({\"gameID\":0,\"scoreL\":1,\"scoreR\":0},{\"gameID\":0,\"scoreL\":0,\"scoreR\":0})",
+        "RegExp":".*",
+        "Exposure":"private"
+    },
+    {
+            "Convey":"Checing if cachedBucket is updated",
+            "Zome": "voting",
+            "Raw": true,
+            "FnName": "getCachedBucket",
+            "Input": "JSON.stringify(getCachedBucket())",
+            "Output": "{\"gameID\":0,\"scoreL\":1,\"scoreR\":0}",
+            "Exposure":"private"
+    },
+    {
+        "Convey":"setting a new bucket state",
+        "Zome": "voting",
+        "Raw": true,
+        "FnName": "setCachedBucket",
+        "Input": "setCachedBucket({\"gameID\":0,\"scoreL\":2,\"scoreR\":0},{\"gameID\":0,\"scoreL\":1,\"scoreR\":0})",
+        "RegExp":".*",
+        "Exposure":"private"
+    },
+    {
+            "Convey":"Checing if cachedBucket is updated",
+            "Zome": "voting",
+            "Raw": true,
+            "FnName": "getCachedBucket",
+            "Input": "JSON.stringify(getCachedBucket())",
+            "Output": "{\"gameID\":0,\"scoreL\":2,\"scoreR\":0}",
+            "Exposure":"private"
+    },
+    {
+        "Convey":"setting a new bucket state",
+        "Zome": "voting",
+        "Raw": true,
+        "FnName": "setCachedBucket",
+        "Input": "setCachedBucket({\"gameID\":0,\"scoreL\":2,\"scoreR\":1},{\"gameID\":0,\"scoreL\":2,\"scoreR\":0})",
+        "RegExp":".*",
+        "Exposure":"private"
+    },
+    {
+            "Convey":"Checing if cachedBucket is updated",
+            "Zome": "voting",
+            "Raw": true,
+            "FnName": "getCachedBucket",
+            "Input": "JSON.stringify(getCachedBucket())",
+            "Output": "{\"gameID\":0,\"scoreL\":2,\"scoreR\":1}",
+            "Exposure":"private"
+    }
+
+
+
+  ]
+}
