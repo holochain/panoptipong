@@ -50,7 +50,7 @@
       "Zome": "voting",
       "FnName": "getState",
       "Input": {},
-      "Output": {"ball":{"x":73.01076477383243,"y":63.01076477383248},"paddleL":55.19999999999999,"paddleR":52.599999999999994}
+      "Output": {"ball":{"x":100,"y":69.2},"ballMovingLeft":false,"paddleL":55.19999999999999,"paddleR":52.599999999999994,"scoreL":0,"scoreR":0}
     },
     {
         "Time": 4700,
@@ -59,6 +59,7 @@
         "FnName": "vote",
         "Input": {"move":1},
         "Output":"%h1%",
+        "Repeat":2,
         "RegExp":".*"
     },
     {
@@ -67,7 +68,7 @@
       "Zome": "voting",
       "FnName": "getState",
       "Input": {},
-      "Output": {"ball":{"x":74.63711037056149,"y":64.63711037056153},"paddleL":56.499999999999986,"paddleR":52.599999999999994}
+      "Output": {"ball":{"x":165,"y":99.59999999999992},"ballMovingLeft":false,"paddleL":57.79999999999998,"paddleR":52.599999999999994,"scoreL":0,"scoreR":0}
     }
 
   ]
