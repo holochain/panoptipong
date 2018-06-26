@@ -310,7 +310,7 @@ function setCachedBucket(bucket, prevBucket) {
 }
 
 function getCachedBucket(hash) {
-  result = query({
+  var result = query({
     Constrain: {
       EntryTypes: ['cachedGameBucket']
     }

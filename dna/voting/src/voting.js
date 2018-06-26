@@ -44,7 +44,7 @@ function compareVotes(a, b) {
 }
 
 function getPlayer(payload) {
-  
+
 }
 
 // REGISTERED YOUR AGENT
@@ -257,7 +257,7 @@ function setCachedBucket(bucket, prevBucket) {
 }
 
 function getCachedBucket(hash) {
-  result=query({
+  var result = query({
     Constrain: {
       EntryTypes: ['cachedGameBucket']
     }
