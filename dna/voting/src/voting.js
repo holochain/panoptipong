@@ -43,6 +43,10 @@ function compareVotes(a, b) {
   }
 }
 
+function getPlayer(payload) {
+  
+}
+
 // REGISTERED YOUR AGENT
 function register(payload) {
 
