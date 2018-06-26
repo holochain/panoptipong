@@ -21,7 +21,7 @@
         "Zome": "voting",
         "FnName": "getTeam",
         "Input": {},
-        "Output": {"teamID" : "L", "agentHash" : "%key%", "name" : "testName"},
+        "Output": "L",
         "Exposure":"public"
     },
     {
@@ -30,6 +30,24 @@
         "FnName": "getPlayers",
         "Input": {},
         "Output": [{"teamID" : "L", "agentHash" : "%key%", "name" : "testName"}],
+        "Exposure":"public"
+    },
+    {
+        "Convey":"cast a bunch of votes",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move" : 0},
+        "Repeat" : 5,
+        "RegExp" : ".*",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Can retrieve the votes",
+        "Zome": "voting",
+        "Raw" : true,
+        "FnName": "getVotesAfterVote",
+        "Input": "getVotesAfterVote().length",
+        "Output": "5",
         "Exposure":"public"
     }
   ]

@@ -18,18 +18,16 @@ function getVotesAfterVote(payload) {
     .map(function (item) { return item.Entry })
     .sort(compareVotes);
 
-  if(!payload.vote) {
-    // function called with no vote parameter
-    // return the n most recent votes
+  if (payload && payload.vote) {
+    return sortedVotes.filter(function(element) {
+      return compareVotes(payload.vote, element) > 0
+    });
+  } else {
     var n = 10;
     var startIndex = Math.min(sortedVotes.length - n, 0);
     return sortedVotes.slice(startIndex, sortedVotes.length);
-  } else {
-    // function called with a vote. Return votes ranked after by vote stamp
-    return sortedVotes.filter(function(element) {
-      return compareVotes(payload.vote, element) > 0;
-    });
   }
+
 }
 
 function compareVotes(a, b) {
@@ -91,7 +89,8 @@ function getTeam() {
     }
   });
 
-  return response[0] || "NotRegistered";
+  var rego = response[0] || {teamID : "NotRegistered"}
+  return rego.teamID;
 }
 
 

@@ -6,5 +6,5 @@
       "teamID" : {"type" : "string"},
       "name" : {"type" : "string"}
     },
-    "required": ["agentHash", "teamID", "name"]
+    "required": ["agentHash", "teamID"]
 }
