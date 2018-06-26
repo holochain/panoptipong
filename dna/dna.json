@@ -24,9 +24,16 @@
           "Sharing": "public"
         },
         {
-          "Name": "teamDesignation",
-          "DataFormat": "string",
-          "Sharing": "private"
+          "Name": "playerRegistration",
+          "DataFormat": "json",
+          "Sharing": "public",
+          "SchemaFile" : "playerRegistration.json"
+        },
+        {
+          "Name": "privatePlayerRegistration",
+          "DataFormat": "json",
+          "Sharing": "private",
+          "SchemaFile" : "playerRegistration.json"
         },
         {
           "Name": "gameBucket",
