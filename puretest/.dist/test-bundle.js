@@ -8280,7 +8280,8 @@ test('castVote causes vote to be linked to genesis bucket', function (t) {
         agentHash: 'scatteredsmotheredcovered',
         randomSalt: 'kosherSalt',
         teamID: 'L' });
-    t.equal(getLinks(genesisBucket).length, 1);
+    var voteCount = getLinks(makeHash('gameBucket', genesisBucket), 'vote').length;
+    t.equal(voteCount, 1);
     t.end();
 });
 

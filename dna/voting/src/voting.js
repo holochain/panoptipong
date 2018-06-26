@@ -248,7 +248,7 @@ function getCachedBucket() {
 
 function castVote(vote){
 
-  var currentBucket = getCurrentBucket(getCachedBucket())
+  var currentBucket = getCurrentBucket(getCachedBucket());
 
   voteHash = commit("vote",vote);
   // On the DHT, puts a link on my anchor to the new post
