@@ -56,9 +56,17 @@ const PongBall = ({x, y}) => {
 
 const VoteGauge = ({up, stay, down}) => {
 	const total = up + stay + down
-	const styleUp = {flexBasis: `${100 * up / total}%`}
-	const styleStay = {flexBasis: `${100 * stay / total}%`}
-	const styleDown = {flexBasis: `${100 * down / total}%`}
+  if (total === 0) {
+    up = down = 0
+    stay = 1
+  } else {
+    up /= total
+    stay /= total
+    down /= total
+  }
+	const styleUp = {flexBasis: `${100 * up}%`}
+	const styleStay = {flexBasis: `${100 * stay}%`}
+	const styleDown = {flexBasis: `${100 * down}%`}
 	return <div className="vote-gauge">
 		<div className="vote-gauge-bar up" style={styleUp}/>
 		<div className="vote-gauge-bar stay" style={styleStay}/>

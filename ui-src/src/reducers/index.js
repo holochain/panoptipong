@@ -48,6 +48,20 @@ const getMoveName = move => {
   }
 }
 
+const compareVotesReversed = (a, b) => {
+  var totalVotesA = a.teamL.voteCount + a.teamR.voteCount;
+  var totalVotesB = b.teamL.voteCount + b.teamR.voteCount;
+  return totalVotesB - totalVotesA;
+}
+
+const getLatestVote = votes => {
+  // TODO: use agentHash as tie breaker, coordinate with backend
+  if (votes.length > 0) {
+    return votes.sort(compareVotesReversed)[0]
+  }
+  return null
+}
+
 const calcVoteGauges = (votes) => {
   const result = {
     left: {
@@ -86,15 +100,27 @@ const pongReducer = function(state = initialState, action) {
           rightPaddleY: payload.paddleR,
           leftScore: payload.scoreL,
           rightScore: payload.scoreR,
-        },
-        // viz: {
-        //   recentVotes: payload.votes,
-        //   gauges: calcVoteGauges(payload.votes),
-        // }
+        }
       }
     case actions.REGISTER:
       const team = payload === 'L' || payload === 'R' ? {team: payload} : {}
       return Object.assign({...state}, team)
+    case actions.GET_PLAYERS:
+      const players = {}
+      payload.forEach(({agentHash, teamID, name}) => {
+        players[agentHash] = {name, teamID}
+      })
+      return { ...state, players }
+    case actions.GET_RECENT_VOTES:
+      const latestVote = getLatestVote(payload.votes)
+      return {
+        ...state,
+        viz: {
+          latestVote: latestVote ? latestVote : state.viz.latestVote,
+          recentVotes: payload.votes,
+          gauges: calcVoteGauges(payload.votes),
+        }
+      }
     case actions.UPDATE_NAME_ENTRY:
       return {
         ...state,

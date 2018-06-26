@@ -26,7 +26,7 @@ class App extends Component {
   render() {
     const game = <Game ballX={10} ballY={20} leftPaddleY={30} rightPaddleY={40} />
     const buttons = <ButtonController />
-    const isRegistered = false
+    const isRegistered = !!this.props.team
 
     return (
       <div className="App">
