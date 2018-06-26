@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux';
 import {Jdenticon} from './Common';
-import {updateNameEntry} from '../actions';
+import {updateNameEntry, register} from '../actions';
 import './RegisterModal.css';
 
 class RegisterModal extends Component {
