@@ -196,40 +196,44 @@ function unwrapBallPos(pos, size) {
   return (pos % size)*(-2*k + 1) + size*k;
 }
 
-function getAnchorState(anchorHash) {
-  var sortedVotes = getLinks(anchorHash, 'vote', {Load: true})
+
+
+function getBucketState(bucketHash) {
+  var sortedVotes = getLinks(bucketHash, 'vote', {Load: true})
     .map(function (item) { return item.Entry })
     .sort(compareVotes);
-
-  var initialAnchorState = initialState; // TODO: actually make a fresh new state for each anchor based on hash
+  var initialBucketState = initialState; // TODO: actually make a fresh new state for each anchor based on hash
   return calcState(initialState, sortedVotes, boardParams);
 } 
 
-function getCurrentAnchor() {
-  // retrieved cached anchor
 
-  // resolve the state
-  var state = getAnchorState(anchorHash);
+function getCurrentBucket() {
 
-  // is there a score?
-  if(state.scoreL > 0 || state.scoreR > 0) {
-    
-  } else {
-    return anchorHash;
+  // get the cachaed current bucket if it exists
+  currentBucketHash = query();
+
+  //  get the state on the cached bucket
+  var state = getBucketState();
+
+  if (state.scoreL > 0) {
+    currentBucketHash = makeHash('gameBucket', {});
+
+    commit('currentGameBucketHash', newBucketHash);
+  } else if (state.scoreR > 0) {
+
   }
+  return currentBucketHash;
 }
 
-//VOTE
-//vote = {teamID:"",move:"",teamL:{payerCount:"",voteCount:""},teamR:{payerCount:"",voteCount:""},agentHash:"",randomSalt:"",}
-//NOTE: if you want to have mutiple games, you woud need the GameID too;
+
 function castVote(vote){
 
-  var anchorHash = getCurrentAnchor()
+  var bucketHash = getCurrentBucket()
 
   voteHash = commit("vote",vote);
   // On the DHT, puts a link on my anchor to the new post
   commit('voteLink', {
-    Links: [{ Base: anchorHash, Link: voteHash, Tag: 'vote' }]
+    Links: [{ Base: bucketHash, Link: voteHash, Tag: 'vote' }]
   });
 
   return voteHash;
@@ -263,68 +267,3 @@ function joinTeam(team) {
   });
 }
 
-/*----------  Anchor API  ----------*/
-
-function anchor(anchorType, anchorText) {
-  return call('anchors', 'anchor', {
-    anchorType: anchorType,
-    anchorText: anchorText
-  }).replace(/"/g, '');
-}
-
-
-function anchorExists(anchorType, anchorText) {
-  return call('anchors', 'exists', {
-    anchorType: anchorType,
-    anchorText: anchorText
-  });
-}
-
-/*=====  End of Local Zome Functions  ======*/
-
-
-
-
-// Cast you first Vote and save it localy
-
-function genesis() {
-  return true;
-}
-
-
-function validatePut(entry_type,entry,header,pkg,sources) {
-  return validateCommit(entry_type,entry,header,pkg,sources);
-}
-function validateCommit(entry_type,entry,header,pkg,sources) {
-    return true;
-}
-
-function validateLink(linkingEntryType,baseHash,linkHash,pkg,sources){
-  return true;
-}
-function validateMod(entry_type,hash,newHash,pkg,sources){
-  return true;
-}
-function validateDel(entry_type,hash,pkg,sources) {
-  return true;
-}
-function validatePutPkg(entry_type) {
-  return null;
-}
-function validateModPkg(entry_type) {
-  return null;
-}
-function validateDelPkg(entry_type) {
-  return null;
-}
-function validateLinkPkg(entry_type) {
-  return null;
-}
-
-function validateLink(entryType, hash, links, pkg, sources) {
-  return true;
-}
-
-function validateDelPkg (entryType) {
-return null;
-}
