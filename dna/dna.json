@@ -35,9 +35,10 @@
           "SchemaFile" : "gameBucket.json"
         },
         {
-          "Name": "currentGameBucketHash",
-          "DataFormat": "string",
-          "Sharing" : "private"
+          "Name": "cachedGameBucket",
+          "DataFormat": "json",
+          "Sharing": "private",
+          "SchemaFile" : "gameBucket.json"
         },
         {
           "Name": "teamLink",

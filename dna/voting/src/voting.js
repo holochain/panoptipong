@@ -199,8 +199,7 @@ function unwrapBallPos(pos, size) {
 
 
 function getBucketState(bucket) {
-  var bucketHash = makeHash('gameBucket', bucket);
-  var sortedVotes = getLinks(bucketHash, 'vote', {Load: true})
+  var sortedVotes = getLinks(makeHash('gameBucket', bucket), 'vote', {Load: true})
     .map(function (item) { return item.Entry })
     .sort(compareVotes);
   var initialBucketState = initialState; // TODO: actually make a fresh new state for each anchor based on hash
@@ -210,38 +209,51 @@ function getBucketState(bucket) {
 } 
 
 
-function getCurrentBucket() {
+function getCurrentBucket(currentBucket) {
+  //  get the state on the cached bucket as currentBucket
+  var state = getBucketState(currentBucket);
 
-  // get the cachaed current bucket if it exists
-  var currentBucketHash = query({
+  if(state.scoreL > currentBucket.scoreL || state.scoreR > currentBucket.scoreR) {
+
+    var nextBucket = {
+      scoreL: state.scoreL,
+      scoreR: state.scoreR,
+      gameID: currentBucket.gameID
+    }
+
+    commit('gameBucket', nextBucket); // in case we are the first person to notice the score
+    setCachedBucket(nextBucket, currentBucket); // TODO actually make work
+    return getCurrentBucket(nextBucket);
+  }
+  else {
+    return currentBucket;
+  }
+
+}
+
+function setCachedBucket(bucket, prevBucket) {
+  update('cachedGameBucket', bucket, makeHash('cachedGameBucket', prevBucket));
+}
+
+function getCachedBucket() {
+  return query({
+    Returns: { Entries: true},
     Constrain: {
-      EntryTypes: 'currentGameBucketHash',
+      EntryTypes: ['cachedGameBucket'],
       Count: 1
     }
   });
-
-  //  get the state on the cached bucket
-  var state = getBucketState(currentBucketHash);
-
-  if (state.scoreL > 0) {
-    currentBucketHash = makeHash('gameBucket', {});
-
-    commit('currentGameBucketHash', newBucketHash);
-  } else if (state.scoreR > 0) {
-
-  }
-  return currentBucketHash;
 }
 
 
 function castVote(vote){
 
-  var bucketHash = getCurrentBucket()
+  var currentBucket = getCurrentBucket(getCachedBucket())
 
   voteHash = commit("vote",vote);
   // On the DHT, puts a link on my anchor to the new post
   commit('voteLink', {
-    Links: [{ Base: bucketHash, Link: voteHash, Tag: 'vote' }]
+    Links: [{ Base: makeHash('gameBucket', currentBucket), Link: voteHash, Tag: 'vote' }]
   });
 
   return voteHash;
