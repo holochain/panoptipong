@@ -50,7 +50,13 @@ function getPlayers() {
 // REGISTERED YOUR AGENT
 function register(payload) {
 
-  var name = payload.name;
+
+  var name;
+  if(payload) {
+    name = payload.name;
+  } else {
+    name = "";
+  };
 
   // get the number of agents in each team so far
   var membersL = getLinks(anchor('members', 'L'), '');
