@@ -168,7 +168,7 @@ var boardParams = {
 
 var initialState = {
   ball: {
-    x: 60,
+    x: 100,
     y: 50
   },
   paddleL: 50,
@@ -238,11 +238,6 @@ function calcState(initialState, sortedVotes, boardParams) {
   };
 }
 
-function voteStamp(vote) {
-  var totalVotes = vote.teamL.voteCount + vote.teamR.voteCount;
-  return String(totalVotes) + makeHash('vote', vote);
-}
-
 function mod(n, m) {
   return (n % m + m) % m;
 }
@@ -256,7 +251,7 @@ function getBucketState(bucket) {
   var sortedVotes = getLinks(makeHash('gameBucket', bucket), 'vote', { Load: true }).map(function (item) {
     return item.Entry;
   }).sort(compareVotes);
-  var initialBucketState = initialState; // TODO: actually make a fresh new state for each anchor based on hash
+  var initialBucketState = JSON.parse(JSON.stringify(initialState)); // TODO: actually make a fresh new state for each anchor based on hash
   initialBucketState.scoreL = bucket.scoreL;
   initialBucketState.scoreR = bucket.scoreR;
   return calcState(initialBucketState, sortedVotes, boardParams);
