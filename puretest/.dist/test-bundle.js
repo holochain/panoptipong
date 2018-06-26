@@ -8293,7 +8293,7 @@ test('getCurrentBucket without params returns cached (genesis) bucket', function
 
 test('getCurrentBucket with param getCachedBucket returns cached (genesis) bucket', function (t) {
     var result = getCurrentBucket(getCachedBucket());
-    t.equal(result, genesisBucket);
+    t.deepEqual(result, genesisBucket);
     t.end();
 });
 
@@ -8302,7 +8302,7 @@ test('getCurrentBucket called on a score-causing bucket returns next bucket', fu
         return { scoreL: 1, scoreR: 0, gameID: 0 };
     };
     var result = getCurrentBucket();
-    t.equal(result, { scoreL: 1, scoreR: 0, gameID: 0 });
+    t.deepEqual(result, { scoreL: 1, scoreR: 0, gameID: 0 });
     t.end();
 });
 },{"tape":3}]},{},[1], null)
