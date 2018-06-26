@@ -1,15 +1,10 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux';
-
 import {Jdenticon} from './Common';
-
 import {updateNameEntry} from '../actions';
-
 import './RegisterModal.css';
 
-
 class RegisterModal extends Component {
-
   handleName = e => {
     this.props.updateNameEntry(e.target.value)
   }
