@@ -243,11 +243,20 @@ function getCurrentBucket(_currentBucket) {
 
   if(state.scoreL > currentBucket.scoreL || state.scoreR > currentBucket.scoreR) {
 
+    if(state.scoreL==10 ||state.scoreR==10){
+    var nextBucket = {
+      scoreL: 0,
+      scoreR: 0,
+      gameID: currentBucket.gameID+1
+    }
+
+  }else{
     var nextBucket = {
       scoreL: state.scoreL,
       scoreR: state.scoreR,
       gameID: currentBucket.gameID
     }
+  }
 
     commit('gameBucket', nextBucket); // in case we are the first person to notice the score
     setCachedBucket(nextBucket, currentBucket); // TODO actually make work
@@ -310,7 +319,7 @@ function getVoteList(teamID) {
 function joinTeam(team, name) {
   var regoHash = commit("playerRegistration", {teamID: team, agentHash: App.Key.Hash, name: name});
   commit("privatePlayerRegistration", {teamID: team, agentHash: App.Key.Hash, name: name});
- 
+
   var teamAnchorHash = anchor('members', team);
   commit("teamLink", {
     Links: [{ Base: teamAnchorHash, Link: App.Key.Hash, Tag: "" }]
