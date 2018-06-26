@@ -7,4 +7,5 @@
       "gameID" : { "type" : "integer"}
     },
     "required": ["scoreL", "scoreR", "gameID"]
+    
 }
