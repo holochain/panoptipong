@@ -173,7 +173,7 @@ var boardParams = {
 
 
 var angleMin = 30;
-var angleMax = 50;
+var angleMax = 60;
 
 function ballVectorFromHash(hash) {
   // randomly select an angle in quadrant 0 and covnert to components
@@ -183,9 +183,10 @@ function ballVectorFromHash(hash) {
   var vBally = boardParams.vBall*Math.sin( theta * Math.PI / 180);
 
   var yDir = hashToInt(hash, 0, 2)*2 - 1;
+  var xDir = hashToInt(hash+hash, 0, 2)*2 - 1;
 
   return {
-    x : vBallx,
+    x : xDir*vBallx,
     y : yDir*vBally
   }
 }
