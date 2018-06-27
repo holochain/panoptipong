@@ -1,0 +1,48 @@
+{
+  "Tests":[
+    {
+        "Time": 1000,
+        "Convey":"An agent is registered and initially assigned to team L",
+        "Zome": "voting",
+        "FnName": "register",
+        "Input": {},
+        "RegExp":".*"
+    },
+    {
+        "Time": 3000,
+        "Convey":"An agent Voting",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move":1},
+        "Output":"%h1%",
+        "RegExp":".*"
+    },
+    {
+        "Time": 3010,
+        "Convey":"An agent Voting",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move":1},
+        "Output":"%h1%",
+        "RegExp":".*"
+    },
+    {
+        "Time": 3020,
+        "Convey":"An agent Voting",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move":1},
+        "Output":"%h1%",
+        "RegExp":".*"
+    },
+    {
+        "Time": 3030,
+        "Convey":"An agent Voting",
+        "Zome": "voting",
+        "FnName": "vote",
+        "Input": {"move":1},
+        "Output":"%h1%",
+        "RegExp":".*"
+    }
+  ]
+}
