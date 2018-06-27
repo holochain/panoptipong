@@ -1,4 +1,16 @@
 
+.button-wrapper.up .pie {
+  background: blue;
+}
+
+.button-wrapper.stay .pie {
+  background: yellow;
+}
+
+.button-wrapper.down .pie {
+  background: green;
+}
+
 .button {
   width: 60px;
   height: 60px;
@@ -13,18 +25,6 @@
   position: relative;
   opacity: 0.75;
   transition: transform 200ms, opacity 200ms;
-}
-
-.button .up {
-  background: blue;
-}
-
-.button .stay {
-  background: yellow;
-}
-
-.button .down {
-  background: green;
 }
 
 .button:hover {

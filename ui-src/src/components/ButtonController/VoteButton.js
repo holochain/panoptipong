@@ -35,14 +35,14 @@ export default class VoteButton extends Component {
     const intervalStyle = {animationDuration: `${rateLimitInterval}ms`}
     const buttonType = this.props.direction;
 
-    return <div className="button-wrapper">
+    return <div className={"button-wrapper " + buttonType}>
       <div style={intervalStyle} className={"spinner pie" + animateClass}></div>
       <div style={intervalStyle} className={"filler pie" + animateClass}></div>
       <div style={intervalStyle} className={"mask" + animateClass}></div>
 
       <Button
         disabled={this.props.disabled}
-        className={buttonClass + " " + buttonType}
+        className={buttonClass}
         bsStyle="success"
         bsSize="large"
         onClick={this.handleClick}>
