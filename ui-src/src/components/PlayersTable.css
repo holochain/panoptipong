@@ -1,0 +1,22 @@
+.PlayersTable {
+  position: relative;
+  color: white;
+}
+
+.PlayersTable .tableWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.PlayersTable ul {
+  padding: 0;
+  list-style: none;
+  min-width: 300px;
+}
+
+.PlayersTable li span {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px;
+}
