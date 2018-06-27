@@ -20,6 +20,8 @@ import {
 class App extends Component {
 
   initApp = () => {
+    this.props.getState()
+    this.props.getPlayers()
     setInterval(this.props.getState, 500);
     setInterval(this.props.getPlayers, 5000);
     setInterval(
@@ -68,7 +70,7 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({team, viz}) => ({team, viz})
+const mapStateToProps = ({team, viz, players}) => ({team, viz, players})
 
 const mapDispatchToProps = dispatch => {
   return {

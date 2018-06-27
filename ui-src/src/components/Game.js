@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux';
 import BubbleChamber from "./BubbleChamber";
+import TeamTable from "./TeamTable";
 import './Game.css';
 import './VoteGauge.css';
 import {
@@ -71,7 +72,7 @@ const VoteGauge = ({up, stay, down}) => {
 	</div>
 }
 
-const Game = ({game, viz}) => {
+const Game = ({game, viz, players}) => {
 	const {ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore} = game
 	const {gauges} = viz
 	return (
@@ -92,9 +93,11 @@ const Game = ({game, viz}) => {
 					<div className="score score-right">{rightScore}</div>
 				</div>
 			</BubbleChamber>
+
+      <TeamTable players={Object.values(players)}/>
 		</div>
 	);
 }
 
-const mapStateToProps = ({game, viz}) => ({game, viz})
+const mapStateToProps = ({game, viz, players}) => ({game, viz, players})
 export default connect(mapStateToProps)(Game);
