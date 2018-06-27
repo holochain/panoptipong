@@ -1,14 +1,8 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux';
-
 import {Jdenticon} from './Common';
-
 import './BubbleChamber.css';
-
-import {
-  vote,
-} from '../actions'
-
+import {vote, getPlayers} from '../actions'
 
 const PlayerBubble = ({name, x, y, right, opacity}) => {
   const style = Object.assign({
@@ -21,7 +15,6 @@ const PlayerBubble = ({name, x, y, right, opacity}) => {
 }
 
 class BubbleChamber extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -54,5 +47,5 @@ class BubbleChamber extends Component {
 }
 
 const mapStateToProps = state => state.recentVotes
-
+// const mapStateToProps = ({getPlayers}) => ({getPlayers})
 export default connect(mapStateToProps)(BubbleChamber);

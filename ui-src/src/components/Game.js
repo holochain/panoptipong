@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux';
-
 import BubbleChamber from "./BubbleChamber";
-
 import './Game.css';
 import './VoteGauge.css';
 
 import {
-  vote,
+  vote, game, viz
 } from '../actions'
 
 import {gameDimensions} from '../config';
@@ -100,5 +98,4 @@ const Game = ({game, viz}) => {
 }
 
 const mapStateToProps = ({game, viz}) => ({game, viz})
-
 export default connect(mapStateToProps)(Game);

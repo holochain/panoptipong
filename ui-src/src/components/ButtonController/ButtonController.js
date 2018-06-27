@@ -35,17 +35,17 @@ class ButtonController extends Component {
 			<div className="ButtonController-wrapper">
 				<ul className="no-bullets">
 					<li>
-						<VoteButton disabled={this.state.waiting} handleVote={this.handleVote(-1)}>
+						<VoteButton direction="up" disabled={this.state.waiting} handleVote={this.handleVote(-1)}>
 							<i class="fas fa-chevron-up"></i>
 						</VoteButton>
 					</li>
 					<li>
-						<VoteButton disabled={this.state.waiting} handleVote={this.handleVote(0)}>
+						<VoteButton direction="stay" disabled={this.state.waiting} handleVote={this.handleVote(0)}>
 							<i class="fas fa-ellipsis-h"></i>
 						</VoteButton>
 					</li>
 					<li>
-						<VoteButton disabled={this.state.waiting} handleVote={this.handleVote(+1)}>
+						<VoteButton direction="down" disabled={this.state.waiting} handleVote={this.handleVote(+1)}>
 							<i class="fas fa-chevron-down"></i>
 						</VoteButton>
 					</li>

@@ -15,6 +15,18 @@
   transition: transform 200ms, opacity 200ms;
 }
 
+.button .up {
+  background: blue;
+}
+
+.button .stay {
+  background: yellow;
+}
+
+.button .down {
+  background: green;
+}
+
 .button:hover {
   opacity: 1;
 }

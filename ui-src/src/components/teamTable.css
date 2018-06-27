@@ -1,0 +1,16 @@
+.teamTable {
+  position: relative;
+}
+
+.teamTable .teamContainer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.teamTable .teamContainer .player-name {
+  display: block;
+  font-family: Arial;
+  font-weight: normal;
+  color: white;
+}
