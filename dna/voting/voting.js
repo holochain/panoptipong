@@ -352,9 +352,17 @@ function updateInitialState(bucket) {
   var bucketHash = makeHash('gameBucket', bucket);
 
   var vBall = ballVectorFromHash(bucketHash);
+  debug(vBall);
+  var vBall = {
+    x: 10,
+    y: 10
+  };
 
   var newState = {
-    ball: ballPosFromHash(bucketHash),
+    ball: {
+      x: 100,
+      y: 50
+    },
     vBall: vBall,
     paddleL: 50,
     paddleR: 50,

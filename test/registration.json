@@ -49,6 +49,14 @@
         "Input": "getVotesAfterVote().length",
         "Output": "5",
         "Exposure":"public"
+    },
+    {
+        "Convey":"Can get the state after the votes are castS",
+        "Zome": "voting",
+        "FnName": "getState",
+        "Input": {},
+        "RegExp": ".*",
+        "Exposure":"public"
     }
   ]
 }
