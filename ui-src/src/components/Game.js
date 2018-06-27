@@ -52,7 +52,7 @@ const PongBall = ({x, y}) => {
 	return <div className="ball" style={style}></div>
 }
 
-const VoteGauge = ({up, stay, down}) => {
+const VoteGauge = ({up, stay, down, side}) => {
 	const total = up + stay + down
   if (total === 0) {
     up = down = 0
@@ -66,9 +66,9 @@ const VoteGauge = ({up, stay, down}) => {
 	const styleStay = {flexBasis: `${100 * stay}%`}
 	const styleDown = {flexBasis: `${100 * down}%`}
 	return <div className="vote-gauge">
-		<div className="vote-gauge-bar up" style={styleUp}/>
-		<div className="vote-gauge-bar stay" style={styleStay}/>
-		<div className="vote-gauge-bar down" style={styleDown}/>
+		<div className={"vote-gauge-bar up " + side } style={styleUp}/>
+		<div className={"vote-gauge-bar stay " + side } style={styleStay}/>
+		<div className={"vote-gauge-bar down " + side } style={styleDown}/>
 	</div>
 }
 
@@ -80,10 +80,10 @@ const Game = ({game, viz, players}) => {
   			<BubbleChamber>
   				<div className="Game">
   					<div className="vote-gauge-wrapper left">
-  						<VoteGauge {...gauges.left}/>
+  						<VoteGauge side="left" {...gauges.left}/>
   					</div>
   					<div className="vote-gauge-wrapper right">
-  						<VoteGauge {...gauges.right}/>
+  						<VoteGauge side="right" {...gauges.right}/>
   					</div>
   					<div className="midpoint"/>
   					<Paddle side="left" y={leftPaddleY} />
@@ -94,7 +94,7 @@ const Game = ({game, viz, players}) => {
   				</div>
   			</BubbleChamber>
   		</div>
-      
+
 	);
 }
 

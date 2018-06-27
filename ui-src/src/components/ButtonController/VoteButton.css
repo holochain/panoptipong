@@ -1,14 +1,14 @@
 
 .button-wrapper.up .pie {
-  background: blue;
+  background: rgb(69,154,211);
 }
 
 .button-wrapper.stay .pie {
-  background: yellow;
+  background: rgb(211,197,69);
 }
 
 .button-wrapper.down .pie {
-  background: green;
+  background: rgb(119,196,64);
 }
 
 .button {
