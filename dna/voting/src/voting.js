@@ -85,32 +85,22 @@ function register(payload) {
 
 
 function getTeam() {
-  var response = query({
-    Return: {
-      Entries: true
-    },
-    Constrain: {
-      EntryTypes: ["privatePlayerRegistration"]
-    }
-  });
-
-  var rego = response[response.length-1] || {teamID : "NotRegistered"}
-  return rego.teamID;
+  return getRegistration().teamID || "NotRegistered";
 }
 
 
 function getRegistration() {
-  var response = query({
-    Return: {
-      Entries: true
-    },
-    Constrain: {
-      EntryTypes: ["privatePlayerRegistration"],
-      Count: 1
-    }
+  // get all the players
+  var players = getPlayers();
+
+  // check if you are in it and where
+  var me = players.filter(function(elem) {
+    return elem.agentHash == App.Key.Hash;
   });
 
-  return response[0] || "NotRegistered"
+  debug(me);
+
+  return me[0] || "NotRegistered";
 }
 
 
@@ -181,21 +171,21 @@ function ballVectorFromHash(hash) {
   var vBallx = boardParams.vBall*Math.cos( theta * Math.PI / 180);
   var vBally = boardParams.vBall*Math.sin( theta * Math.PI / 180);
 
-  var yDir = hashToInt(hash, 0, 2)*2 - 1;
-  var xDir = hashToInt(hash+hash, 0, 2)*2 - 1;
-
   return {
-    x : xDir*vBallx,
-    y : yDir*vBally
+    x : vBallx,
+    y : vBally
   }
 }
 
 function ballPosFromHash(hash) {
   var ballPositionXDelta = hashToInt(hash, -10,10);
 
+  var xQuadrant = hashToInt(hash, 0, 2);
+  var yQuadrant = hashToInt(hash+hash, 0, 2);
+
   return {
-    x: 100 + ballPositionXDelta,
-    y: boardParams.height / 2
+    x: 100 + ballPositionXDelta + boardParams.width*xQuadrant,
+    y: boardParams.height / 2 + boardParams.height*yQuadrant
   }
 }
 
@@ -421,7 +411,6 @@ function getVoteList(teamID) {
 
 function joinTeam(team, name) {
   var regoHash = commit("playerRegistration", {teamID: team, agentHash: App.Key.Hash, name: name});
-  commit("privatePlayerRegistration", {teamID: team, agentHash: App.Key.Hash, name: name});
 
   var teamAnchorHash = anchor('members', team);
   commit("teamLink", {
