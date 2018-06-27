@@ -193,6 +193,8 @@ function vote(payload) {
     teamID: getTeam()
   };
 
+  debug(vote);
+
   return castVote(vote);
 }
 
@@ -208,8 +210,7 @@ var boardParams = {
   paddleWidth: 5,
   paddleHeight: 30,
   ballSize: 3,
-  vBallx: 10.0,
-  vBally: 4.8,
+  vBall: 10,
   vPaddle: 1.3
 };
 
@@ -218,11 +219,15 @@ var initialState = {
     x: 100,
     y: 50
   },
+  vBall: {
+    x: 5,
+    y: 5
+  },
   paddleL: 50,
   paddleR: 50,
   scoreL: 0,
   scoreR: 0,
-  ballMovingLeft: boardParams.vBallx < 0
+  ballMovingLeft: false
 };
 
 var ballPositionRange = 20;
@@ -240,8 +245,8 @@ function ballVectorFromHash(hash) {
   var yCoeff = hashToIntInRange(hash.reverse(), 0, 1) * 2 - 1;
 
   return {
-    vBallx: xCoeff * vBallx,
-    vBally: yCoeff * vBally
+    x: xCoeff * vBallx,
+    y: yCoeff * vBally
   };
 }
 
@@ -425,6 +430,10 @@ function castVote(vote) {
   // On the DHT, puts a link on my anchor to the new post
   commit('voteLink', {
     Links: [{ Base: makeHash('gameBucket', currentBucket), Link: voteHash, Tag: 'vote' }]
+  });
+
+  commit('voteLink', {
+    Links: [{ Base: anchor(vote.teamID, "GameID"), Link: voteHash, Tag: 'vote' }]
   });
 
   return voteHash;
