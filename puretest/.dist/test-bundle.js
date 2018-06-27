@@ -8329,6 +8329,8 @@ test('Can set incorrect bucket and then automatically roll back', function (t) {
 
   var recoveredBucket = getCurrentBucket();
 
+  t.comment(JSON.stringify(correctBucket));
+  t.comment(JSON.stringify(recoveredBucket));
   t.deepEqual(correctBucket, recoveredBucket);
 });
 },{"tape":3}]},{},[1], null)
