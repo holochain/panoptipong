@@ -1,21 +1,21 @@
-.TeamTable {
+.PlayersTable {
   position: relative;
   color: white;
 }
 
-.TeamTable .tableWrapper {
+.PlayersTable .tableWrapper {
   display: flex;
   justify-content: center;
   align-items: flex-start;
 }
 
-.TeamTable ul {
+.PlayersTable ul {
   padding: 0;
   list-style: none;
   min-width: 300px;
 }
 
-.TeamTable li span {
+.PlayersTable li span {
   display: inline-block;
   vertical-align: middle;
   margin: 5px;

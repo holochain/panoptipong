@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {connect} from 'react-redux';
 import {updateNameEntry, getPlayers} from '../actions'
 import {Jdenticon} from './Common';
-import './TeamTable.css';
+import './PlayersTable.css';
 //
 // const columns = [{
 //   dataField: "nameEntry",
@@ -27,7 +27,7 @@ const Avatar = ({name}) => <Jdenticon size="30px" hash={name} />
 //   </div>
 // )}
 
-export default class TeamTable extends Component {
+export default class PlayersTable extends Component {
   constructor(props) {
     super(props)
   }
@@ -49,7 +49,7 @@ export default class TeamTable extends Component {
         </li>
       )
 
-    return <div className="TeamTable">
+    return <div className="PlayersTable">
       <div className="tableWrapper">
         <ul>
           <li><h3>{playersLeft.length} players</h3></li>
@@ -75,4 +75,4 @@ export default class TeamTable extends Component {
 //     }
 //   }
 // }
-// export default connect(mapStateToProps, mapDispatchToProps)(TeamTable);
+// export default connect(mapStateToProps, mapDispatchToProps)(PlayersTable);

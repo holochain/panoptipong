@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux';
 import BubbleChamber from "./BubbleChamber";
-import TeamTable from "./TeamTable";
+import PlayersTable from "./PlayersTable";
 import './Game.css';
 import './VoteGauge.css';
 import {
@@ -94,7 +94,7 @@ const Game = ({game, viz, players}) => {
 				</div>
 			</BubbleChamber>
 
-      <TeamTable players={Object.values(players)}/>
+      <PlayersTable players={Object.values(players)}/>
 		</div>
 	);
 }
