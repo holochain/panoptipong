@@ -338,10 +338,10 @@ function getBucketState(bucket) {
   return calcState(initialBucketState, sortedVotes, boardParams);
 }
 
-function hashToIntInRange(hash, range) {
+function hashToInt(hash, minVal, maxVal) {
   return (hash + '').split('').reduce(function (memo, item) {
     return memo + item.charCodeAt(0);
-  }, 0) % range - range / 2;
+  }, 0) % (maxVal - minVal) + minVal;
 }
 
 function reverseString(string) {
@@ -370,6 +370,7 @@ function updateInitialState(bucket) {
     scoreR: 0,
     ballMovingLeft: vBall.x < 0
   };
+
   return newState;
 }
 

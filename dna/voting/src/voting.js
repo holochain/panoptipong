@@ -171,6 +171,7 @@ var initialState = {
   ballMovingLeft: false,
 };
 
+
 var ballPositionRange = 20;
 var angleMin = 30;
 var angleMax = 50;
@@ -199,6 +200,7 @@ function ballPosFromHash(hash) {
     y: ballPositionYDelta
   }
 }
+
 
 function calcState(initialState, sortedVotes, boardParams) {
 
@@ -279,10 +281,10 @@ function getBucketState(bucket) {
   return calcState(initialBucketState, sortedVotes, boardParams);
 }
 
-function hashToIntInRange (hash, range) {
+function hashToInt(hash, minVal, maxVal) {
   return (hash+'').split('').reduce(function (memo, item) {
 return (memo + item.charCodeAt(0))
-  }, 0) % range - (range/2)
+  }, 0) % (maxVal - minVal) + minVal
 }
 
 
@@ -313,6 +315,7 @@ function updateInitialState(bucket) {
     scoreR: 0,
     ballMovingLeft: vBall.x < 0
   };
+
   return newState;
 }
 
