@@ -12,16 +12,16 @@ import {gameDimensions} from '../config';
 =              Reducer Logic
 =============================================*/
 
-const dummyGauges = {
+const initialGauges = {
   left: {
-    up: 3,
-    stay: 6,
-    down: 1,
+    up: 0,
+    stay: 1,
+    down: 0,
   },
   right: {
     up: 0,
     stay: 1,
-    down: 1,
+    down: 0,
   },
 }
 
@@ -31,7 +31,7 @@ const initialState = {
   nameEntry: "",
   viz: {
     recentVotes: [],
-    gauges: dummyGauges,
+    gauges: initialGauges,
   },
   players: {},  // agentHash => {name, color}
 }
@@ -56,8 +56,10 @@ const compareVotesReversed = (a, b) => {
 
 const getLatestVote = votes => {
   // TODO: use agentHash as tie breaker, coordinate with backend
+  // TODO: also find out why totalVotes is always 0
   if (votes.length > 0) {
-    return votes.sort(compareVotesReversed)[0]
+    votes.sort(compareVotesReversed)
+    return votes[0]
   }
   return null
 }
@@ -88,7 +90,6 @@ const calcVoteGauges = (votes) => {
 
 const pongReducer = function(state = initialState, action) {
   const { payload } = action
-  console.log(action.type, payload, action)
   switch (action.type) {
     case actions.GET_STATE:
       return {
@@ -112,13 +113,13 @@ const pongReducer = function(state = initialState, action) {
       })
       return { ...state, players }
     case actions.GET_RECENT_VOTES:
-      const latestVote = getLatestVote(payload.votes)
+      const latestVote = getLatestVote(payload)
       return {
         ...state,
         viz: {
           latestVote: latestVote ? latestVote : state.viz.latestVote,
-          recentVotes: payload.votes,
-          gauges: calcVoteGauges(payload.votes),
+          recentVotes: payload,
+          gauges: calcVoteGauges(payload),
         }
       }
     case actions.UPDATE_NAME_ENTRY:
