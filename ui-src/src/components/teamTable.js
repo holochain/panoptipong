@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {connect} from 'react-redux';
 import {updateNameEntry, getPlayers} from '../actions'
 import {Jdenticon} from './Common';
-import './teamTable.css';
+import './TeamTable.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
@@ -22,22 +22,24 @@ const teamIdL = this.props.players.teamId === "L";
 const DrawPlayerTable = () => {
   const teamId = this.props.players.teamId;
   return (
-  <div className="player-table">
+  <div className="playerTable">
     {this.props.players.map( player => (
       <BootstrapTable keyField="id" data={ player.nameEntry, <Avatar /> } caption={<CaptionElement />} columns={ columns } />
     ))}
   </div>
 )}
 
-class TeamTables extends Component {
+class TeamTable extends Component {
   constructor(props) {
     super(props)
   }
   render() {
     return <div className="teamTable">
       { this.props.children }
-      {teamIdL.forEach(DrawPlayerTable)}
-      {teamIdR.forEach(drawPlayerTable)}
+      <div className="tableWrapper">
+        {teamIdL.forEach(DrawPlayerTable)}
+        {teamIdR.forEach(DrawPlayerTable)}
+      </div>
     </div>
   }
 }
@@ -53,4 +55,4 @@ const mapDispatchToProps = dispatch => {
     }
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(TeamTables);
+export default connect(mapStateToProps, mapDispatchToProps)(TeamTable);

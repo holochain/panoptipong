@@ -3,9 +3,8 @@ import {connect} from 'react-redux';
 import BubbleChamber from "./BubbleChamber";
 import './Game.css';
 import './VoteGauge.css';
-
 import {
-  vote, game, viz
+  vote, //game, viz
 } from '../actions'
 
 import {gameDimensions} from '../config';

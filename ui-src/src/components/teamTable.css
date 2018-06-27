@@ -2,13 +2,13 @@
   position: relative;
 }
 
-.teamTable .teamContainer {
+.teamTable .tableWrapper {
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.teamTable .teamContainer .player-name {
+.teamTable .playerTable {
   display: block;
   font-family: Arial;
   font-weight: normal;

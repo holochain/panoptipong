@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import {connect} from 'react-redux';
 import {Jdenticon} from './Common';
 import {updateNameEntry, register} from '../actions';
-<<<<<<< HEAD
-
-=======
->>>>>>> b2dd975c866dc93496c7c2378ac7acfb83920109
 import './RegisterModal.css';
 
 class RegisterModal extends Component {
@@ -14,6 +10,7 @@ class RegisterModal extends Component {
   }
 
   handleRegister = e => {
+    this.style.display === "none"
     this.props.register({name: this.props.nameEntry}, data => {
       return data;
     })

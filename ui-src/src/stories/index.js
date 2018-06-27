@@ -2,10 +2,16 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
+import TeamTable from '../components/TeamTable';
 import VoteButton from '../components/ButtonController/VoteButton';
 import ButtonController from '../components/ButtonController';
 import Game from '../components/Game';
 import App from '../App';
+
+storiesOf('TeamTable', module)
+  .add('default state', () =>
+    <TeamTable players={{nameEntry:Bob, teamId: right}, {nameEntry:Susie, teamId: right}} teamIdL={{nameEntry:Sponge, teamId: left}, {nameEntry:Que, teamId: left}} teamIdR={{nameEntry:Angie, nameEntry:Kevin}} leftPaddleY={30} rightPaddleY={40} />
+  );
 
 storiesOf('VoteButton', module)
   .add('default', () =>
