@@ -211,6 +211,8 @@ var initialState = {
   ballMovingLeft: boardParams.vBallx < 0
 };
 
+var ballPositionRange = 20;
+
 function calcState(initialState, sortedVotes, boardParams) {
 
   function isCollision(paddleY, ballY) {
@@ -301,9 +303,9 @@ function reverseString(string) {
 }
 
 function updateInitialState(bucket) {
-  var bucketHash = makeHash(bucket);
-  var ballPositionXDelta = hashToIntInRange(bucketHash);
-  var ballPositionYDelta = hashToIntInRange(bucketHash);
+  var bucketHash = makeHash('gameBucket', bucket);
+  var ballPositionXDelta = hashToIntInRange(bucketHash, ballPositionRange);
+  var ballPositionYDelta = hashToIntInRange(bucketHash, ballPositionRange);
   var newState = { ball: {
       x: initialState.ball.x + ballPositionXDelta,
       y: initialState.ball.x + ballPositionYDelta
