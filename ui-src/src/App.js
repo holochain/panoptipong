@@ -1,31 +1,49 @@
 import React, { Component } from "react";
 import logo from "./holochain_logo.png";
 import "./App.css";
-import Game from "./components/Game";
 import ButtonController from "./components/ButtonController";
+import Game from "./components/Game";
+import RegisterModal from "./components/RegisterModal";
 import "./components/Header";
 import {connect} from 'react-redux';
 
 import {
   register,
   getState,
+  getVotesAfterVote,
+  getPlayers,
+  getRegistration,
   getTeam,
 } from './actions'
 
 
 class App extends Component {
 
+  initApp = () => {
+    setInterval(this.props.getState, 500);
+    setInterval(this.props.getPlayers, 5000);
+    setInterval(
+      () => {
+        console.log('latestVote', this.props.viz.latestVote)
+        this.props.getVotesAfterVote(this.props.viz.latestVote)
+      },
+      500
+    );
+  }
+
   componentWillMount() {
-    this.props.register(data => {
-      setInterval(this.props.getState, 500);
-      return data;
+    this.props.getRegistration(data => {
+      if (data.teamID === 'L' || data.teamID === 'R') {
+        this.initApp()
+      }
+      return data
     })
   }
 
   render() {
     const game = <Game ballX={10} ballY={20} leftPaddleY={30} rightPaddleY={40} />
     const buttons = <ButtonController />
-    console.log(this.props)
+    const isRegistered = !!this.props.team
 
     return (
       <div className="App">
@@ -36,26 +54,28 @@ class App extends Component {
           </header>
         </div>
         <div className="game-and-controls">
-          { this.props.team === 'L'
+          { !isRegistered
+            ? [game]
+            : this.props.team === 'L'
             ? [buttons, game]
             : [game, buttons]
           }
         </div>
+
+        { isRegistered ? null : <RegisterModal initApp={this.initApp}/> }
       </div>
     );
   }
 }
 
-const mapStateToProps = ({team}) => ({team})
+const mapStateToProps = ({team, viz}) => ({team, viz})
 
 const mapDispatchToProps = dispatch => {
   return {
-    register: (then) => {
-      dispatch(register(then))
-    },
-    getState: () => {
-      dispatch(getState())
-    },
+    getState: () => dispatch(getState()),
+    getPlayers: () => dispatch(getPlayers()),
+    getRegistration: (then) => dispatch(getRegistration(then)),
+    getVotesAfterVote: () => dispatch(getVotesAfterVote()),
   }
 }
 

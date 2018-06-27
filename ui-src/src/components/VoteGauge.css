@@ -1,0 +1,32 @@
+.vote-gauge-wrapper {
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+.vote-gauge-wrapper.left {
+  left: 0;
+}
+.vote-gauge-wrapper.right {
+  right: 0;
+}
+
+.vote-gauge {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 30px;
+  transition: height 300ms;
+}
+
+.vote-gauge .vote-gauge-bar {
+  flex: 1 1;
+}
+.vote-gauge .vote-gauge-bar.up {
+  background: blue;
+}
+.vote-gauge .vote-gauge-bar.stay {
+  background: yellow;
+}
+.vote-gauge .vote-gauge-bar.down {
+  background: green;
+}

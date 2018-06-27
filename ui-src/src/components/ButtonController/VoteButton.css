@@ -1,4 +1,16 @@
 
+.button-wrapper.up .pie {
+  background: blue;
+}
+
+.button-wrapper.stay .pie {
+  background: yellow;
+}
+
+.button-wrapper.down .pie {
+  background: green;
+}
+
 .button {
   width: 60px;
   height: 60px;

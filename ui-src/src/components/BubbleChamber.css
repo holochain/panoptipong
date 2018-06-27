@@ -1,0 +1,16 @@
+.BubbleChamber {
+  position: relative;
+}
+
+.BubbleChamber .player-bubble {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.BubbleChamber .player-bubble .name {
+  display: block;
+  font-family: Arial;
+  font-weight: normal;
+  color: white;
+}
