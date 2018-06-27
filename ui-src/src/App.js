@@ -26,7 +26,6 @@ class App extends Component {
     setInterval(this.props.getPlayers, 5000);
     setInterval(
       () => {
-        console.log('latestVote', this.props.viz.latestVote)
         this.props.getVotesAfterVote(this.props.viz.latestVote)
       },
       500

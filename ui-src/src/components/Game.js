@@ -5,7 +5,7 @@ import PlayersTable from "./PlayersTable";
 import './Game.css';
 import './VoteGauge.css';
 import {
-  vote, //game, viz
+  vote,
 } from '../actions'
 
 import {gameDimensions} from '../config';
