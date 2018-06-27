@@ -155,49 +155,47 @@ var boardParams = {
 };
 
 
-var initialState = {
-  ball: {
-      x: 100,
-      y: 50
-  },
-  vBall: {
-    x: 5,
-    y: 5,
-  },
-  paddleL: 50,
-  paddleR: 50,
-  scoreL: 0,
-  scoreR: 0,
-  ballMovingLeft: false,
-};
+// var initialState = {
+//   ball: {
+//       x: 100,
+//       y: 50
+//   },
+//   vBall: {
+//     x: 5,
+//     y: 5,
+//   },
+//   paddleL: 50,
+//   paddleR: 50,
+//   scoreL: 0,
+//   scoreR: 0,
+//   ballMovingLeft: false,
+// };
 
 
-var ballPositionRange = 20;
 var angleMin = 30;
 var angleMax = 50;
 
 function ballVectorFromHash(hash) {
   // randomly select an angle in quadrant 0 and covnert to components
-  var theta = hashToIntInRange(hash, angleMin, angleMax);
+  var theta = hashToInt(hash, angleMin, angleMax);
+  debug(theta);
   var vBallx = boardParams.vBall*Math.cos( theta * Math.PI / 180);
   var vBally = boardParams.vBall*Math.sin( theta * Math.PI / 180);
 
-  // select a random quadrant also
-  var xCoeff = hashToIntInRange(hash, 0, 1)*2 - 1;
-  var yCoeff = hashToIntInRange(hash+hash, 0, 1)*2 - 1;
+  var yDir = hashToInt(hash, 0, 2)*2 - 1;
 
   return {
-    x : xCoeff*vBallx,
-    y : yCoeff*vBally
+    x : vBallx,
+    y : yDir*vBally
   }
 }
 
 function ballPosFromHash(hash) {
-  var ballPositionXDelta = hashToIntInRange(hash, ballPositionRange);
-  var ballPositionYDelta = hashToIntInRange(hash, ballPositionRange);
+  var ballPositionXDelta = hashToInt(hash, -10,10);
+
   return {
-    x: ballPositionXDelta,
-    y: ballPositionYDelta
+    x: 100 + ballPositionXDelta,
+    y: boardParams.height / 2
   }
 }
 
@@ -267,8 +265,8 @@ function mod(n, m) {
 }
 
 function unwrapBallPos(pos, size) {
-  var k = Math.floor(pos / size) % 2;
-  return (pos % size)*(-2*k + 1) + size*k;
+  var k = mod(Math.floor(pos / size), 2);
+  return mod(pos, size)*(-2*k + 1) + size*k;
 }
 
 function getBucketState(bucket) {
@@ -296,19 +294,12 @@ function reverseString (string){
 function updateInitialState(bucket) {
   var bucketHash = makeHash('gameBucket', bucket);
 
-  var vBall = ballVectorFromHash(bucketHash)
-  debug(vBall);
-  var vBall = {
-    x: 10,
-    y: 10,
-  }
+  var vBall = ballVectorFromHash(bucketHash);
+  var ball = ballPosFromHash(bucketHash);
 
   var newState = {
-    ball: {
-      x: 100,
-      y: 50
-    },
-    vBall : vBall,
+    ball: ball,
+    vBall: vBall,
     paddleL: 50,
     paddleR: 50,
     scoreL: 0,
