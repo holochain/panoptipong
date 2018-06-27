@@ -161,6 +161,20 @@ function getTeam() {
   return rego.teamID;
 }
 
+function getRegistration() {
+  var response = query({
+    Return: {
+      Entries: true
+    },
+    Constrain: {
+      EntryTypes: ["privatePlayerRegistration"],
+      Count: 1
+    }
+  });
+
+  return response[0] || "NotRegistered";
+}
+
 function vote(payload) {
   var move = payload.move;
 
