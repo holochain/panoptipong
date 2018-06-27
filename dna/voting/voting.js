@@ -20,8 +20,8 @@ function anchorExists(anchorType, anchorText) {
 // Cast you first Vote and save it localy
 
 function genesis() {
-  commit('cachedGameBucket', { scoreL: 0, scoreR: 0, gameID: 0 });
-  commit('gameBucket', { scoreL: 0, scoreR: 0, gameID: 0 });
+  commit('cachedGameBucket', { scoreL: 0, scoreR: 0, gameID: 0, parentHash: '' });
+  commit('gameBucket', { scoreL: 0, scoreR: 0, gameID: 0, parentHash: '' });
   return true;
 }
 
