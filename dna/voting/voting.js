@@ -101,9 +101,9 @@ var boardParams = {
   paddleWidth: 5,
   paddleHeight: 30,
   ballSize: 3,
-  vBallx: 20.0,
-  vBally: 11.4,
-  vPaddle: 4.0
+  vBallx: 10.0,
+  vBally: 4.8,
+  vPaddle: 1.3
 };
 
 var initialState = {
@@ -178,8 +178,6 @@ function calcState(initialState, sortedVotes, boardParams) {
   };
 }
 
-
-//NOT
 function voteStamp(vote) {
   var totalVotes = vote.teamL.voteCount + vote.teamR.voteCount;
   return String(totalVotes) + makeHash('vote', vote);
@@ -217,7 +215,7 @@ Count the vote for one team
 
 //@param :  teamID:string
 function countVotes(teamID) {
-  return getLinks(anchor(teamID, "GameID"), 'vote').length;
+  return getLinks(anchor(teamID, "GameID"), 'vote', { Load: true }).length;
 }
 
 /*
