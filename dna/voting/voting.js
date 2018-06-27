@@ -236,7 +236,7 @@ var angleMax = 60;
 function ballVectorFromHash(hash) {
   // randomly select an angle in quadrant 0 and covnert to components
   var theta = hashToInt(hash, angleMin, angleMax);
-  debug(theta);
+  //debug(theta);
   var vBallx = boardParams.vBall * Math.cos(theta * Math.PI / 180);
   var vBally = boardParams.vBall * Math.sin(theta * Math.PI / 180);
 
