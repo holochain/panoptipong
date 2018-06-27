@@ -167,6 +167,24 @@ var initialState = {
 };
 
 var ballPositionRange = 20;
+var angleMin = 30;
+var angleMax = 50;
+
+function ballVectorFromHash(hash) {
+  // randomly select an angle in quadrant 0 and covnert to components
+  var theta = hashToIntInRange(hash, angleMin, angleMax);
+  var vBallx = vBall*Math.cos( theta * Math.PI / 180);
+  var vBally = vBall*Math.sin( theta * Math.PI / 180);
+
+  // select a random quadrant also
+  var xCoeff = hashToIntInRange(hash, 0, 1)*2 - 1;
+  var yCoeff = hashToIntInRange(hash.reverse(), 0, 1)*2 - 1;
+
+  return {
+    vBallx : xCoeff*vBallx,
+    vBally : yCoeff*vBally
+  }
+}
 
 function calcState(initialState, sortedVotes, boardParams) {
 
@@ -252,6 +270,8 @@ function hashToIntInRange (hash, range) {
 return (memo + item.charCodeAt(0))
   }, 0) % range - (range/2)
 }
+
+
 
 function reverseString (string){
   return string.split("").reverse().join("");
