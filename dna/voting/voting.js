@@ -290,8 +290,29 @@ function getBucketState(bucket) {
   return calcState(initialBucketState, sortedVotes, boardParams);
 }
 
+/**
+ * Rolls back to the correct bucket on an incorrect transition due to race conditions
+ *
+ * @return     {boolean}  { returns true if current bucket is correct and no change made }
+ */
+function checkCorrectBucket() {
+  var currentBucket = getCachedBucket();
+  if (currentBucket.parentHash.length === 0) {
+    return currentBucket;
+  }
+  var prevBucket = get(currentBucket.parentHash);
+
+  var state = getBucketState(prevBucket);
+  if (state.scoreL === currentBucket.scoreL && state.scoreR === currentBucket.scoreR) {
+    return currentBucket;
+  } else {
+    setCachedBucket(prevBucket);
+    return prevBucket;
+  }
+}
+
 function getCurrentBucket(_currentBucket) {
-  var currentBucket = _currentBucket || getCachedBucket();
+  var currentBucket = _currentBucket || checkCorrectBucket();
 
   //  get the state on the cached bucket as currentBucket
   var state = getBucketState(currentBucket);
