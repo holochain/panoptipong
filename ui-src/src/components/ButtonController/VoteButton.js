@@ -42,7 +42,7 @@ export default class VoteButton extends Component {
 
       <Button
         disabled={this.props.disabled}
-        className={buttonClass, buttonType}
+        className={buttonClass + " " + buttonType}
         bsStyle="success"
         bsSize="large"
         onClick={this.handleClick}>
