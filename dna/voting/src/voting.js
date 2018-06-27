@@ -85,32 +85,22 @@ function register(payload) {
 
 
 function getTeam() {
-  var response = query({
-    Return: {
-      Entries: true
-    },
-    Constrain: {
-      EntryTypes: ["privatePlayerRegistration"]
-    }
-  });
-
-  var rego = response[response.length-1] || {teamID : "NotRegistered"}
-  return rego.teamID;
+  return getRegistration().teamID || "NotRegistered";
 }
 
 
 function getRegistration() {
-  var response = query({
-    Return: {
-      Entries: true
-    },
-    Constrain: {
-      EntryTypes: ["privatePlayerRegistration"],
-      Count: 1
-    }
+  // get all the players
+  var players = getPlayers();
+
+  // check if you are in it and where
+  var me = players.filter(function(elem) {
+    return elem.agentHash == App.Key.Hash;
   });
 
-  return response[0] || "NotRegistered"
+  debug(me);
+
+  return me[0] || "NotRegistered";
 }
 
 
@@ -421,7 +411,6 @@ function getVoteList(teamID) {
 
 function joinTeam(team, name) {
   var regoHash = commit("playerRegistration", {teamID: team, agentHash: App.Key.Hash, name: name});
-  commit("privatePlayerRegistration", {teamID: team, agentHash: App.Key.Hash, name: name});
 
   var teamAnchorHash = anchor('members', team);
   commit("teamLink", {

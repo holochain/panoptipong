@@ -30,12 +30,6 @@
           "SchemaFile" : "playerRegistration.json"
         },
         {
-          "Name": "privatePlayerRegistration",
-          "DataFormat": "json",
-          "Sharing": "private",
-          "SchemaFile" : "playerRegistration.json"
-        },
-        {
           "Name": "gameBucket",
           "DataFormat": "json",
           "Sharing": "public",
