@@ -76,26 +76,28 @@ const Game = ({game, viz, players}) => {
 	const {ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore} = game
 	const {gauges} = viz
 	return (
-		<div className="Game-wrapper">
-			<BubbleChamber>
-				<div className="Game">
-					<div className="vote-gauge-wrapper left">
-						<VoteGauge {...gauges.left}/>
-					</div>
-					<div className="vote-gauge-wrapper right">
-						<VoteGauge {...gauges.right}/>
-					</div>
-					<div className="midpoint"/>
-					<Paddle side="left" y={leftPaddleY} />
-					<Paddle side="right" y={rightPaddleY} />
-					<PongBall x={ballX} y={ballY} />
-					<div className="score score-left">{leftScore}</div>
-					<div className="score score-right">{rightScore}</div>
-				</div>
-			</BubbleChamber>
+    <div className="Game-megawrapper">
+  		<div className="Game-wrapper">
+  			<BubbleChamber>
+  				<div className="Game">
+  					<div className="vote-gauge-wrapper left">
+  						<VoteGauge {...gauges.left}/>
+  					</div>
+  					<div className="vote-gauge-wrapper right">
+  						<VoteGauge {...gauges.right}/>
+  					</div>
+  					<div className="midpoint"/>
+  					<Paddle side="left" y={leftPaddleY} />
+  					<Paddle side="right" y={rightPaddleY} />
+  					<PongBall x={ballX} y={ballY} />
+  					<div className="score score-left">{leftScore}</div>
+  					<div className="score score-right">{rightScore}</div>
+  				</div>
+  			</BubbleChamber>
+  		</div>
 
       <PlayersTable players={Object.values(players)}/>
-		</div>
+    </div>
 	);
 }
 
