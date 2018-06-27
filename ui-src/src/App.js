@@ -10,6 +10,8 @@ import {connect} from 'react-redux';
 import {
   register,
   getState,
+  getVotesAfterVote,
+  getPlayers,
   getTeam,
 } from './actions'
 
@@ -18,6 +20,14 @@ class App extends Component {
 
   componentWillMount() {
     setInterval(this.props.getState, 500);
+    setInterval(this.props.getPlayers, 5000);
+    setInterval(
+      () => {
+        console.log('latestVote', this.props.viz.latestVote)
+        this.props.getVotesAfterVote(this.props.viz.latestVote)
+      },
+      500
+    );
   }
 
   render() {
@@ -34,7 +44,9 @@ class App extends Component {
           </header>
         </div>
         <div className="game-and-controls">
-          { this.props.team === 'L'
+          { !isRegistered
+            ? [game]
+            : this.props.team === 'L'
             ? [buttons, game]
             : [game, buttons]
           }
@@ -46,13 +58,13 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({team}) => ({team})
+const mapStateToProps = ({team, viz}) => ({team, viz})
 
 const mapDispatchToProps = dispatch => {
   return {
-    getState: () => {
-      dispatch(getState())
-    },
+    getState: () => dispatch(getState()),
+    getPlayers: () => dispatch(getPlayers()),
+    getVotesAfterVote: () => dispatch(getVotesAfterVote()),
   }
 }
 

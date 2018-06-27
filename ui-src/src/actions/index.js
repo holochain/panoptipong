@@ -12,7 +12,7 @@ export const GET_STATE = "getState"
 export const APP_PROPERTY = "appProperty"
 
 export const GET_PLAYERS = "getPlayers"
-export const GET_RECENT_VOTES = "getRecentVotes"
+export const GET_RECENT_VOTES = "getVotesAfterVote"
 
 export const UPDATE_NAME_ENTRY = "updateNameEntry"
 
@@ -78,7 +78,7 @@ export function getPlayers() {
   }
 }
 
-export function getRecentVotes(data) {
+export function getVotesAfterVote(data) {
   return {
     type: GET_RECENT_VOTES,
     meta: {
