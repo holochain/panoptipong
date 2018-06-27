@@ -24,7 +24,7 @@ function getVotesAfterVote(payload) {
     });
   } else {
     var n = 10;
-    var startIndex = Math.min(sortedVotes.length - n, 0);
+    var startIndex = Math.max(sortedVotes.length - n, 0);
     return sortedVotes.slice(startIndex, sortedVotes.length);
   }
 

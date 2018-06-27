@@ -43,6 +43,16 @@
         "Input": {"move":1},
         "Output":"%h1%",
         "RegExp":".*"
+    },
+    {
+        "Time": 4050,
+        "Convey":"Getting the votes after votes",
+        "Zome": "voting",
+        "FnName": "getVotesAfterVote",
+        "Input": "",
+        "Output":"haha"
+
     }
+
   ]
 }

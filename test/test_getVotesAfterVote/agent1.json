@@ -34,15 +34,6 @@
         "Input": {"move":1},
         "Output":"%h1%",
         "RegExp":".*"
-    },
-    {
-        "Time": 3030,
-        "Convey":"An agent Voting",
-        "Zome": "voting",
-        "FnName": "vote",
-        "Input": {"move":1},
-        "Output":"%h1%",
-        "RegExp":".*"
     }
   ]
 }
