@@ -10,21 +10,21 @@
       "Exposure":"public"
     },
     {
-        "Convey":"Calling hashToIntInRange returns a value for a hash",
+        "Convey":"Calling hashToInt returns a value for a hash",
         "Zome": "voting",
-        "FnName": "hashToIntInRange",
+        "FnName": "hashToInt",
         "Raw": true,
-        "Input": "hashToIntInRange('thisHash', 20)",
-        "Output": "-2",
+        "Input": "hashToInt('what', -10, 10)",
+        "Output": "6",
         "Exposure":"public"
     },
     {
-        "Convey":"Calling hashToIntInRange returns a different value for a different hash",
+        "Convey":"Calling hashToInt returns a different value for a different hash",
         "Zome": "voting",
-        "FnName": "hashToIntInRange",
+        "FnName": "hashToInt",
         "Raw": true,
-        "Input": "hashToIntInRange('thatHash', 20)",
-        "Output": "-9",
+        "Input": "hashToInt('whatwhat', -10, 10)",
+        "Output": "2",
         "Exposure":"public"
     }
   ]

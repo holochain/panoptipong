@@ -166,7 +166,9 @@ var initialState = {
   ballMovingLeft: boardParams.vBallx < 0,
 };
 
-var ballPositionRange = 20;
+var ballPositionMinVal = -10;
+var ballPositionMaxVal = 10;
+
 
 function calcState(initialState, sortedVotes, boardParams) {
 
@@ -247,10 +249,10 @@ function getBucketState(bucket) {
   return calcState(initialBucketState, sortedVotes, boardParams);
 }
 
-function hashToIntInRange (hash, range) {
+function hashToInt(hash, minVal, maxVal) {
   return (hash+'').split('').reduce(function (memo, item) {
 return (memo + item.charCodeAt(0))
-  }, 0) % range - (range/2)
+  }, 0) % (maxVal - minVal) + minVal
 }
 
 function reverseString (string){
@@ -259,8 +261,8 @@ function reverseString (string){
 
 function updateInitialState(bucket) {
   var bucketHash = makeHash('gameBucket', bucket);
-  var ballPositionXDelta = hashToIntInRange(bucketHash, ballPositionRange);
-  var ballPositionYDelta = hashToIntInRange(bucketHash, ballPositionRange);
+  var ballPositionXDelta = hashToInt(bucketHash, ballPositionMinVal, ballPositionMaxVal);
+  var ballPositionYDelta = hashToInt(bucketHash+bucketHash, ballPositionMinVal, ballPositionMaxVal);
   var newState = {ball: {
     x: initialState.ball.x + ballPositionXDelta,
     y: initialState.ball.x + ballPositionYDelta
