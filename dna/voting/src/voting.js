@@ -178,16 +178,25 @@ var angleMax = 50;
 function ballVectorFromHash(hash) {
   // randomly select an angle in quadrant 0 and covnert to components
   var theta = hashToIntInRange(hash, angleMin, angleMax);
-  var vBallx = vBall*Math.cos( theta * Math.PI / 180);
-  var vBally = vBall*Math.sin( theta * Math.PI / 180);
+  var vBallx = boardParams.vBall*Math.cos( theta * Math.PI / 180);
+  var vBally = boardParams.vBall*Math.sin( theta * Math.PI / 180);
 
   // select a random quadrant also
   var xCoeff = hashToIntInRange(hash, 0, 1)*2 - 1;
-  var yCoeff = hashToIntInRange(hash.reverse(), 0, 1)*2 - 1;
+  var yCoeff = hashToIntInRange(hash+hash, 0, 1)*2 - 1;
 
   return {
     x : xCoeff*vBallx,
     y : yCoeff*vBally
+  }
+}
+
+function ballPosFromHash(hash) {
+  var ballPositionXDelta = hashToIntInRange(hash, ballPositionRange);
+  var ballPositionYDelta = hashToIntInRange(hash, ballPositionRange);
+  return {
+    x: ballPositionXDelta,
+    y: ballPositionYDelta
   }
 }
 
@@ -208,8 +217,8 @@ function calcState(initialState, sortedVotes, boardParams) {
     var scoreL = state.scoreL;
     var scoreR = state.scoreR;
     var ball = {
-      x : state.ball.x + boardParams.vBallx / totalPlayers,
-      y : state.ball.y + boardParams.vBally / totalPlayers
+      x : state.ball.x + initialState.vBall.x / totalPlayers,
+      y : state.ball.y + initialState.vBall.y / totalPlayers
     }
 
     if (vote.teamID === 'L') {
@@ -284,17 +293,18 @@ function reverseString (string){
 
 function updateInitialState(bucket) {
   var bucketHash = makeHash('gameBucket', bucket);
-  var ballPositionXDelta = hashToIntInRange(bucketHash, ballPositionRange);
-  var ballPositionYDelta = hashToIntInRange(bucketHash, ballPositionRange);
-  var newState = {ball: {
-    x: initialState.ball.x + ballPositionXDelta,
-    y: initialState.ball.x + ballPositionYDelta
-  },
-  paddleL: 50,
-  paddleR: 50,
-  scoreL: 0,
-  scoreR: 0,
-  ballMovingLeft: boardParams.vBallx < 0};
+
+  var vBall = ballVectorFromHash(bucketHash)
+
+  var newState = {
+    ball: ballPosFromHash(bucketHash),
+    vBall : vBall,
+    paddleL: 50,
+    paddleR: 50,
+    scoreL: 0,
+    scoreR: 0,
+    ballMovingLeft: vBall.x < 0
+  };
   return newState;
 }
 
