@@ -235,6 +235,22 @@ function getBucketState(bucket) {
 }
 
 
+function checkCorrectBucket() {
+  var currentBucket = getCachedBucket();
+  var prevBucket = get(currentBucket.parentHash);
+  if(prevBucket === HC.HashNotFound) {
+    return true;
+  }
+  var state = getBucketState(prevBucket);
+  if(state.scoreL === currentBucket.scoreL && state.scoreR === currentBucket.scoreR) {
+    return true;
+  } else {
+    setCachedBucket(prevBucket);
+    return false;
+  }
+}
+
+
 function getCurrentBucket(_currentBucket) {
   var currentBucket = _currentBucket || getCachedBucket();
 
