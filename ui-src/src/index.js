@@ -7,14 +7,18 @@ import CreateStore from './store'
 
 const store = CreateStore()
 
-const root = <Provider store={store}>
-  <App />
-</Provider>
+window.addEventListener('load', () => {
+    
+  const root = <Provider store={store}>
+    <App />
+  </Provider>
 
-ReactDOM.render(
-  root,
-  document.getElementById('root')
-);
+  ReactDOM.render(
+    root,
+    document.getElementById('root')
+  );
+
+})
 
 // TODO
 // registerServiceWorker();
