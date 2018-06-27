@@ -90,12 +90,11 @@ function getTeam() {
       Entries: true
     },
     Constrain: {
-      EntryTypes: ["privatePlayerRegistration"],
-      Count: 1
+      EntryTypes: ["privatePlayerRegistration"]
     }
   });
 
-  var rego = response[0] || {teamID : "NotRegistered"}
+  var rego = response[response.length-1] || {teamID : "NotRegistered"}
   return rego.teamID;
 }
 
@@ -133,6 +132,8 @@ function vote(payload) {
     teamID: getTeam()
   };
 
+  debug(vote);
+
   return castVote(vote);
 }
 
@@ -148,23 +149,55 @@ var boardParams = {
   paddleWidth: 5,
   paddleHeight: 30,
   ballSize:3,
-  vBallx: 10.0,
-  vBally: 4.8,
+  vBall: 10,
   vPaddle: 1.3,
 };
 
 
-var initialState = {
-  ball: {
-      x: 100,
-      y: 50
-  },
-  paddleL: 50,
-  paddleR: 50,
-  scoreL: 0,
-  scoreR: 0,
-  ballMovingLeft: boardParams.vBallx < 0,
-};
+// var initialState = {
+//   ball: {
+//       x: 100,
+//       y: 50
+//   },
+//   vBall: {
+//     x: 5,
+//     y: 5,
+//   },
+//   paddleL: 50,
+//   paddleR: 50,
+//   scoreL: 0,
+//   scoreR: 0,
+//   ballMovingLeft: false,
+// };
+
+
+var angleMin = 30;
+var angleMax = 60;
+
+function ballVectorFromHash(hash) {
+  // randomly select an angle in quadrant 0 and covnert to components
+  var theta = hashToInt(hash, angleMin, angleMax);
+  debug(theta);
+  var vBallx = boardParams.vBall*Math.cos( theta * Math.PI / 180);
+  var vBally = boardParams.vBall*Math.sin( theta * Math.PI / 180);
+
+  var yDir = hashToInt(hash, 0, 2)*2 - 1;
+  var xDir = hashToInt(hash+hash, 0, 2)*2 - 1;
+
+  return {
+    x : xDir*vBallx,
+    y : yDir*vBally
+  }
+}
+
+function ballPosFromHash(hash) {
+  var ballPositionXDelta = hashToInt(hash, -10,10);
+
+  return {
+    x: 100 + ballPositionXDelta,
+    y: boardParams.height / 2
+  }
+}
 
 
 function calcState(initialState, sortedVotes, boardParams) {
@@ -184,8 +217,8 @@ function calcState(initialState, sortedVotes, boardParams) {
     var scoreL = state.scoreL;
     var scoreR = state.scoreR;
     var ball = {
-      x : state.ball.x + boardParams.vBallx / totalPlayers,
-      y : state.ball.y + boardParams.vBally / totalPlayers
+      x : state.ball.x + initialState.vBall.x / totalPlayers,
+      y : state.ball.y + initialState.vBall.y / totalPlayers
     }
 
     if (vote.teamID === 'L') {
@@ -227,28 +260,55 @@ function calcState(initialState, sortedVotes, boardParams) {
   }
 }
 
-
 function mod(n, m) {
   return ((n % m) + m) % m;
 }
 
 function unwrapBallPos(pos, size) {
-  var k = Math.floor(pos / size) % 2;
-  return (pos % size)*(-2*k + 1) + size*k;
+  var k = mod(Math.floor(pos / size), 2);
+  return mod(pos, size)*(-2*k + 1) + size*k;
 }
-
-
 
 function getBucketState(bucket) {
   var sortedVotes = getLinks(makeHash('gameBucket', bucket), 'vote', {Load: true})
     .map(function (item) { return item.Entry })
     .sort(compareVotes);
-  var initialBucketState = JSON.parse(JSON.stringify(initialState)); // TODO: actually make a fresh new state for each anchor based on hash
+  var initialBucketState = updateInitialState(bucket);
   initialBucketState.scoreL = bucket.scoreL;
   initialBucketState.scoreR = bucket.scoreR;
   return calcState(initialBucketState, sortedVotes, boardParams);
 }
 
+function hashToInt(hash, minVal, maxVal) {
+  return (hash+'').split('').reduce(function (memo, item) {
+return (memo + item.charCodeAt(0))
+  }, 0) % (maxVal - minVal) + minVal
+}
+
+
+
+function reverseString (string){
+  return string.split("").reverse().join("");
+}
+
+function updateInitialState(bucket) {
+  var bucketHash = makeHash('gameBucket', bucket);
+
+  var vBall = ballVectorFromHash(bucketHash);
+  var ball = ballPosFromHash(bucketHash);
+
+  var newState = {
+    ball: ball,
+    vBall: vBall,
+    paddleL: 50,
+    paddleR: 50,
+    scoreL: 0,
+    scoreR: 0,
+    ballMovingLeft: vBall.x < 0
+  };
+
+  return newState;
+}
 
 /**
  * Rolls back to the correct bucket on an incorrect transition due to race conditions
@@ -332,6 +392,10 @@ function castVote(vote){
     Links: [{ Base: makeHash('gameBucket', currentBucket), Link: voteHash, Tag: 'vote' }]
   });
 
+  commit('voteLink', {
+    Links: [{ Base: anchor(vote.teamID,"GameID"), Link: voteHash, Tag: 'vote' }]
+  });
+
   return voteHash;
 }
 
@@ -369,4 +433,33 @@ function joinTeam(team, name) {
     Links: [{ Base: playersAnchorHash, Link: regoHash, Tag: "" }]
   });
 
+}
+
+
+//@param payload {team:'' , name:''}
+function unRegister(payload){
+
+  var regoHash = makeHash("playerRegistration", {teamID: payload.team, agentHash: App.Key.Hash, name: payload.name});
+  remove(regoHash,"unRegister");
+  //HACK
+  // Change the local chain making it easy to retrieved
+  commit("privatePlayerRegistration",{teamID : "NotRegistered",agentHash: App.Key.Hash, name: payload.name});
+  // On the DHT, mark the links as deleted
+  var teamAnchorHash = anchor('members', payload.team);
+  commit("teamLink", {
+    Links: [{ Base: teamAnchorHash,
+      Link: App.Key.Hash,
+      Tag: "" ,
+      LinkAction: HC.LinkAction.Del}]
+  });
+
+  var playersAnchorHash = anchor('players', 'players');
+  commit("teamLink", {
+    Links: [{ Base: playersAnchorHash,
+      Link: regoHash,
+      Tag: "",
+      LinkAction: HC.LinkAction.Del}]
+  });
+  // return success
+  return true;
 }

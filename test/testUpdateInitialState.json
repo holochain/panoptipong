@@ -1,21 +1,30 @@
 {
   "Tests":[
     {
-        "Convey":"Calling hashToIntInRange returns a value for a hash",
+      "Convey":"Calling reverseString reverses a string",
+      "Zome": "voting",
+      "FnName": "reverseString",
+      "Raw": true,
+      "Input": "reverseString('palindrome')",
+      "Output": "emordnilap",
+      "Exposure":"public"
+    },
+    {
+        "Convey":"Calling hashToInt returns a value for a hash",
         "Zome": "voting",
-        "FnName": "hashToInInRange",
+        "FnName": "hashToInt",
         "Raw": true,
-        "Input": "JSON.stringify(hashToIntInRange('someHash'))",
-        "Output": "-1",
+        "Input": "hashToInt('what', -10, 10)",
+        "Output": "6",
         "Exposure":"public"
     },
     {
-        "Convey":"Calling hashToIntInRange returns a different value for a different hash",
+        "Convey":"Calling hashToInt returns a different value for a different hash",
         "Zome": "voting",
-        "FnName": "hashToInInRange",
+        "FnName": "hashToInt",
         "Raw": true,
-        "Input": "JSON.stringify(hashToIntInRange('otherHash'))",
-        "Output": "-2",
+        "Input": "hashToInt('whatwhat', -10, 10)",
+        "Output": "2",
         "Exposure":"public"
     }
   ]

@@ -63,6 +63,10 @@
           "Name": "register",
           "CallingType": "json",
           "Exposure": "public"
+        },{
+          "Name": "unRegister",
+          "CallingType": "json",
+          "Exposure": "public"
         },
         {
           "Name": "vote",

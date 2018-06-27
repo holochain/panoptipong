@@ -12,7 +12,7 @@
         "Convey":"An agent is registered and initially assigned to team L",
         "Zome": "voting",
         "FnName": "register",
-        "Input": {"name" : "testName"},
+        "Input": {"name" : "Zo-El"},
         "Output": "L",
         "Exposure":"public"
     },
@@ -29,33 +29,32 @@
         "Zome": "voting",
         "FnName": "getPlayers",
         "Input": {},
-        "Output": [{"teamID" : "L", "agentHash" : "%key%", "name" : "testName"}],
+        "Output": [{"teamID" : "L", "agentHash" : "%key%", "name" : "Zo-El"}],
         "Exposure":"public"
     },
     {
-        "Convey":"cast a bunch of votes",
+        "Convey":"unregister player",
         "Zome": "voting",
-        "FnName": "vote",
-        "Input": {"move" : 0},
-        "Repeat" : 5,
-        "RegExp" : ".*",
+        "FnName": "unRegister",
+        "Raw": true,
+        "Input": "unRegister({\"team\":\"L\",\"name\":\"Zo-El\"})",
+        "Output": true,
         "Exposure":"public"
     },
     {
-        "Convey":"Can retrieve the votes",
+        "Convey":"Shound not retrive itself",
         "Zome": "voting",
-        "Raw" : true,
-        "FnName": "getVotesAfterVote",
-        "Input": "getVotesAfterVote().length",
-        "Output": "5",
-        "Exposure":"public"
-    },
-    {
-        "Convey":"Can get the state after the votes are castS",
-        "Zome": "voting",
-        "FnName": "getState",
+        "FnName": "getPlayers",
         "Input": {},
-        "RegExp": ".*",
+        "Output": [],
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Should not be able to get. ",
+        "Zome": "voting",
+        "FnName": "getTeam",
+        "Input": {},
+        "Output": "NotRegistered",
         "Exposure":"public"
     }
   ]
