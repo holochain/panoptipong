@@ -90,12 +90,11 @@ function getTeam() {
       Entries: true
     },
     Constrain: {
-      EntryTypes: ["privatePlayerRegistration"],
-      Count: 1
+      EntryTypes: ["privatePlayerRegistration"]
     }
   });
 
-  var rego = response[0] || {teamID : "NotRegistered"}
+  var rego = response[response.length-1] || {teamID : "NotRegistered"}
   return rego.teamID;
 }
 
@@ -392,4 +391,33 @@ function joinTeam(team, name) {
     Links: [{ Base: playersAnchorHash, Link: regoHash, Tag: "" }]
   });
 
+}
+
+
+//@param payload {team:'' , name:''}
+function unRegister(payload){
+
+  var regoHash = makeHash("playerRegistration", {teamID: payload.team, agentHash: App.Key.Hash, name: payload.name});
+  remove(regoHash,"unRegister");
+  //HACK
+  // Change the local chain making it easy to retrieved
+  commit("privatePlayerRegistration",{teamID : "NotRegistered",agentHash: App.Key.Hash, name: payload.name});
+  // On the DHT, mark the links as deleted
+  var teamAnchorHash = anchor('members', payload.team);
+  commit("teamLink", {
+    Links: [{ Base: teamAnchorHash,
+      Link: App.Key.Hash,
+      Tag: "" ,
+      LinkAction: HC.LinkAction.Del}]
+  });
+
+  var playersAnchorHash = anchor('players', 'players');
+  commit("teamLink", {
+    Links: [{ Base: playersAnchorHash,
+      Link: regoHash,
+      Tag: "",
+      LinkAction: HC.LinkAction.Del}]
+  });
+  // return success
+  return true;
 }
