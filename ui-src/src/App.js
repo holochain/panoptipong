@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import logo from "./holochain_logo.png";
 import "./App.css";
 import ButtonController from "./components/ButtonController";
+import PlayersTable from "./components/PlayersTable";
 import Game from "./components/Game";
 import RegisterModal from "./components/RegisterModal";
 import "./components/Header";
@@ -54,15 +55,17 @@ class App extends Component {
             <h1 className="App-title">PANOPTIPONG</h1>
           </header>
         </div>
-        <div className="game-and-controls">
-          { !isRegistered
-            ? [game]
-            : this.props.team === 'L'
-            ? [buttons, game]
-            : [game, buttons]
-          }
+        <div>
+          <div className="game-and-controls">
+            { !isRegistered
+              ? [game]
+              : this.props.team === 'L'
+              ? [buttons, game]
+              : [game, buttons]
+            }
+          </div>
+          <PlayersTable players={Object.values(this.props.players)}/>
         </div>
-
         { isRegistered ? null : <RegisterModal initApp={this.initApp}/> }
       </div>
     );

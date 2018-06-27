@@ -19,20 +19,20 @@ class BubbleChamber extends Component {
     super(props)
     this.state = {
       bubbles: [
-        {
-          x: 50,
-          y: 80,
-          right: true,
-          opacity: 0.75,
-          name: 'MD'
-        },
-        {
-          x: 130,
-          y: 90,
-          right: true,
-          opacity: 0.75,
-          name: 'LJ'
-        }
+        // {
+        //   x: 50,
+        //   y: 80,
+        //   right: true,
+        //   opacity: 0.75,
+        //   name: 'MD'
+        // },
+        // {
+        //   x: 130,
+        //   y: 90,
+        //   right: true,
+        //   opacity: 0.75,
+        //   name: 'LJ'
+        // }
       ]
     }
   }

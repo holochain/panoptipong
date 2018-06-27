@@ -76,7 +76,6 @@ const Game = ({game, viz, players}) => {
 	const {ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore} = game
 	const {gauges} = viz
 	return (
-    <div className="Game-megawrapper">
   		<div className="Game-wrapper">
   			<BubbleChamber>
   				<div className="Game">
@@ -95,9 +94,7 @@ const Game = ({game, viz, players}) => {
   				</div>
   			</BubbleChamber>
   		</div>
-
-      <PlayersTable players={Object.values(players)}/>
-    </div>
+      
 	);
 }
 
