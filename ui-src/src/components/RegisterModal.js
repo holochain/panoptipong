@@ -10,7 +10,6 @@ class RegisterModal extends Component {
   }
 
   handleRegister = e => {
-    this.style.display === "none"
     this.props.register({name: this.props.nameEntry}, data => {
       return data;
     })
