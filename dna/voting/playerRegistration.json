@@ -1,0 +1,10 @@
+{
+    "title": "Player Registration Schema",
+    "type": "object",
+    "properties" : {
+      "agentHash" : {"type" : "string"},
+      "teamID" : {"type" : "string"},
+      "name" : {"type" : "string"}
+    },
+    "required": ["agentHash", "teamID"]
+}

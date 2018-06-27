@@ -8,6 +8,8 @@ ui-src/package-lock.json
 .dist/
 .cache/
 package-lock.json
+ui-src/package-lock.json
+.cache/
 
 # OS generated files #
 ######################

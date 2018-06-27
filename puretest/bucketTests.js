@@ -1,5 +1,5 @@
 var test = require('tape');
-var genesisBucket = {scoreL: 0, scoreR: 0, gameID: 0};
+var genesisBucket = {scoreL: 0, scoreR: 0, gameID: 0, parentHash: ''};
 
 test('getBucketState returns initialState when called with an empty genesis bucket', function (t) {
     var result = getBucketState(genesisBucket);
@@ -57,5 +57,17 @@ test('getCurrentBucket returns next bucket when called after currentBucket has a
   t.comment(JSON.stringify(getCurrentBucket()));
   t.notDeepEqual(getCurrentBucket(), genesisBucket);
   t.end();
+});
+
+
+test('Can set incorrect bucket and then automatically roll back', function (t) {
+  var correctBucket = getCurrentBucket();
+  // set the cached bucket to the wrong one
+  setCachedBucket({scoreL: 3, scoreR: 0, gameID: 0, parentHash: makeHash('gameBucket', correctBucket)});
+
+  var recoveredBucket = getCurrentBucket()
+
+  t.deepEqual(correctBucket, recoveredBucket);
+
 });
   
