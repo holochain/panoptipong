@@ -4,7 +4,8 @@
     "properties" : {
       "scoreL" : { "type" : "integer"},
       "scoreR" : { "type" : "integer"},
+      "parentHash" : {"type" : "string"},
       "gameID" : { "type" : "integer"}
     },
-    "required": ["scoreL", "scoreR", "gameID"]
+    "required": ["scoreL", "scoreR", "gameID", "parentHash"]
 }

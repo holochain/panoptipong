@@ -302,18 +302,20 @@ function getCurrentBucket(_currentBucket) {
       var nextBucket = {
         scoreL: 0,
         scoreR: 0,
-        gameID: currentBucket.gameID + 1
+        gameID: currentBucket.gameID + 1,
+        parentHash: makeHash('gameBucket', currentBucket)
       };
     } else {
       var nextBucket = {
         scoreL: state.scoreL,
         scoreR: state.scoreR,
-        gameID: currentBucket.gameID
+        gameID: currentBucket.gameID,
+        parentHash: makeHash('gameBucket', currentBucket)
       };
     }
 
     commit('gameBucket', nextBucket); // in case we are the first person to notice the score
-    setCachedBucket(nextBucket, currentBucket); // TODO actually make work
+    setCachedBucket(nextBucket, currentBucket);
     return getCurrentBucket(nextBucket);
   } else {
     return currentBucket;
