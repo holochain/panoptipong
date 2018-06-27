@@ -37,11 +37,11 @@ const initialState = {
 }
 
 const getMoveName = move => {
-  if (move === 1) {
+  if (move === -1) {
     return 'up'
   } else if (move === 0) {
     return 'stay'
-  } else if (move === -1) {
+  } else if (move === 1) {
     return 'down'
   } else {
     return '???'
@@ -117,11 +117,12 @@ const pongReducer = function(state = initialState, action) {
       })
       return { ...state, players }
     case actions.GET_RECENT_VOTES:
-      const latestVote = getLatestVote(payload)
+      // const latestVote = getLatestVote(payload)
       return {
         ...state,
         viz: {
-          latestVote: latestVote ? latestVote : state.viz.latestVote,
+          // latestVote: latestVote ? latestVote : state.viz.latestVote,
+          // mostRecentVotes: 'TODO',
           recentVotes: payload,
           gauges: calcVoteGauges(payload),
         }

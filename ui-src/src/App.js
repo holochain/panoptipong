@@ -26,9 +26,7 @@ class App extends Component {
     setInterval(this.props.getPlayers, 5000);
     setInterval(
       () => {
-        this.props.getVotesAfterVote({
-          vote: this.props.viz.latestVote
-        })
+        this.props.getVotesAfterVote()  // no vote, just get most recent N
       },
       500
     );
@@ -78,7 +76,7 @@ const mapDispatchToProps = dispatch => {
     getState: () => dispatch(getState()),
     getPlayers: () => dispatch(getPlayers()),
     getRegistration: (then) => dispatch(getRegistration(then)),
-    getVotesAfterVote: () => dispatch(getVotesAfterVote()),
+    getVotesAfterVote: (data) => dispatch(getVotesAfterVote(data)),
   }
 }
 
