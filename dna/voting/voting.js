@@ -1974,9 +1974,11 @@ function validateCommit(entry_type, entry, header, pkg, sources) {
 function validateLink(linkingEntryType, baseHash, linkHash, pkg, sources) {
   return true;
 }
+
 function validateMod(entry_type, hash, newHash, pkg, sources) {
   return true;
 }
+
 function validateDel(entry_type, hash, pkg, sources) {
   return true;
 }
