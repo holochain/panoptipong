@@ -1,0 +1,22 @@
+{
+  "Tests":[
+    {
+        "Convey":"Calling hashToIntInRange returns a value for a hash",
+        "Zome": "voting",
+        "FnName": "hashToInInRange",
+        "Raw": true,
+        "Input": "JSON.stringify(hashToIntInRange('someHash'))",
+        "Output": "-1",
+        "Exposure":"public"
+    },
+    {
+        "Convey":"Calling hashToIntInRange returns a different value for a different hash",
+        "Zome": "voting",
+        "FnName": "hashToInInRange",
+        "Raw": true,
+        "Input": "JSON.stringify(hashToIntInRange('otherHash'))",
+        "Output": "-2",
+        "Exposure":"public"
+    }
+  ]
+}

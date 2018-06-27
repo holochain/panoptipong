@@ -1,3 +1,66 @@
+/*----------  Anchor API  ----------*/
+
+function anchor(anchorType, anchorText) {
+  return call('anchors', 'anchor', {
+    anchorType: anchorType,
+    anchorText: anchorText
+  }).replace(/"/g, '');
+}
+
+function anchorExists(anchorType, anchorText) {
+  return call('anchors', 'exists', {
+    anchorType: anchorType,
+    anchorText: anchorText
+  });
+}
+
+/*=====  End of Local Zome Functions  ======*/
+
+
+// Cast you first Vote and save it localy
+
+function genesis() {
+  commit('cachedGameBucket', { scoreL: 0, scoreR: 0, gameID: 0 });
+  commit('gameBucket', { scoreL: 0, scoreR: 0, gameID: 0 });
+  return true;
+}
+
+function validatePut(entry_type, entry, header, pkg, sources) {
+  return validateCommit(entry_type, entry, header, pkg, sources);
+}
+function validateCommit(entry_type, entry, header, pkg, sources) {
+  return true;
+}
+
+function validateLink(linkingEntryType, baseHash, linkHash, pkg, sources) {
+  return true;
+}
+function validateMod(entry_type, hash, newHash, pkg, sources) {
+  return true;
+}
+function validateDel(entry_type, hash, pkg, sources) {
+  return true;
+}
+function validatePutPkg(entry_type) {
+  return null;
+}
+function validateModPkg(entry_type) {
+  return null;
+}
+function validateDelPkg(entry_type) {
+  return null;
+}
+function validateLinkPkg(entry_type) {
+  return null;
+}
+
+function validateLink(entryType, hash, links, pkg, sources) {
+  return true;
+}
+
+function validateDelPkg(entryType) {
+  return null;
+}
 
 
 /*=============================================
@@ -5,10 +68,26 @@
 =============================================*/
 
 function getState() {
-  var sortedVotes = getVoteList('L').concat(getVoteList('R')).map(function (item) {
+  var currentBucket = getCurrentBucket();
+  debug("getting state from bucket " + JSON.stringify(currentBucket));
+  return getBucketState(getCurrentBucket());
+}
+
+function getVotesAfterVote(payload) {
+
+  var sortedVotes = getLinks(makeHash('gameBucket', getCurrentBucket()), 'vote', { Load: true }).map(function (item) {
     return item.Entry;
   }).sort(compareVotes);
-  return calcState(initialState, sortedVotes, boardParams);
+
+  if (payload && payload.vote) {
+    return sortedVotes.filter(function (element) {
+      return compareVotes(payload.vote, element) > 0;
+    });
+  } else {
+    var n = 10;
+    var startIndex = Math.min(sortedVotes.length - n, 0);
+    return sortedVotes.slice(startIndex, sortedVotes.length);
+  }
 }
 
 function compareVotes(a, b) {
@@ -22,8 +101,21 @@ function compareVotes(a, b) {
   }
 }
 
+function getPlayers() {
+  return getLinks(anchor('players', 'players'), '', { Load: true }).map(function (item) {
+    return item.Entry;
+  });
+}
+
 // REGISTERED YOUR AGENT
-function register() {
+function register(payload) {
+
+  var name;
+  if (payload) {
+    name = payload.name;
+  } else {
+    name = "";
+  };
 
   // get the number of agents in each team so far
   var membersL = getLinks(anchor('members', 'L'), '');
@@ -50,7 +142,7 @@ function register() {
   } else {
     team = 'R';
   }
-  joinTeam(team);
+  joinTeam(team, name);
   return team;
 }
 
@@ -60,12 +152,13 @@ function getTeam() {
       Entries: true
     },
     Constrain: {
-      EntryTypes: ["teamDesignation"],
+      EntryTypes: ["privatePlayerRegistration"],
       Count: 1
     }
   });
 
-  return response[0] || "NotRegistered";
+  var rego = response[0] || { teamID: "NotRegistered" };
+  return rego.teamID;
 }
 
 function vote(payload) {
@@ -108,7 +201,7 @@ var boardParams = {
 
 var initialState = {
   ball: {
-    x: 60,
+    x: 100,
     y: 50
   },
   paddleL: 50,
@@ -178,11 +271,6 @@ function calcState(initialState, sortedVotes, boardParams) {
   };
 }
 
-function voteStamp(vote) {
-  var totalVotes = vote.teamL.voteCount + vote.teamR.voteCount;
-  return String(totalVotes) + makeHash('vote', vote);
-}
-
 function mod(n, m) {
   return (n % m + m) % m;
 }
@@ -192,18 +280,68 @@ function unwrapBallPos(pos, size) {
   return pos % size * (-2 * k + 1) + size * k;
 }
 
-//VOTE
-//vote = {teamID:"",move:"",teamL:{payerCount:"",voteCount:""},teamR:{payerCount:"",voteCount:""},agentHash:"",randomSalt:"",}
-//NOTE: if you want to have mutiple games, you woud need the GameID too;
-function castVote(vote) {
-  if (anchorExists(vote.teamID, "GameID") === "false") {
-    anchor(vote.teamID, "GameID");
+function getBucketState(bucket) {
+  var sortedVotes = getLinks(makeHash('gameBucket', bucket), 'vote', { Load: true }).map(function (item) {
+    return item.Entry;
+  }).sort(compareVotes);
+  var initialBucketState = JSON.parse(JSON.stringify(initialState)); // TODO: actually make a fresh new state for each anchor based on hash
+  initialBucketState.scoreL = bucket.scoreL;
+  initialBucketState.scoreR = bucket.scoreR;
+  return calcState(initialBucketState, sortedVotes, boardParams);
+}
+
+function getCurrentBucket(_currentBucket) {
+  var currentBucket = _currentBucket || getCachedBucket();
+
+  //  get the state on the cached bucket as currentBucket
+  var state = getBucketState(currentBucket);
+
+  if (state.scoreL > currentBucket.scoreL || state.scoreR > currentBucket.scoreR) {
+
+    if (state.scoreL == 10 || state.scoreR == 10) {
+      var nextBucket = {
+        scoreL: 0,
+        scoreR: 0,
+        gameID: currentBucket.gameID + 1
+      };
+    } else {
+      var nextBucket = {
+        scoreL: state.scoreL,
+        scoreR: state.scoreR,
+        gameID: currentBucket.gameID
+      };
+    }
+
+    commit('gameBucket', nextBucket); // in case we are the first person to notice the score
+    setCachedBucket(nextBucket, currentBucket); // TODO actually make work
+    return getCurrentBucket(nextBucket);
+  } else {
+    return currentBucket;
   }
+}
+
+function setCachedBucket(bucket, prevBucket) {
+  update('cachedGameBucket', bucket, makeHash('cachedGameBucket', prevBucket));
+}
+
+function getCachedBucket(hash) {
+  var result = query({
+    Constrain: {
+      EntryTypes: ['cachedGameBucket']
+    }
+  });
+  // Returns the last entry because its the most updated values
+  return result[result.length - 1];
+}
+
+function castVote(vote) {
+
+  var currentBucket = getCurrentBucket();
 
   voteHash = commit("vote", vote);
   // On the DHT, puts a link on my anchor to the new post
   commit('voteLink', {
-    Links: [{ Base: anchor(vote.teamID, "GameID"), Link: voteHash, Tag: 'vote' }]
+    Links: [{ Base: makeHash('gameBucket', currentBucket), Link: voteHash, Tag: 'vote' }]
   });
 
   return voteHash;
@@ -227,71 +365,17 @@ function getVoteList(teamID) {
   return voteLinks;
 }
 
-function joinTeam(team) {
-  commit("teamDesignation", team);
+function joinTeam(team, name) {
+  var regoHash = commit("playerRegistration", { teamID: team, agentHash: App.Key.Hash, name: name });
+  commit("privatePlayerRegistration", { teamID: team, agentHash: App.Key.Hash, name: name });
+
   var teamAnchorHash = anchor('members', team);
   commit("teamLink", {
     Links: [{ Base: teamAnchorHash, Link: App.Key.Hash, Tag: "" }]
   });
-}
 
-/*----------  Anchor API  ----------*/
-
-function anchor(anchorType, anchorText) {
-  return call('anchors', 'anchor', {
-    anchorType: anchorType,
-    anchorText: anchorText
-  }).replace(/"/g, '');
-}
-
-function anchorExists(anchorType, anchorText) {
-  return call('anchors', 'exists', {
-    anchorType: anchorType,
-    anchorText: anchorText
+  var playersAnchorHash = anchor('players', 'players');
+  commit("teamLink", {
+    Links: [{ Base: playersAnchorHash, Link: regoHash, Tag: "" }]
   });
-}
-
-/*=====  End of Local Zome Functions  ======*/
-
-// Cast you first Vote and save it localy
-
-function genesis() {
-  return true;
-}
-
-function validatePut(entry_type, entry, header, pkg, sources) {
-  return validateCommit(entry_type, entry, header, pkg, sources);
-}
-function validateCommit(entry_type, entry, header, pkg, sources) {
-  return true;
-}
-
-function validateLink(linkingEntryType, baseHash, linkHash, pkg, sources) {
-  return true;
-}
-function validateMod(entry_type, hash, newHash, pkg, sources) {
-  return true;
-}
-function validateDel(entry_type, hash, pkg, sources) {
-  return true;
-}
-function validatePutPkg(entry_type) {
-  return null;
-}
-function validateModPkg(entry_type) {
-  return null;
-}
-function validateDelPkg(entry_type) {
-  return null;
-}
-function validateLinkPkg(entry_type) {
-  return null;
-}
-
-function validateLink(entryType, hash, links, pkg, sources) {
-  return true;
-}
-
-function validateDelPkg(entryType) {
-  return null;
 }
