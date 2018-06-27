@@ -14,8 +14,8 @@
         "Zome": "voting",
         "FnName": "hashToIntInRange",
         "Raw": true,
-        "Input": "hashToIntInRange('someHash')",
-        "Output": "-1",
+        "Input": "hashToIntInRange('thisHash', 20)",
+        "Output": "-2",
         "Exposure":"public"
     },
     {
@@ -23,8 +23,8 @@
         "Zome": "voting",
         "FnName": "hashToIntInRange",
         "Raw": true,
-        "Input": "hashToIntInRange('otherHash')",
-        "Output": "-2",
+        "Input": "hashToIntInRange('thatHash', 20)",
+        "Output": "-9",
         "Exposure":"public"
     }
   ]
