@@ -103,9 +103,13 @@ const pongReducer = function(state = initialState, action) {
           rightScore: payload.scoreR,
         }
       }
+    case actions.GET_REGISTRATION:
+      const {teamID} = payload
+      const getRegistrationTeam = teamID === 'L' || teamID === 'R' ? {team: teamID} : {}
+      return Object.assign({...state}, getRegistrationTeam)
     case actions.REGISTER:
-      const team = payload === 'L' || payload === 'R' ? {team: payload} : {}
-      return Object.assign({...state}, team)
+      const registerTeam = payload === 'L' || payload === 'R' ? {team: payload} : {}
+      return Object.assign({...state}, registerTeam)
     case actions.GET_PLAYERS:
       const players = {}
       payload.forEach(({agentHash, teamID, name}) => {

@@ -12,6 +12,7 @@ export const GET_STATE = "getState"
 export const APP_PROPERTY = "appProperty"
 
 export const GET_PLAYERS = "getPlayers"
+export const GET_REGISTRATION = "getRegistration"
 export const GET_RECENT_VOTES = "getVotesAfterVote"
 
 export const UPDATE_NAME_ENTRY = "updateNameEntry"
@@ -74,6 +75,17 @@ export function getPlayers() {
     meta: {
       isHc: true,
       namespace,
+    }
+  }
+}
+
+export function getRegistration(then) {
+  return {
+    type: GET_REGISTRATION,
+    meta: {
+      isHc: true,
+      namespace,
+      then
     }
   }
 }

@@ -11,6 +11,7 @@ class RegisterModal extends Component {
 
   handleRegister = e => {
     this.props.register({name: this.props.nameEntry}, data => {
+      this.props.initApp();
       return data;
     })
   }
@@ -32,8 +33,8 @@ const mapDispatchToProps = dispatch => {
     updateNameEntry: (name) => {
       dispatch(updateNameEntry(name))
     },
-    register: (then) => {
-      dispatch(register(then))
+    register: (data, then) => {
+      dispatch(register(data, then))
     },
   }
 }

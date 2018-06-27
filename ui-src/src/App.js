@@ -12,13 +12,14 @@ import {
   getState,
   getVotesAfterVote,
   getPlayers,
+  getRegistration,
   getTeam,
 } from './actions'
 
 
 class App extends Component {
 
-  componentWillMount() {
+  initApp = () => {
     setInterval(this.props.getState, 500);
     setInterval(this.props.getPlayers, 5000);
     setInterval(
@@ -28,6 +29,15 @@ class App extends Component {
       },
       500
     );
+  }
+
+  componentWillMount() {
+    this.props.getRegistration(data => {
+      if (data.teamID === 'L' || data.teamID === 'R') {
+        this.initApp()
+      }
+      return data
+    })
   }
 
   render() {
@@ -52,7 +62,7 @@ class App extends Component {
           }
         </div>
 
-        { isRegistered ? null : <RegisterModal/> }
+        { isRegistered ? null : <RegisterModal initApp={this.initApp}/> }
       </div>
     );
   }
@@ -64,6 +74,7 @@ const mapDispatchToProps = dispatch => {
   return {
     getState: () => dispatch(getState()),
     getPlayers: () => dispatch(getPlayers()),
+    getRegistration: (then) => dispatch(getRegistration(then)),
     getVotesAfterVote: () => dispatch(getVotesAfterVote()),
   }
 }
