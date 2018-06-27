@@ -225,6 +225,8 @@ var initialState = {
   ballMovingLeft: boardParams.vBallx < 0
 };
 
+var ballPositionRange = 20;
+
 function calcState(initialState, sortedVotes, boardParams) {
 
   function isCollision(paddleY, ballY) {
@@ -298,10 +300,36 @@ function getBucketState(bucket) {
   var sortedVotes = getLinks(makeHash('gameBucket', bucket), 'vote', { Load: true }).map(function (item) {
     return item.Entry;
   }).sort(compareVotes);
-  var initialBucketState = JSON.parse(JSON.stringify(initialState)); // TODO: actually make a fresh new state for each anchor based on hash
+  var initialBucketState = updateInitialState(bucket);
   initialBucketState.scoreL = bucket.scoreL;
   initialBucketState.scoreR = bucket.scoreR;
   return calcState(initialBucketState, sortedVotes, boardParams);
+}
+
+function hashToIntInRange(hash, range) {
+  return (hash + '').split('').reduce(function (memo, item) {
+    return memo + item.charCodeAt(0);
+  }, 0) % range - range / 2;
+}
+
+function reverseString(string) {
+  return string.split("").reverse().join("");
+}
+
+function updateInitialState(bucket) {
+  var bucketHash = makeHash('gameBucket', bucket);
+  var ballPositionXDelta = hashToIntInRange(bucketHash, ballPositionRange);
+  var ballPositionYDelta = hashToIntInRange(bucketHash, ballPositionRange);
+  var newState = { ball: {
+      x: initialState.ball.x + ballPositionXDelta,
+      y: initialState.ball.x + ballPositionYDelta
+    },
+    paddleL: 50,
+    paddleR: 50,
+    scoreL: 0,
+    scoreR: 0,
+    ballMovingLeft: boardParams.vBallx < 0 };
+  return newState;
 }
 
 /**
