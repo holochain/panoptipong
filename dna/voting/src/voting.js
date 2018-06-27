@@ -41,13 +41,10 @@ function compareVotes(a, b) {
   }
 }
 
-function getPlayers() {
-  return getLinks(anchor('players', 'players'), '', {Load: true}).map(function (item) {
-    return item.Entry;
-  });
-}
 
+//TODO get GameID
 // REGISTERED YOUR AGENT
+//@param payload: {name:"",gameID:""}
 function register(payload) {
 
 
@@ -58,9 +55,18 @@ function register(payload) {
     name = "";
   };
 
-  // get the number of agents in each team so far
-  var membersL = getLinks(anchor('members', 'L'), '');
-  var membersR = getLinks(anchor('members', 'R'), '');
+var bucketAnchor={
+  scoreL: 0,
+  scoreR: 0,
+  gameID: payload.gameID
+};
+debug("PASSED bucketAnchor: "+bucketAnchor)
+
+  var membersL = getLinks(makeHash("gameBucket",bucketAnchor), 'L');
+  //var membersL = getLinks(anchor('members', 'L'), '');
+
+  var membersR = getLinks(makeHash("gameBucket",bucketAnchor), 'R');
+  //var membersR = getLinks(anchor('members', 'R'), '');
 
   // check the agent is not in any team already
   var inL = membersL.some(function(elem) {
@@ -79,11 +85,10 @@ function register(payload) {
   } else {
     team = 'R';
   }
-  joinTeam(team, name);
+  joinTeam(team, name,bucketAnchor);
   return team;
 }
-
-
+/*
 function getTeam() {
   var response = query({
     Return: {
@@ -98,7 +103,33 @@ function getTeam() {
   var rego = response[0] || {teamID : "NotRegistered"}
   return rego.teamID;
 }
+*/
 
+//@param : gameID
+function getTeam(gameID){
+  var bucketAnchor={
+    scoreL: 0,
+    scoreR: 0,
+    gameID: gameID
+  };
+  var membersL = getLinks(makeHash("gameBucket",bucketAnchor), 'L');
+  //var membersL = getLinks(anchor('members', 'L'), '');
+
+  var membersR = getLinks(makeHash("gameBucket",bucketAnchor), 'R');
+  //var membersR = getLinks(anchor('members', 'R'), '');
+
+  // check the agent is not in any team already
+  var inL = membersL.some(function(elem) {
+    return elem.Hash ===  App.Key.Hash;
+  });
+  var inR = membersR.some(function(elem) {
+    return elem.Hash ===  App.Key.Hash;
+  });
+
+  if(inL) { return 'L'; }
+  if(inR) { return 'R'; }
+  else{return "NotRegistered"}
+}
 
 function vote(payload) {
   var move = payload.move;
@@ -316,18 +347,32 @@ function getVoteList(teamID) {
 
 
 
-function joinTeam(team, name) {
+function joinTeam(team, name, bucketAnchor) {
   var regoHash = commit("playerRegistration", {teamID: team, agentHash: App.Key.Hash, name: name});
   commit("privatePlayerRegistration", {teamID: team, agentHash: App.Key.Hash, name: name});
 
-  var teamAnchorHash = anchor('members', team);
+  //var teamAnchorHash = anchor('members', team);
+  var teamAnchorHash = makeHash("gameBucket",bucketAnchor);
   commit("teamLink", {
-    Links: [{ Base: teamAnchorHash, Link: App.Key.Hash, Tag: "" }]
+    Links: [{ Base: teamAnchorHash, Link: App.Key.Hash, Tag: team }]
   });
 
-  var playersAnchorHash = anchor('players', 'players');
+/*  var playersAnchorHash = anchor('players', 'players');
   commit("teamLink", {
-    Links: [{ Base: playersAnchorHash, Link: regoHash, Tag: "" }]
+    Links: [{ Base: playersAnchorHash, Link: regoHash, Tag: team }]
   });
+*/
+}
 
+//@param payload:{gameID:"",team:""}
+function getPlayers(payload) {
+
+  bucketAnchor=={
+    scoreL: 0,
+    scoreR: 0,
+    gameID: payload.gameID
+  }
+  return getLinks(makeHash("gameBucket",bucketAnchor), payload.team, {Load: true}).map(function (item) {
+    return item.Entry;
+  });
 }

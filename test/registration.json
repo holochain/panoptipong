@@ -12,7 +12,7 @@
         "Convey":"An agent is registered and initially assigned to team L",
         "Zome": "voting",
         "FnName": "register",
-        "Input": {"name" : "testName"},
+        "Input": {"name" : "testName","gameID":"0"},
         "Output": "L",
         "Exposure":"public"
     },
