@@ -3,6 +3,7 @@ priv.key
 
 ui/
 node_modules/
+package-lock.json
 .dist/
 .cache/
 

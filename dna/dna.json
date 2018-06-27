@@ -80,6 +80,11 @@
           "Exposure": "public"
         },
         {
+          "Name": "getRegistration",
+          "CallingType": "json",
+          "Exposure": "public"
+        },
+        {
           "Name": "getPlayers",
           "CallingType": "json",
           "Exposure": "public"

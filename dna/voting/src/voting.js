@@ -100,6 +100,21 @@ function getTeam() {
 }
 
 
+function getRegistration() {
+  var response = query({
+    Return: {
+      Entries: true
+    },
+    Constrain: {
+      EntryTypes: ["privatePlayerRegistration"],
+      Count: 1
+    }
+  });
+
+  return response[0] || "NotRegistered"
+}
+
+
 function vote(payload) {
   var move = payload.move;
 
@@ -235,22 +250,55 @@ function getBucketState(bucket) {
 }
 
 
+/**
+ * Rolls back to the correct bucket on an incorrect transition due to race conditions
+ *
+ * @return     {boolean}  { returns true if current bucket is correct and no change made }
+ */
+function checkCorrectBucket() {
+  var currentBucket = getCachedBucket();
+  if(currentBucket.parentHash.length === 0) {
+    return currentBucket;
+  }
+  var prevBucket = get(currentBucket.parentHash);
+
+  var state = getBucketState(prevBucket);
+  if(state.scoreL === currentBucket.scoreL && state.scoreR === currentBucket.scoreR) {
+    return currentBucket;
+  } else {
+    setCachedBucket(prevBucket);
+    return prevBucket;
+  }
+}
+
+
 function getCurrentBucket(_currentBucket) {
-  var currentBucket = _currentBucket || getCachedBucket();
+  var currentBucket = _currentBucket || checkCorrectBucket();
 
   //  get the state on the cached bucket as currentBucket
   var state = getBucketState(currentBucket);
 
   if(state.scoreL > currentBucket.scoreL || state.scoreR > currentBucket.scoreR) {
 
+    if(state.scoreL==10 ||state.scoreR==10){
+    var nextBucket = {
+      scoreL: 0,
+      scoreR: 0,
+      gameID: currentBucket.gameID+1,
+      parentHash: makeHash('gameBucket', currentBucket)
+    }
+
+  }else{
     var nextBucket = {
       scoreL: state.scoreL,
       scoreR: state.scoreR,
-      gameID: currentBucket.gameID
+      gameID: currentBucket.gameID,
+      parentHash: makeHash('gameBucket', currentBucket)
     }
+  }
 
     commit('gameBucket', nextBucket); // in case we are the first person to notice the score
-    setCachedBucket(nextBucket, currentBucket); // TODO actually make work
+    setCachedBucket(nextBucket, currentBucket);
     return getCurrentBucket(nextBucket);
   }
   else {
@@ -310,7 +358,7 @@ function getVoteList(teamID) {
 function joinTeam(team, name) {
   var regoHash = commit("playerRegistration", {teamID: team, agentHash: App.Key.Hash, name: name});
   commit("privatePlayerRegistration", {teamID: team, agentHash: App.Key.Hash, name: name});
- 
+
   var teamAnchorHash = anchor('members', team);
   commit("teamLink", {
     Links: [{ Base: teamAnchorHash, Link: App.Key.Hash, Tag: "" }]
