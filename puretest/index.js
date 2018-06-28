@@ -7,15 +7,14 @@ const fakeVote = salt => ({
   "teamL": 0,
   "teamR": 0,
   "agentHash": "fake",
-  "randomSalt": salt,
+  "randomSalt": ''+salt,
   "teamID": "L"
 })
 
-test('simple test', t => {
-  const N = 10;
+const N = 10;
 
-  scenario(2, (alice, bob) => {
-
+scenario(2, (alice, bob) => {
+  test('alice can read her own links, and so can bob', t => {
     alice(() => {
       const anc = anchor("L", "GameID")
       for (let i=0; i < N; i++) {
@@ -36,7 +35,24 @@ test('simple test', t => {
         t.end()
       }, 100)
     })
-
   })
 
+  test('alice can still read her own links in a new context', t => {
+    alice(() => {
+      const anc = anchor("L", "GameID")
+      setTimeout(() => {
+        const links = getLinks(anc, '')
+        t.equal(links.length, N)
+        t.end()
+      }, 100)
+    })
+  })
 });
+
+scenario(1, agent => {
+  test('new scenario -> new holochain -> no links', t => {
+    const links = agent(() => getLinks(anchor("L", "GameID"), ''))
+    t.equal(links.length, 0)
+    t.end()
+  })
+})
