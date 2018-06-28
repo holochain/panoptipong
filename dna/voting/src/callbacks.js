@@ -3,8 +3,11 @@
 // Cast you first Vote and save it localy
 
 function genesis() {
-  commit('cachedGameBucket', {scoreL: 0, scoreR: 0, gameID: 0, parentHash: ''});  
+  currentBucket={scoreL: 0, scoreR: 0, gameID: 0, parentHash: ''};
+  commit('cachedGameBucket', currentBucket);
   commit('gameBucket', {scoreL: 0, scoreR: 0, gameID: 0, parentHash: ''});
+  currentBucket=climbUpBucket(currentBucket);
+
   return true;
 }
 

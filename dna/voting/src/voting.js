@@ -308,7 +308,6 @@ function updateInitialState(bucket) {
 function checkCorrectBucket() {
   var currentBucket = getCachedBucket();
   if(currentBucket.parentHash.length === 0) {
-    currentBucket=climbUpBucket(currentBucket);
     return currentBucket;
   }
   var prevBucket = get(currentBucket.parentHash);
@@ -326,6 +325,8 @@ function climbUpBucket(currentBucket){
   //Check if their are more buckets
   //Geting state of bucket 0
   var state = getBucketState(currentBucket);
+
+  debug("Testing the climbUpBucket");
 
   if(state.scoreL === currentBucket.scoreL && state.scoreR === currentBucket.scoreR) {
     setCachedBucket(currentBucket);
