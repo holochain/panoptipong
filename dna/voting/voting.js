@@ -22,7 +22,7 @@ function anchorExists(anchorType, anchorText) {
 function genesis() {
   currentBucket = { scoreL: 0, scoreR: 0, gameID: 0, parentHash: '' };
   commit('cachedGameBucket', currentBucket);
-  commit('gameBucket', { scoreL: 0, scoreR: 0, gameID: 0, parentHash: '' });
+  commit('gameBucket', currentBucket);
   //currentBucket=climbUpBucket(currentBucket);
 
   return true;
