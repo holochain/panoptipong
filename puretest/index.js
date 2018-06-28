@@ -1,5 +1,5 @@
 
-require('babel-polyfill');
+require('babel-polyfill');  // for Promise()
 const test = require('tape');
 
 const fakeVote = salt => ({
@@ -12,38 +12,31 @@ const fakeVote = salt => ({
 })
 
 test('simple test', t => {
-  scenario(2, (alice, bob) => {
-    alice(() => {
-      commit('vote', {
-        "move" : -1,
-        "teamL": 0,
-        "teamR": 0,
-        "agentHash": "iausdhfouishdf",
-        "randomSalt": "089hw",
-        "teamID": "L"
-      })
-    })
+  const N = 10;
 
-    bob(() => {
+  scenario(2, (alice, bob) => {
+
+    alice(() => {
       const anc = anchor("L", "GameID")
-      for (let i=0; i < 100; i++) {
+      for (let i=0; i < N; i++) {
         const voteHash = commit('vote', fakeVote(''+i))
         commit('voteLink', {
           Links: [{ Base: anc, Link: voteHash, Tag: 'vote' }]
         });
       }
       const links = getLinks(anc, '')
-      t.equal(links.length, 100)
+      t.equal(links.length, N)
     })
 
     bob(() => {
       const anc = anchor("L", "GameID")
       setTimeout(() => {
         const links = getLinks(anc, '')
-        t.equal(links.length, 100)
+        t.equal(links.length, N)
         t.end()
-      }, 500)
+      }, 100)
     })
+
   })
 
 });
