@@ -6,11 +6,10 @@ function genesis() {
   currentBucket={scoreL: 0, scoreR: 0, gameID: 0, parentHash: ''};
   commit('cachedGameBucket', currentBucket);
   commit('gameBucket', {scoreL: 0, scoreR: 0, gameID: 0, parentHash: ''});
-  currentBucket=climbUpBucket(currentBucket);
+  //currentBucket=climbUpBucket(currentBucket);
 
   return true;
 }
-
 
 function validatePut(entry_type,entry,header,pkg,sources) {
   return validateCommit(entry_type,entry,header,pkg,sources);

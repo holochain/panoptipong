@@ -23,7 +23,7 @@ function genesis() {
   currentBucket = { scoreL: 0, scoreR: 0, gameID: 0, parentHash: '' };
   commit('cachedGameBucket', currentBucket);
   commit('gameBucket', { scoreL: 0, scoreR: 0, gameID: 0, parentHash: '' });
-  currentBucket = climbUpBucket(currentBucket);
+  //currentBucket=climbUpBucket(currentBucket);
 
   return true;
 }
@@ -105,7 +105,7 @@ function compareVotes(a, b) {
 }
 
 function getPlayers() {
-  return getLinks(anchor('players', 'players'), '', { Load: true }).map(function (item) {
+  return getLinks(anchor('players', 'players'), "", { Load: true }).map(function (item) {
     return item.Entry;
   });
 }
@@ -367,6 +367,7 @@ function updateInitialState(bucket) {
 function checkCorrectBucket() {
   var currentBucket = getCachedBucket();
   if (currentBucket.parentHash.length === 0) {
+    //currentBucket=climbUpBucket(currentBucket,"");
     return currentBucket;
   }
   var prevBucket = get(currentBucket.parentHash);
@@ -380,44 +381,48 @@ function checkCorrectBucket() {
   }
 }
 
-function climbUpBucket(currentBucket) {
+/*
+function climbUpBucket(nextBucket,currentBucket){
   //Check if their are more buckets
   //Geting state of bucket 0
-  var state = getBucketState(currentBucket);
+
+  var state = getBucketState(nextBucket);
 
   debug("Testing the climbUpBucket");
-
-  if (state.scoreL === currentBucket.scoreL && state.scoreR === currentBucket.scoreR) {
-    setCachedBucket(currentBucket);
-    return currentBucket;
+  if(state.scoreL === nextBucket.scoreL && state.scoreR === nextBucket.scoreR) {
+      debug("Final Decided State: "+JSON.stringify(nextBucket));
+      return nextBucket;
   } else {
+    currentBucket=nextBucket;
     nextBucket = {
       scoreL: state.scoreL,
-      scoreR: state.scoreL,
-      gameID: state.gameID + 1,
+      scoreR: state.scoreR,
+      gameID: currentBucket.gameID,
       parentHash: makeHash('gameBucket', currentBucket)
-    };
-    return climbUpBucket(nextBucket);
+    }
+    debug("climbUpBucket: "+JSON.stringify(nextBucket));
+    return climbUpBucket(setCachedBucket(nextBucket,currentBucket),currentBucket);
   }
 }
+*/
 
 function getCurrentBucket(_currentBucket) {
   var currentBucket = _currentBucket || checkCorrectBucket();
 
   //  get the state on the cached bucket as currentBucket
   var state = getBucketState(currentBucket);
-
+  debug("getCurrentBucket+getBucketState : " + JSON.stringify(state));
   if (state.scoreL > currentBucket.scoreL || state.scoreR > currentBucket.scoreR) {
 
     if (state.scoreL == 10 || state.scoreR == 10) {
-      var nextBucket = {
+      nextBucket = {
         scoreL: 0,
         scoreR: 0,
         gameID: currentBucket.gameID + 1,
         parentHash: makeHash('gameBucket', currentBucket)
       };
     } else {
-      var nextBucket = {
+      nextBucket = {
         scoreL: state.scoreL,
         scoreR: state.scoreR,
         gameID: currentBucket.gameID,
@@ -435,6 +440,7 @@ function getCurrentBucket(_currentBucket) {
 
 function setCachedBucket(bucket, prevBucket) {
   update('cachedGameBucket', bucket, makeHash('cachedGameBucket', prevBucket));
+  //  return bucket;
 }
 
 function getCachedBucket(hash) {
