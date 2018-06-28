@@ -112,6 +112,12 @@ function vote(payload) {
 
   var nVotesL = countVotes("L");
   var nVotesR = countVotes("R");
+  var teamID = getTeam();
+
+  if(teamID=="NotRegistered"){
+    debug("Please Register then cast your Vote");
+    return "PLEASE_REGISTER";
+  }
 
   var vote = {
     move: move,
@@ -119,7 +125,7 @@ function vote(payload) {
     teamR: {playerCount: nPlayersR, voteCount: nVotesR},
     agentHash: App.Key.Hash,
     randomSalt: ""+Math.random(),
-    teamID: getTeam()
+    teamID: teamID
   };
 
   debug(vote);
