@@ -9,6 +9,7 @@
 function getState() {
   var currentBucket = getCurrentBucket();
   debug("getting state from bucket "+JSON.stringify(currentBucket));
+  debug("getRegistration(): "+getRegistration());
   return getBucketState(getCurrentBucket());
 }
 
@@ -70,8 +71,8 @@ function register(payload) {
     return elem.Hash ===  App.Key.Hash;
   });
 
-  if(inL) { return 'L' }
-  if(inR) { return 'R' }
+  if(inL) { return 'L'; }
+  if(inR) { return 'R'; }
 
   var team;
   if(membersL.length <= membersR.length) {
@@ -92,14 +93,14 @@ function getTeam() {
 function getRegistration() {
   // get all the players
   var players = getPlayers();
-
+  debug("Players: "+JSON.stringify(players));
   // check if you are in it and where
   var me = players.filter(function(elem) {
     return elem.agentHash == App.Key.Hash;
   });
 
-  debug(me);
-
+  debug("ME: "+JSON.stringify(me));
+  debug("ME0: "+JSON.stringify(me[0]));
   return me[0] || "NotRegistered";
 }
 
@@ -416,6 +417,7 @@ function getVoteList(teamID) {
 
 
 function joinTeam(team, name) {
+  debug("Joining Team: ")
   var regoHash = commit("playerRegistration", {teamID: team, agentHash: App.Key.Hash, name: name});
 
   var teamAnchorHash = anchor('members', team);

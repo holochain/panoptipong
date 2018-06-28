@@ -70,6 +70,7 @@ function validateDelPkg(entryType) {
 function getState() {
   var currentBucket = getCurrentBucket();
   debug("getting state from bucket " + JSON.stringify(currentBucket));
+  debug("getRegistration(): " + getRegistration());
   return getBucketState(getCurrentBucket());
 }
 
@@ -153,14 +154,14 @@ function getTeam() {
 function getRegistration() {
   // get all the players
   var players = getPlayers();
-
+  debug("Players: " + JSON.stringify(players));
   // check if you are in it and where
   var me = players.filter(function (elem) {
     return elem.agentHash == App.Key.Hash;
   });
 
-  debug(me);
-
+  debug("ME: " + JSON.stringify(me));
+  debug("ME0: " + JSON.stringify(me[0]));
   return me[0] || "NotRegistered";
 }
 
