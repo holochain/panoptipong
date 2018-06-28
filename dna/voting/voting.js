@@ -159,7 +159,7 @@ function getRegistration() {
     return elem.agentHash == App.Key.Hash;
   });
 
-  debug(me);
+  debug("getRegistration: " + JSON.stringify(me));
 
   return me[0] || "NotRegistered";
 }
@@ -182,7 +182,7 @@ function vote(payload) {
     teamID: getTeam()
   };
 
-  debug(vote);
+  debug("vote: " + JSON.stringify(vote));
 
   return castVote(vote);
 }
@@ -364,6 +364,7 @@ function updateInitialState(bucket) {
 function checkCorrectBucket() {
   var currentBucket = getCachedBucket();
   if (currentBucket.parentHash.length === 0) {
+    currentBucket = climbUpBucket(currentBucket);
     return currentBucket;
   }
   var prevBucket = get(currentBucket.parentHash);
@@ -374,6 +375,25 @@ function checkCorrectBucket() {
   } else {
     setCachedBucket(prevBucket);
     return prevBucket;
+  }
+}
+
+function climbUpBucket(currentBucket) {
+  //Check if their are more buckets
+  //Geting state of bucket 0
+  var state = getBucketState(currentBucket);
+
+  if (state.scoreL === currentBucket.scoreL && state.scoreR === currentBucket.scoreR) {
+    setCachedBucket(currentBucket);
+    return currentBucket;
+  } else {
+    nextBucket = {
+      scoreL: state.scoreL,
+      scoreR: state.scoreL,
+      gameID: state.gameID + 1,
+      parentHash: makeHash('gameBucket', currentBucket)
+    };
+    return climbUpBucket(nextBucket);
   }
 }
 
