@@ -63,6 +63,10 @@ function register(payload) {
   var membersL = getLinks(anchor('members', 'L'), '');
   var membersR = getLinks(anchor('members', 'R'), '');
 
+
+  debug("membersL: "+JSON.stringify(membersL));
+  debug("membersR: "+JSON.stringify(membersR));
+
   // check the agent is not in any team already
   var inL = membersL.some(function(elem) {
     return elem.Hash ===  App.Key.Hash;
