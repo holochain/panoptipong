@@ -185,7 +185,7 @@ function ballPosFromHash(hash) {
 
   return {
     x: 100 + ballPositionXDelta + boardParams.width*xQuadrant,
-    y: boardParams.height / 2 + boardParams.height*yQuadrant
+    y: boardParams.height / 2 + boardParams.height* 
   }
 }
 

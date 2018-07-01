@@ -112,9 +112,11 @@ const pongReducer = function(state = initialState, action) {
       return Object.assign({...state}, registerTeam)
     case actions.GET_PLAYERS:
       const players = {}
-      payload.forEach(({agentHash, teamID, name}) => {
-        players[agentHash] = {name, teamID}
-      })
+      if(payload) {
+        payload.forEach(({agentHash, teamID, name}) => {
+          players[agentHash] = {name, teamID}
+        });
+      } 
       return { ...state, players }
     case actions.GET_RECENT_VOTES:
       // const latestVote = getLatestVote(payload)
